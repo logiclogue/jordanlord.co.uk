@@ -1,0 +1,27 @@
+{
+  "name": "jordanlord.co.uk",
+  "version": "1.0.0",
+  "description": "Source code for my website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/logiclogue/jordanlord.co.uk.git"
+  },
+  "author": "Jordan Lord",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/logiclogue/jordanlord.co.uk/issues"
+  },
+  "homepage": "https://github.com/logiclogue/jordanlord.co.uk#readme",
+  "dependencies": {
+    "metalsmith": "^2.2.0",
+    "metalsmith-collections": "^0.7.0",
+    "metalsmith-layouts": "^1.6.5",
+    "metalsmith-markdown": "^0.2.1",
+    "metalsmith-permalinks": "^0.5.0",
+    "node-sass": "^3.10.1"
+  }
+}
