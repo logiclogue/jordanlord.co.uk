@@ -9,8 +9,6 @@ Metalsmith(__dirname)
     .metadata({
         sitename: "JordanLord.co.uk",
         siteurl: "http://jordanlord.co.uk",
-        //description: "",
-        generatorname: "Metalsmith"
     })
     .source('./src')
     .destination('./build')
