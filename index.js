@@ -1,8 +1,8 @@
-var Metalsmith  = require('metalsmith');
+var Metalsmith = require('metalsmith');
 var collections = require('metalsmith-collections');
-var layouts     = require('metalsmith-layouts');
-var markdown    = require('metalsmith-markdown');
-var permalinks  = require('metalsmith-permalinks');
+var layouts = require('metalsmith-layouts');
+var markdown = require('metalsmith-markdown');
+var permalinks = require('metalsmith-permalinks');
 
 
 Metalsmith(__dirname)
@@ -21,7 +21,7 @@ Metalsmith(__dirname)
         relative: false
     }))
     .use(layouts({
-        engine: 'handlebars',
+        engine: 'handlebars'
     }))
     .build(function (err) {
         if (err) {
