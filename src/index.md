@@ -1,5 +1,5 @@
 ---
-layout: standard.html
+layout: default.html
 ---
 
 ## Welcome to my website
