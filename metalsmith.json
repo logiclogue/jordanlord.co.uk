@@ -1,7 +1,0 @@
-{
-    "plugins": {
-        "metalsmith-layouts": {
-            "engine": "handlebars"
-        }
-    }
-}

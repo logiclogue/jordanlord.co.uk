@@ -21,7 +21,8 @@ Metalsmith(__dirname)
         relative: false
     }))
     .use(layouts({
-        engine: 'handlebars'
+        engine: 'handlebars',
+        partials: './layouts/partials'
     }))
     .build(function (err) {
         if (err) {
