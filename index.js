@@ -3,6 +3,8 @@ var collections = require('metalsmith-collections');
 var layouts = require('metalsmith-layouts');
 var markdown = require('metalsmith-markdown');
 var permalinks = require('metalsmith-permalinks');
+var templates = require('metalsmith-templates');
+var pug = require('metalsmith-pug');
 
 
 Metalsmith(__dirname)
@@ -20,12 +22,22 @@ Metalsmith(__dirname)
     .use(permalinks({
         relative: false
     }))
+    //.use(layouts({
+    //    engine: 'handlebars',
+    //    partials: './layouts/partials'
+    //}))
+    .use(pug({
+        pretty: false
+    }))
     .use(layouts({
-        engine: 'handlebars',
-        partials: './layouts/partials'
+        engine: 'pug',
+        directory: 'templates'
     }))
     .build(function (err) {
         if (err) {
             throw err;
+        }
+        else {
+            console.log('Site build complete');
         }
     });

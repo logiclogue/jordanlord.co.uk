@@ -1,5 +1,5 @@
 ---
-layout: default.html
+template: default.jade
 ---
 
 ## Welcome to my website
