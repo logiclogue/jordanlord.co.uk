@@ -1,5 +1,5 @@
 ---
-layout: post.html
+src: post.pug
 title: My First Ever Post!
 date: 2016-10-30
 ---

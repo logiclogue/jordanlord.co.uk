@@ -22,17 +22,19 @@ Metalsmith(__dirname)
     .use(permalinks({
         relative: false
     }))
-    //.use(layouts({
-    //    engine: 'handlebars',
-    //    partials: './layouts/partials'
-    //}))
-    .use(pug({
-        pretty: false
-    }))
     .use(layouts({
         engine: 'pug',
         directory: 'templates'
     }))
+    //.use(pug({
+    //    pretty: false
+    //    //locals: {
+    //    //    postName: 'good post name'
+    //    //},
+    //    //filters: {
+    //    //    foo: block => block.replace('foo', 'bar')
+    //    //}
+    //}))
     .build(function (err) {
         if (err) {
             throw err;

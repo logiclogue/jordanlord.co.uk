@@ -1,5 +1,5 @@
 ---
-template: default.jade
+layout: default.pug
 ---
 
 ## Welcome to my website
