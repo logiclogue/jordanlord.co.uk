@@ -3,6 +3,7 @@ var collections = require('metalsmith-collections');
 var layouts = require('metalsmith-layouts');
 var markdown = require('metalsmith-markdown');
 var permalinks = require('metalsmith-permalinks');
+var sass = require('metalsmith-sass');
 
 
 Metalsmith(__dirname)
@@ -10,6 +11,9 @@ Metalsmith(__dirname)
         sitename: "JordanLord.co.uk",
         siteurl: "http://jordanlord.co.uk",
     })
+    .use(sass({
+        includePaths: ['scss']
+    }))
     .source('./src')
     .destination('./build')
     .clean(true)
