@@ -12,7 +12,8 @@ Metalsmith(__dirname)
         siteurl: "http://jordanlord.co.uk",
     })
     .use(sass({
-        includePaths: ['scss']
+        outputStyle: 'expanded',
+        includePaths: ['styles']
     }))
     .source('./src')
     .destination('./build')
