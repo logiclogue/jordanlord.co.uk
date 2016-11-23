@@ -8,9 +8,13 @@ html(lang="en")
         block header
 
     body
-        block navbar
+        #navbar
+            block navbar
 
         #content
             block content
                 h1= title
                 != contents
+
+        #footer
+            block footer

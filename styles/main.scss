@@ -1,7 +1,12 @@
-@import "colours";
+@import "default";
 
+
+body {
+    background-color: $bg-colour;
+    font-family: $font-stack;
+}
 
 #content {
-    background-color: $bg-colour;
+    background-color: $lighter-bg-colour;
     color: $fg-colour;
 }
