@@ -1,3 +1,7 @@
-#contents {
-    background-color: blue;
+@import "colours";
+
+
+#content {
+    background-color: $bg-colour;
+    color: $fg-colour;
 }
