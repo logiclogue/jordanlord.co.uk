@@ -11,10 +11,12 @@ html(lang="en")
         #navbar
             block navbar
 
-        #content
-            block content
-                h1= title
-                != contents
+        .container
+            .row
+                #content
+                    block content
+                        h1= title
+                        != contents
 
         #footer
             block footer
