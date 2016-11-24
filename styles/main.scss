@@ -4,6 +4,42 @@
 body {
     background-color: $bg-colour;
     font-family: $font-stack;
+    font-size: 2em;
+}
+
+@for $index from 1 through 6 {
+    h#{$index} {
+        color: $heading-colour;
+    }
+}
+
+b {
+    color: $bold-colour;
+}
+
+em {
+    color: $italic-colour;
+}
+
+a:link {
+    color: $link-colour;
+}
+
+a:hover {
+    color: $link-colour;
+}
+
+a:active {
+    color: $link-colour;
+}
+
+a:visited {
+    color: $link-colour;
+}
+
+code {
+    background-color: $selection-bg-colour;
+    border-color: $selection-bg-colour;
 }
 
 #content {
