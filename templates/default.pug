@@ -12,9 +12,9 @@ html(lang="en")
             .ten.columns.offset-by-one
                 a#a-title= sitename
                 ul
-                    li: a(href=) Three
-                    li: a(href=) Two
-                    li: a(href=) One
+                    li: a(href=) Projects
+                    li: a(href=) Blog
+                    li: a(href=) Home
 
         .container
             .row
@@ -22,6 +22,9 @@ html(lang="en")
                     block content
                         h1= title
                         != contents
+
+                        each post, i in posts
+                            p= post.title
 
         #footer
             block footer
