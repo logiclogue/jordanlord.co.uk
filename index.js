@@ -26,6 +26,14 @@ Metalsmith(__dirname)
             metadata: {
                 name: 'Posts'
             }
+        },
+        projects: {
+            pattern: 'projects/*.md',
+            sortBy: 'date',
+            reverse: true,
+            metadata: {
+                name: 'Projects'
+            }
         }
     }))
     .use(markdown())
