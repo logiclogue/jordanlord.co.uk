@@ -1,4 +1,4 @@
 ---
-layout: default.pug
+layout: post.pug
 title: Posts
 ---
