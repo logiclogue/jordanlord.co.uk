@@ -4,6 +4,7 @@ var layouts = require('metalsmith-layouts');
 var markdown = require('metalsmith-markdown');
 var permalinks = require('metalsmith-permalinks');
 var sass = require('metalsmith-sass');
+var metadata = require('metalsmith-collection-metadata');
 
 
 Metalsmith(__dirname)
@@ -24,7 +25,8 @@ Metalsmith(__dirname)
             sortBy: 'date',
             reverse: true,
             metadata: {
-                name: 'Posts'
+                name: 'Posts',
+                layout: 'posts.pug'
             }
         },
         projects: {
@@ -34,6 +36,11 @@ Metalsmith(__dirname)
             metadata: {
                 name: 'Projects'
             }
+        }
+    }))
+    .use(metadata({
+        'collections.posts': {
+            layout: 'default.pug'
         }
     }))
     .use(markdown())
