@@ -1,4 +1,4 @@
 ---
-title: Posts
+title: Blog
 template: posts.pug
 ---

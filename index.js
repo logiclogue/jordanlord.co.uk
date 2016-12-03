@@ -20,12 +20,12 @@ Metalsmith(__dirname)
     .destination('./build')
     .clean(true)
     .use(collections({
-        posts: {
-            pattern: 'posts/*.md',
+        blog: {
+            pattern: 'blog/*.md',
             sortBy: 'date',
             reverse: true,
             metadata: {
-                name: 'Posts',
+                name: 'Blog',
                 layout: 'posts.pug'
             }
         },
@@ -39,7 +39,7 @@ Metalsmith(__dirname)
         }
     }))
     .use(metadata({
-        'collections.posts': {
+        'collections.blog': {
             layout: 'default.pug'
         }
     }))
