@@ -8,15 +8,7 @@ html(lang="en")
         block header
 
     body
-        .navbar
-            .ten.columns.offset-by-one
-                a#a-title= sitename
-                ul
-                    li: a(href="/projects") Projects
-                    li: a(href="/blog") Blog
-                    li: a(href="/") Home
-                    for page in pages
-                        li: a(href="/${page.path}")= page.title
+        include includes/navbar.pug
 
         .container
             .row
