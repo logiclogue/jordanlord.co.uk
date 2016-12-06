@@ -47,6 +47,22 @@ Metalsmith(__dirname)
     .use(permalinks({
         relative: false
     }))
+    .use(function (files, metalsmith, done) {
+        var data = metalsmith._metadata;
+
+        data.navbar = [
+            {
+                title: 'blog',
+                path: 'blog'
+            },
+            {
+                title: 'project',
+                path: 'project'
+            }
+        ];
+
+        done();
+    })
     .use(layouts({
         engine: 'pug',
         directory: 'templates'
