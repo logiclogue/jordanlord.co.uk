@@ -52,12 +52,16 @@ Metalsmith(__dirname)
 
         data.navbar = [
             {
-                title: 'blog',
+                title: 'Project',
+                path: 'project'
+            },
+            {
+                title: 'Blog',
                 path: 'blog'
             },
             {
-                title: 'project',
-                path: 'project'
+                title: 'Home',
+                path: ''
             }
         ];
 

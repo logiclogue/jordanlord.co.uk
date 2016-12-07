@@ -2,8 +2,5 @@
     .ten.columns.offset-by-one
         a#a-title= sitename
         ul
-            li: a(href="/projects") Projects
-            li: a(href="/blog") Blog
-            li: a(href="/") Home
             for item in navbar
-                li: a(href="/${item.path}")= item.name
+                li: a(href="/${item.path}")= item.title
