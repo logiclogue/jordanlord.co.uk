@@ -1,6 +1,6 @@
 ---
+layout: posts.pug
 title: Blog
-template: posts.pug
 ---
 
 Describe this

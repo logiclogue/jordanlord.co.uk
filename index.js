@@ -20,14 +20,14 @@ Metalsmith(__dirname)
     .destination('./build')
     .clean(true)
     .use(collections({
-        //blog: {
-        //    pattern: '{blog/*.md, !index.js}',
-        //    sortBy: 'date',
-        //    reverse: true,
-        //    metadata: {
-        //        name: 'Blog'
-        //    }
-        //},
+        blog: {
+            pattern: '{blog/*.md, !index.js}',
+            sortBy: 'date',
+            reverse: true,
+            metadata: {
+                name: 'Blog'
+            }
+        },
         projects: {
             pattern: 'projects/*.md',
             sortBy: 'date',
@@ -37,11 +37,11 @@ Metalsmith(__dirname)
             }
         }
     }))
-    //.use(metadata({
-    //    'collections.blog': {
-    //        layout: 'default.pug'
-    //    }
-    //}))
+    .use(metadata({
+        'collections.blog': {
+            layout: 'default.pug'
+        }
+    }))
     .use(markdown())
     .use(permalinks({
         relative: false
