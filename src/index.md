@@ -24,3 +24,14 @@ dynamicus, qui sequitur *mutationem* consuetudium lectorum. Mirum est notare qua
 littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas
 humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui
 nunc nobis videntur parum clari, fiant sollemnes in futurum.
+
+
+# Header 1
+
+## Header 2
+
+### Header 3
+
+#### Header 4
+
+##### Header 5

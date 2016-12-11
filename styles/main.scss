@@ -4,8 +4,8 @@
 
 
 #content {
-    padding: 2rem 2rem 0 2rem;
-    margin-bottom: 4rem;
+    padding: 2#{$u} 2#{$u} 0 2#{$u};
+    margin-bottom: 4#{$u};
     background-color: $bg-colour;
     color: $fg-colour;
 }
