@@ -21,7 +21,7 @@ Metalsmith(__dirname)
     .clean(true)
     .use(collections({
         blog: {
-            pattern: '{blog/*.md, !index.js}',
+            pattern: 'blog/*.md',
             sortBy: 'date',
             reverse: true,
             metadata: {
