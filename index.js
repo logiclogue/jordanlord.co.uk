@@ -51,8 +51,8 @@ Metalsmith(__dirname)
 
         data.navbar = [
             {
-                title: 'Project',
-                path: 'project'
+                title: 'Projects',
+                path: 'projects'
             },
             {
                 title: 'Blog',
