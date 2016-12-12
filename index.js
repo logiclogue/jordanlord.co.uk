@@ -40,6 +40,9 @@ Metalsmith(__dirname)
     .use(metadata({
         'collections.blog': {
             layout: 'default.pug'
+        },
+        'collections.projects': {
+            layout: 'default.pug'
         }
     }))
     .use(markdown())
