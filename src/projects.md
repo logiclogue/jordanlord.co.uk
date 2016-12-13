@@ -1,4 +1,4 @@
 ---
-layout: default.pug
+layout: projects.pug
 title: Projects
 ---
