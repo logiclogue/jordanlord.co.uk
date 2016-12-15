@@ -1,5 +1,7 @@
 mixin list(items)
     each item, i in items
-        h2= item.title
-        
-        != item.contents
+        p
+            a(href='/' + item.path)= item.title
+        //h2= item.title
+        //
+        //!= item.contents
