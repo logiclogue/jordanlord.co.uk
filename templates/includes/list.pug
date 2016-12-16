@@ -1,6 +1,8 @@
 mixin list(items)
     each item, i in items
         span
-            != item.publishDate + " - "
+            if (typeof item.publishDate !== 'undefined')
+                != item.publishDate.toISOString().substring(0, 10) + ' '
+
             a(href='/' + item.path)= item.title
             br
