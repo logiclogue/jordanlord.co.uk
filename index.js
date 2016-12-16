@@ -22,7 +22,7 @@ Metalsmith(__dirname)
     .use(collections({
         blog: {
             pattern: 'blog/*.md',
-            sortBy: 'date',
+            sortBy: 'publishDate',
             reverse: true,
             metadata: {
                 name: 'Blog'
@@ -30,7 +30,7 @@ Metalsmith(__dirname)
         },
         projects: {
             pattern: 'projects/*.md',
-            sortBy: 'date',
+            sortBy: 'publishDate',
             reverse: true,
             metadata: {
                 name: 'Projects'
