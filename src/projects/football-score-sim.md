@@ -1,6 +1,7 @@
 ---
 npm: https://www.npmjs.com/package/football-score-sim
 github: https://github.com/logiclogue/football-score-sim
+publishDate: 2016-09-30
 title: Football Score Simulator
 ---
 

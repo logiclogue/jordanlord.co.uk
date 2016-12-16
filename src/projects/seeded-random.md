@@ -1,6 +1,7 @@
 ---
 github: https://github.com/logiclogue/seeded-random-node
 npm: https://www.npmjs.com/package/seeded-random 
+publishDate: 2016-05-22
 title: Seeded Random
 ---
 

@@ -1,7 +1,6 @@
 mixin list(items)
     each item, i in items
-        p
+        span
+            != item.publishDate + " - "
             a(href='/' + item.path)= item.title
-        //h2= item.title
-        //
-        //!= item.contents
+            br
