@@ -1,11 +1,12 @@
 ---
 github: logiclogue/seeded-random-node
 npm: seeded-random 
-publishDate: 2016-05-22
+publishDate: 2016-06-29
 title: Seeded Random
 ---
 
-Node package that allows you to generate seeded random numbers for your cli or web applications.
+Node package that allows you to generate seeded random numbers for your cli or
+web applications.
 
 ## Installing
 
@@ -37,7 +38,8 @@ Generating a random integer within a range from a seed
 
 `2`
 
-Omitting the seed will result it a non-seeded random number; it will just be generated as normal.
+Omitting the seed will result it a non-seeded random number; it will just be
+generated as normal.
 
 ### JavaScript
 

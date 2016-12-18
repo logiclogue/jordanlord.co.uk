@@ -1,7 +1,8 @@
 ---
 github: logiclogue/football-score-sim
 npm: football-score-sim
-publishDate: 2016-09-30
+updateDate: 2016-09-30
+publishDate: 2016-06-30
 title: Football Score Simulator
 ---
 
