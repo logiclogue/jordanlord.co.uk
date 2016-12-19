@@ -8,3 +8,8 @@ mixin list(items)
 
                 td
                     a(href='/' + item.path)= item.title
+
+                td
+                    if (item.github)
+                        a(href='https://github.com/' + item.github)
+                            i.fa.fa-github
