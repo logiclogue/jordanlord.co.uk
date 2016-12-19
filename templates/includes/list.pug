@@ -1,8 +1,10 @@
 mixin list(items)
-    each item, i in items
-        span
-            if (typeof item.publishDate !== 'undefined')
-                != item.publishDate.toISOString().substring(0, 10) + ' '
+    table
+        each item, i in items
+            tr
+                td
+                    if (typeof item.publishDate !== 'undefined')
+                        != item.publishDate.toISOString().substring(0, 10) + ' '
 
-            a(href='/' + item.path)= item.title
-            br
+                td
+                    a(href='/' + item.path)= item.title
