@@ -10,6 +10,11 @@ mixin list(items)
                     a(href='/' + item.path)= item.title
 
                 td
+                    if (item.web)
+                        a(href='http://jordanlord.co.uk/' + item.web)
+                            i.fa.fa-globe
+
+                td
                     if (item.github)
                         a(href='https://github.com/' + item.github)
                             i.fa.fa-github

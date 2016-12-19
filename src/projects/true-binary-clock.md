@@ -1,4 +1,5 @@
 ---
+web: binary_clock
 github: logiclogue/true-binary-clock-web
 publishDate: 2015-06-28
 updateDate: 2016-08-07

@@ -1,4 +1,5 @@
 ---
+web: langtons-ant
 github: logiclogue/Langtons-Ant-JavaScript
 publishDate: 2015-10-22
 title: Infinite Langton's Ant
