@@ -16,7 +16,7 @@ css:
 	wget 'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css'
 	mv normalize.css $(DIR_LIB)
 	mv skeleton.css $(DIR_LIB)
-	mv font-awesome.min.css $(DIR_LIB)
+	mv font-awesome.min.css $(DIR_LIB)/font-awesome.css
 
 git:
 	git pull origin master
