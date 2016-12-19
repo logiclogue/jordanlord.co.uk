@@ -1,4 +1,5 @@
 ---
+youtube: 1M6gHuruIL4
 publishDate: 2015-08-17
 title: 4-bit Binary Adder
 ---

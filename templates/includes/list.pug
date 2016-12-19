@@ -13,3 +13,8 @@ mixin list(items)
                     if (item.github)
                         a(href='https://github.com/' + item.github)
                             i.fa.fa-github
+
+                td
+                    if (item.youtube)
+                        a(href='https://youtu.be/' + item.youtube)
+                            i.fa.fa-youtube
