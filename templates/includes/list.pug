@@ -1,3 +1,7 @@
+include icon.pug
+include iconGithub.pug
+include iconYouTube.pug
+
 mixin list(items)
     table
         each item, i in items
@@ -10,16 +14,10 @@ mixin list(items)
                     a(href='/' + item.path)= item.title
 
                 td
-                    if (item.web)
-                        a(href='http://jordanlord.co.uk/' + item.web)
-                            i.fa.fa-globe
+                    +icon('https://jordanlord.co.uk/', item.web, 'globe')
 
                 td
-                    if (item.github)
-                        a(href='https://github.com/' + item.github)
-                            i.fa.fa-github
+                    +iconGithub(item.github)
 
                 td
-                    if (item.youtube)
-                        a(href='https://youtu.be/' + item.youtube)
-                            i.fa.fa-youtube
+                    +iconYouTube(item.youtube)

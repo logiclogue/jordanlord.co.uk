@@ -1,4 +1,7 @@
 ---
+github: logiclogue
+linkedin: jordan-lord-192b7910a
+twitter: logiclogue
 layout: default.pug
 title: Welcome
 ---

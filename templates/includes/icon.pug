@@ -1,0 +1,4 @@
+mixin icon(baseUrl, urlUid, iconName)
+    if (urlUid)
+        a(href=baseUrl + urlUid)
+            i(class='fa fa-' + iconName)
