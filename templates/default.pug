@@ -1,3 +1,8 @@
+include includes/iconGithub.pug
+include includes/iconYouTube.pug
+include includes/icon.pug
+
+
 doctype html
 html(lang="en")
     head
@@ -15,6 +20,9 @@ html(lang="en")
                 #content
                     block content
                         h1= title
+
+                        +iconGithub(github)
+                        +iconYouTube(youtube)
 
                         != contents
 
