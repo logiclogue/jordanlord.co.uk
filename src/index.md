@@ -2,7 +2,7 @@
 github: logiclogue
 linkedin: jordan-lord-192b7910a
 twitter: logiclogue
-youtube: jordanlord
+youtube: UCyZX8XR0F4MG9BouR-tW-lA
 layout: home.pug
 title: Welcome
 ---
