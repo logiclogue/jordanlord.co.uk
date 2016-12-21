@@ -3,14 +3,15 @@ extends default.pug
 block content
     h1= title
     
-    ul.home-icons
-        li
-            +iconGithub(github)
+    .row
+        ul.home-icons
+            li
+                +iconGithub(github)
 
-        li
-            +iconYouTube(youtube)
+            li
+                +iconYouTube(youtube)
 
-        li
-            +icon('https://linkedin.com/in/', linkedin, 'linkedin')
+            li
+                +icon('https://linkedin.com/in/', linkedin, 'linkedin')
 
     != contents

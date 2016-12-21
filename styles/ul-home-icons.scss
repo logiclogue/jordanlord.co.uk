@@ -1,8 +1,10 @@
 ul.home-icons {
     font-size: (4 * $font-size)#{$u};
     list-style: none;
+    text-align: center;
 
     li {
         display: inline;
+        margin: (2 * $font-size)#{$u};
     }
 }
