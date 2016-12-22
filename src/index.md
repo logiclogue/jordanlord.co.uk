@@ -7,6 +7,7 @@ layout: home.pug
 title: Welcome
 ---
 
+<div class='twelve'>
 <div class='ascii-photo'>
 <pre>
                      :;;,,;;:
@@ -39,6 +40,7 @@ title: Welcome
  ;,,'....'..'',;,;:'''''':;'.l...'''...''''....''..'
  ,'''....'...';;,l''''''':;'.l....'....''''....'..'';
 </pre>
+</div>
 </div>
 
 **bold**
