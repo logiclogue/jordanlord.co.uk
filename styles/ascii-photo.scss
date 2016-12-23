@@ -1,6 +1,6 @@
 .ascii-photo {
     margin: 0 auto;
-    width: 50%;
+    width: (53 * 0.25 * $font-size * 0.6)#{$u};
     
     pre {
         font-size: (0.25 * $font-size)#{$u};
