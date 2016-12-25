@@ -42,7 +42,7 @@ Metalsmith(__dirname)
             layout: 'default.pug'
         },
         'collections.projects': {
-            layout: 'default.pug'
+            layout: 'project.pug'
         }
     }))
     .use(markdown())

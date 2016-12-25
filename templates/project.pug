@@ -1,0 +1,10 @@
+extends default.pug
+
+block content
+    h1= title
+
+    +icon('http://jordanlord.co.uk/', web, 'globe')
+    +iconGithub(github)
+    +iconYouTube(youtube)
+
+    != contents
