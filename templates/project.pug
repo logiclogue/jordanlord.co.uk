@@ -3,8 +3,26 @@ extends default.pug
 block content
     h1= title
 
-    +icon('http://jordanlord.co.uk/', web, 'globe')
-    +iconGithub(github)
-    +iconYouTube(youtube)
+    .row
+        if web
+            .four.columns
+                a(href='http://jordanlord.co.uk/' + web) Web
+
+        if github
+            .four.columns
+                a(href='https://github.com/' + github) GitHub
+
+        if youtube
+            .four.columns
+                a(href='https://youtu.be/' + youtube) YouTube
+
+        if playstore
+            .four.columns
+                a(href='https://play.google.com/store/apps/details?id='
+                    + playstore) Play Store
+
+        if npm
+            .four.columns
+                a(href='https://npmjs.com/package/' + npm) NPM
 
     != contents

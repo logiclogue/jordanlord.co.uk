@@ -1,6 +1,7 @@
 ---
 web: binary_clock
 github: logiclogue/true-binary-clock-web
+playstore: com.jordanlorddevelopments.binaryclock
 publishDate: 2015-06-28
 updateDate: 2016-08-07
 title: True Binary Clock
