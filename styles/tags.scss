@@ -66,18 +66,3 @@ code {
     background-color: $selection-bg-colour;
     border-color: $selection-bg-colour;
 }
-
-td {
-    border: 0;
-    padding: 0 2#{$u} 0 0;
-}
-
-@media (max-width: $width-phablet) {
-    table, thead, tbody, th, td {
-        display: block;
-    }
-}
-
-td {
-    vertical-align: top;
-}

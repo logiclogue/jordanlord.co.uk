@@ -1,0 +1,13 @@
+table.list {
+    td {
+        border: 0;
+        padding: 0 2#{$u} 0 0;
+        vertical-align: top;
+    }
+
+    @media (max-width: $width-phablet) {
+        table, thead, tbody, th, td {
+            display: block;
+        }
+    }
+}
