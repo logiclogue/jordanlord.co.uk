@@ -4,10 +4,5 @@
 @import "ascii-photo";
 @import "ul-home-icons";
 @import "table-list";
-
-#content {
-    padding: 2#{$u} 2#{$u} 0 2#{$u};
-    margin-bottom: 4#{$u};
-    background-color: $bg-colour;
-    color: $fg-colour;
-}
+@import "content";
+@import "headings";

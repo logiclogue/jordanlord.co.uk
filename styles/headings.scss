@@ -1,0 +1,33 @@
+@for $index from 1 through 6 {
+    h#{$index} {
+        color: $heading-colour;
+        //font-size: #{(2 * $font-size / $index) + $font-size}#{$u};
+        //font-size: #{6 + s - $font-size}#{$u};
+        font-size: $font-size#{$u};
+    }
+}
+
+h1 {
+    font-weight: 700;
+    color: $heading-1-colour;
+}
+
+h2 {
+    color: $heading-2-colour;
+}
+
+h3 {
+    color: $heading-3-colour;
+}
+
+h4 {
+    color: $heading-4-colour;
+}
+
+h5 {
+    color: $heading-5-colour;
+}
+
+h6 {
+    color: $heading-6-colour;
+}
