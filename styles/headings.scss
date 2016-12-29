@@ -8,11 +8,13 @@
 }
 
 h1 {
-    font-weight: 700;
+    font-weight: bold;
     color: $heading-1-colour;
+    text-decoration: underline;
 }
 
 h2 {
+    font-weight: bold;
     color: $heading-2-colour;
 }
 
