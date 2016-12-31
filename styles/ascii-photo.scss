@@ -1,9 +1,9 @@
 .ascii-photo {
     margin: 0 auto;
-    width: (53 * 0.25 * $font-size * 0.6)#{$u};
+    width: (150 * 0.2 * $font-size * 0.6)#{$u};
     
     pre {
-        font-size: (0.25 * $font-size)#{$u};
+        font-size: (0.2 * $font-size)#{$u};
         line-height: 100%;
     }
 }
