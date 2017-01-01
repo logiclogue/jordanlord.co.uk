@@ -32,7 +32,7 @@
         float: left;
     }
 
-    @media (max-width: 750px) {
+    @media (max-width: $width-tablet) {
         height: auto;
         overflow: auto;
 

@@ -11,6 +11,7 @@ Metalsmith(__dirname)
     .metadata({
         sitename: "JordanLord.co.uk",
         siteurl: "http://jordanlord.co.uk",
+        year: new Date().getFullYear()
     })
     .use(sass({
         outputStyle: 'expanded',
