@@ -14,6 +14,7 @@ em {
 
 a:link {
     color: $link-colour;
+    text-decoration: none;
 }
 
 a:hover {
@@ -31,4 +32,8 @@ a:visited {
 code {
     background-color: $selection-bg-colour;
     border-color: $selection-bg-colour;
+}
+
+.row {
+    margin-bottom: $font-size#{$u};
 }
