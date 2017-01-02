@@ -58,10 +58,10 @@ Metalsmith(__dirname)
                 title: 'Projects',
                 path: 'projects'
             },
-            {
+            /*{
                 title: 'Blog',
                 path: 'blog'
-            },
+            },*/
             {
                 title: 'Home',
                 path: ''
