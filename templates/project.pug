@@ -3,26 +3,27 @@ extends default.pug
 block content
     h1= title
 
-    .row
-        if web
-            .four.columns
-                a(href='http://jordanlord.co.uk/' + web) Web
+    .project-links.margin-bottom
+        .row
+            if web
+                .four.columns
+                    a(href='http://jordanlord.co.uk/' + web) Web
 
-        if github
-            .four.columns
-                a(href='https://github.com/' + github) GitHub
+            if github
+                .four.columns
+                    a(href='https://github.com/' + github) GitHub
 
-        if youtube
-            .four.columns
-                a(href='https://youtu.be/' + youtube) YouTube
+            if youtube
+                .four.columns
+                    a(href='https://youtu.be/' + youtube) YouTube
 
-        if playstore
-            .four.columns
-                a(href='https://play.google.com/store/apps/details?id='
-                    + playstore) Play Store
+            if playstore
+                .four.columns
+                    a(href='https://play.google.com/store/apps/details?id='
+                        + playstore) Play Store
 
-        if npm
-            .four.columns
+            if npm
+                .four.columns
                 a(href='https://npmjs.com/package/' + npm) NPM
 
     != contents

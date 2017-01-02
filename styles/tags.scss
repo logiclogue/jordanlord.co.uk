@@ -29,11 +29,19 @@ a:visited {
     color: $link-colour;
 }
 
+p {
+    margin-bottom: $font-size#{$u};
+}
+
 code {
     background-color: $selection-bg-colour;
     border-color: $selection-bg-colour;
 }
 
-.row {
+iframe {
+    margin-bottom: $font-size#{$u};
+}
+
+.margin-bottom {
     margin-bottom: $font-size#{$u};
 }
