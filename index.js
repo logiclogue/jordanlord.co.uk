@@ -5,6 +5,7 @@ var markdown = require('metalsmith-markdown');
 var permalinks = require('metalsmith-permalinks');
 var sass = require('metalsmith-sass');
 var metadata = require('metalsmith-collection-metadata');
+var highlight = require('metalsmith-metallic');
 
 
 Metalsmith(__dirname)
@@ -13,6 +14,7 @@ Metalsmith(__dirname)
         siteurl: "http://jordanlord.co.uk",
         year: new Date().getFullYear()
     })
+    .use(highlight())
     .use(sass({
         outputStyle: 'expanded',
         includePaths: ['styles']
