@@ -10,7 +10,7 @@ Visual Basic. The goal of this project was to modularise the code and make it
 portable (hence the use of C).
 
 Having not done much C programming before this writing this program, I wanted to
-test and improve my C.
+test and improve my C knowledge.
 
 
 ## Installation
@@ -27,6 +27,8 @@ make
 
 
 ## Rules
+
+### The Board
 
 <pre>
     _________________________
@@ -49,3 +51,9 @@ make
 
      1  2  3  4  5  6  7  8
 </pre>
+
+### The Pieces
+
+Two characters are used to represent a piece on the board. The first character,
+of the two, represents the piece's colour. Furthermore, the second character
+represents the piece's class.
