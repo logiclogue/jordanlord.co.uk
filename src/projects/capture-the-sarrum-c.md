@@ -12,6 +12,9 @@ portable (hence the use of C).
 Having not done much C programming before this writing this program, I wanted to
 test and improve my C knowledge.
 
+I do not claim to have created the game of 'Capture the Sarrum'. Only to have
+ported it to the C programming language.
+
 
 ## Installation
 
@@ -56,4 +59,58 @@ make
 
 Two characters are used to represent a piece on the board. The first character,
 of the two, represents the piece's colour. Furthermore, the second character
-represents the piece's class.
+represents the piece's type.
+
+### Sarrum (King) `K`
+
+Can move one square at a time in any direction.
+
+### Marzaz Pani (Royal Attendant) `M`
+
+Can move one square at a time either vertically or horizontally.
+
+Cannot move diagonally.
+
+### Nabu (Seer) `N`
+
+Can move one square at a time along a diagonal.
+
+Cannot make horizontal or vertical moves.
+
+### Etlu (Warrior) `E`
+
+Can move exactly two squares at a time in either a vertical or horizontal
+direction.
+
+Cannot move diagonally.
+
+Can jump over other pieces.
+
+### Gisgigir (Chariot) `G`
+
+Basically a rook from Chess.
+
+Can move any number of squares, at a time, in either a vertical or horizontal
+direction.
+
+Cannot make diagonal moves.
+
+Cannot jump over other pieces.
+
+### Redum (Soldier) `R`
+
+Basically a pawn from Chess.
+
+Can move forward one square at a time, if the square directly in front is empty.
+
+If a diagonal square contains an opponent's piece, the Redum can move into that
+square and will capture the piece.
+
+If it reaches the back rank, it is promoted into a Marzaz Pani.
+
+### Kashshaptu (Witch) `K`
+
+Not known how this piece was used in the game.
+
+It was revealed in the exam how this piece moved. Then it was up to the
+candidates to program in the Kashshaptu piece.
