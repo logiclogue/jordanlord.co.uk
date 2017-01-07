@@ -38,5 +38,3 @@ locations of the planets, you'll have to edit `src/main.c` and recompile.
 ## License
 
 MIT License
-
-Copyright (c) 2016 Jordan Lord
