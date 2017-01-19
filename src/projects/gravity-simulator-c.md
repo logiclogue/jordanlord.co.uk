@@ -7,8 +7,8 @@ title: Gravity Simulator (C)
 This program is designed to simulate planets/particles in two dimensional space.
 It's written in C using OpenGL and SDL.
 
-The goal of this project was to recreate my original ![Gravity
-Simulator](http://jordanlord.co.uk/projects/gravity-simualtor-javascript) in C.
+The goal of this project was to recreate my original [Gravity
+Simulator](http://jordanlord.co.uk/projects/gravity-simulator-javascript) in C.
 With C being much closer to the hardware, better performance will be achieved.
 
 
