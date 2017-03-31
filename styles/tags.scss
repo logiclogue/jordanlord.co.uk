@@ -38,6 +38,10 @@ code {
     border-width: 0;
 }
 
+ul {
+    list-style: square inside;
+}
+
 iframe {
     margin-bottom: $font-size#{$u};
 }
