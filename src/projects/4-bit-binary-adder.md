@@ -1,5 +1,6 @@
 ---
 youtube: 1M6gHuruIL4
+platform: <i class="fa fa-microchip" aria-hidden="true"></i>
 publishDate: 2015-08-17
 title: 4-bit Binary Adder
 ---

@@ -1,5 +1,6 @@
 ---
 web: binary_clock
+platform: JS/<i class="fa fa-android" aria-hidden="true"></i>
 github: logiclogue/true-binary-clock-web
 playstore: com.jordanlorddevelopments.binaryclock
 publishDate: 2015-06-28

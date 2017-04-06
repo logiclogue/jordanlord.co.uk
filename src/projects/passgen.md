@@ -1,5 +1,6 @@
 ---
 web: passgen
+platform: JS
 publishDate: 2015-01-01
 title: PassGen
 ---

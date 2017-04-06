@@ -1,5 +1,6 @@
 ---
 github: logiclogue/mandelbrot-set-cpp
+platform: C++
 title: Mandelbrot Set Generator
 publishDate: 2017-03-31
 ---

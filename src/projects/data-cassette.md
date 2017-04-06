@@ -1,5 +1,6 @@
 ---
 github: logiclogue/data-cassette
+platform: Node
 npm: data-cassette
 publishDate: 2016-07-19
 youtube: sI21CQ7thXM

@@ -13,6 +13,8 @@ mixin list(items)
                 td
                     a(href='/' + item.path)= item.title
 
+                td !{item.platform}
+
                 td
                     +icon('http://jordanlord.co.uk/', item.web, 'globe')
 

@@ -1,5 +1,6 @@
 ---
 web: .
+platform: Node
 github: logiclogue/jordanlord.co.uk
 publishDate: 2017-01-04
 title: Rebuild of jordanlord.co.uk

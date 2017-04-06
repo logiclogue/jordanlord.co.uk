@@ -1,7 +1,8 @@
 ---
 github: logiclogue/gravity-simulator
+platform: C
 publishDate: 2016-11-05
-title: Gravity Simulator (C)
+title: Gravity Simulator
 ---
 
 This program is designed to simulate planets/particles in two dimensional space.

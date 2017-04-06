@@ -1,5 +1,6 @@
 ---
 github: logiclogue/connect-four
+platform: C
 title: Connect Four
 publishDate: 2017-03-20
 ---

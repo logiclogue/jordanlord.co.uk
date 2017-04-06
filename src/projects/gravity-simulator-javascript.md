@@ -1,8 +1,9 @@
 ---
 web: particle-simulator
+platform: JS
 github: logiclogue/gravity-simulator
 publishDate: 2015-11-04
-title: Gravity Simulator (JavaScript)
+title: Gravity Simulator
 ---
 
 Launch:

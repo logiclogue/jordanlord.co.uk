@@ -1,7 +1,8 @@
 ---
 github: logiclogue/capture-the-sarrum-c
+platform: C
 publishDate: 2016-09-29
-title: Capture the Sarrum (C)
+title: Capture the Sarrum port
 ---
 
 A port of 'Capture the Sarrum' written in the C programming language. The
