@@ -2,3 +2,8 @@ extends default.pug
 
 block content
     h1= title
+
+    table.list
+        each computer, i in retro_computers
+            tr
+                td= computer.title

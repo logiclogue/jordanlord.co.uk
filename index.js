@@ -38,6 +38,13 @@ Metalsmith(__dirname)
             metadata: {
                 name: 'Projects'
             }
+        },
+        retro_computers: {
+            pattern: 'retro-computer-collection/*.md',
+            reverse: true,
+            metadata: {
+                name: 'Retro Computer Collection'
+            }
         }
     }))
     .use(metadata({
@@ -60,10 +67,6 @@ Metalsmith(__dirname)
                 title: 'Projects',
                 path: 'projects'
             },
-            /*{
-                title: 'Blog',
-                path: 'blog'
-            },*/
             {
                 title: 'Home',
                 path: ''
