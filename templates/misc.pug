@@ -1,0 +1,9 @@
+extends default.pug
+
+block content
+    h1= title
+
+    table.list
+        each section, i in misc
+            tr
+                td= section.title

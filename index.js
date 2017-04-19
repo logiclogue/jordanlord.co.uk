@@ -39,6 +39,10 @@ Metalsmith(__dirname)
                 name: 'Projects'
             }
         },
+        misc: {
+            pattern: '{retro-computer-collection}.md',
+            sortBy: 'title'
+        },
         retro_computers: {
             pattern: 'retro-computer-collection/*.md',
             reverse: true,
@@ -63,6 +67,10 @@ Metalsmith(__dirname)
         var data = metalsmith._metadata;
 
         data.navbar = [
+            {
+                title: 'Misc',
+                path: 'misc'
+            },
             {
                 title: 'Projects',
                 path: 'projects'
