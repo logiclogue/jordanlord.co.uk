@@ -6,4 +6,5 @@ block content
     table.list
         each section, i in misc
             tr
-                td= section.title
+                td
+                    a(href='/' + section.path)= section.title

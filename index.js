@@ -40,7 +40,6 @@ Metalsmith(__dirname)
             }
         },
         misc: {
-            pattern: '{retro-computer-collection}.md',
             sortBy: 'title'
         },
         retro_computers: {
