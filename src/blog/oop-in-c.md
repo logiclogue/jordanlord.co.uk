@@ -15,7 +15,38 @@ the flame wars, for now.
 
 ## Objects
 
-Objects are the key data structure in object-oriented programming.
+Objects are the key data structure in object-oriented programming. C has the
+`struct` data type to create, what basically are, objects.
+
+Here is an example:
+
+```
+// Declaration
+struct Rectangle {
+    int width;
+    int height;
+}
+
+// Instantiation
+Rectangle rect;
+
+rect.width = 4;
+rect.height = 2;
+```
+
+As you can see, this behaves very similar to an object in other object-oriented
+programming languages, such as Java. However, there are a few problems. We a so
+called "constructor" function that will assign default values for us.
+
+## Constructors and Destructors
+
+## Methods
+
+## Inheritance
+
+## Polymorphism
+
+## Dependency Inversion
 
 ## Conclusion
 
