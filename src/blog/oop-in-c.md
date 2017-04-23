@@ -40,9 +40,88 @@ called "constructor" function that will assign default values for us.
 
 ## Constructors and Destructors
 
+```
+struct Rectangle {
+    int width;
+    int height;
+}
+
+// Constructor
+Rectangle *Rectangle_new(void)
+{
+    // Allocate memory
+    Rectangle *self = malloc(sizeof(Rectangle));
+
+    // Default parameters
+    self->width = 2;
+    self->height = 2;
+
+    return self;
+}
+
+// Destructor
+void Rectangle_destroy(Rectangle *self)
+{
+    // Free the memory
+    free(self);
+}
+```
+
 ## Methods
 
+```
+int Rectangle_get_area(Rectangle *self)
+{
+    return self->width * self->height;
+}
+
+int Rectangle_get_perimeter(Rectangle *self)
+{
+    return (self->width * 2) + (self->height * 2);
+}
+```
+
+```
+// Constructor
+Rectangle *Rectangle_new(void)
+{
+    // Allocate memory
+    Rectangle *self = malloc(sizeof(Rectangle));
+
+    // Default parameters
+    self->width = 2;
+    self->height = 2;
+
+    // Methods
+    self->get_width = Rectange_get_width;
+    self->get_perimeter = Rectange_get_perimeter;
+
+    return self;
+}
+```
+
 ## Inheritance
+
+```
+#define SHAPE_PROPS(self_t)\
+    int (*get_area)(self_t *self);\
+    int (*get_perimeter)(self_t *self);
+
+struct Shape {
+    SHAPE_PROPS(Shape)
+}
+
+//
+
+#define RECTANGLE_PROPS(self_t)\
+    SHAPE_PROPS(self_t)\
+    int width;\
+    int height;
+
+struct Rectangle {
+    RECTANGLE_PROPS(Rectangle)
+}
+```
 
 ## Polymorphism
 
