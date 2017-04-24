@@ -10,7 +10,7 @@ var highlight = require('metalsmith-metallic');
 
 Metalsmith(__dirname)
     .metadata({
-        sitename: "JordanLord.co.uk",
+        sitename: "Jordan Lord",
         siteurl: "http://jordanlord.co.uk",
         year: new Date().getFullYear()
     })
