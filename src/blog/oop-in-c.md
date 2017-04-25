@@ -59,18 +59,24 @@ Here is an example of a constructor function for `Rectangle`:
 #include <stdlib.h>
 
 // Constructor
-Rectangle *Rectangle_new(void)
+Rectangle *Rectangle_new(int width, int height)
 {
     // Allocate memory to object
     Rectangle *self = malloc(sizeof(Rectangle));
 
     // Default parameters
-    self->width = 2;
-    self->height = 2;
+    self->width = width;
+    self->height = height;
 
     // Return pointer to object
     return self;
 }
+```
+
+Creating an instance of `Rectangle` using the constructor function:
+
+```
+Rectangle *rect = Rectangle_new(2, 2);
 ```
 
 When you're allocating memory on the heap, it isn't deallocated when you go out
