@@ -103,36 +103,44 @@ sense?
 
 ## Methods
 
+Methods are very important to object-oriented programming. In Java and many
+other object-oriented languages, methods associated with an object reference the
+object with the `this` keyword. In C++, the object's properties are all in the
+method's scope. In C, we are going to take the Java approach as it is easiest to
+implement.
+
+To do this, our function's first parameter will take a pointer to its object.
+Below is a sample method for calculating the `Rectangle`'s area.
+
 ```
 int Rectangle_get_area(Rectangle *self)
 {
     return self->width * self->height;
 }
+```
 
+This is used as below. The `area` variable should be equal to `4`.
+
+```
+Rectangle *rect = Rectangle_new(2, 2);
+
+int area = Rectangle_get_area(rect);
+```
+
+Just for reference, here is an example of a method for calculating the
+perimeter.
+
+```
 int Rectangle_get_perimeter(Rectangle *self)
 {
     return (self->width * 2) + (self->height * 2);
 }
 ```
 
-```
-// Constructor
-Rectangle *Rectangle_new(void)
-{
-    // Allocate memory
-    Rectangle *self = malloc(sizeof(Rectangle));
-
-    // Default parameters
-    self->width = 2;
-    self->height = 2;
-
-    // Methods
-    self->get_width = Rectange_get_width;
-    self->get_perimeter = Rectange_get_perimeter;
-
-    return self;
-}
-```
+There are a few issues with this. The main issue is polymorphism. We don't have
+a method that can be called for all shapes to calculate that shape's area. On
+another shape, the `width` and `height` properties may not exist; the method
+would fall over when it was called with a `Shape`.
 
 ## Inheritance
 
@@ -160,6 +168,25 @@ struct Rectangle {
 ```
 
 ## Polymorphism
+
+```
+// Constructor
+Rectangle *Rectangle_new(void)
+{
+    // Allocate memory
+    Rectangle *self = malloc(sizeof(Rectangle));
+
+    // Default parameters
+    self->width = 2;
+    self->height = 2;
+
+    // Methods
+    self->get_width = Rectange_get_width;
+    self->get_perimeter = Rectange_get_perimeter;
+
+    return self;
+}
+```
 
 ## Dependency Inversion
 
