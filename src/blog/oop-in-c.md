@@ -137,10 +137,65 @@ int Rectangle_get_perimeter(Rectangle *self)
 }
 ```
 
-There are a few issues with this. The main issue is polymorphism. We don't have
-a method that can be called for all shapes to calculate that shape's area. On
-another shape, the `width` and `height` properties may not exist; the method
-would fall over when it was called with a `Shape`.
+There are a few issues with this. The main issue is it is not polymorphic. We
+don't have a method that can be called for all shapes to calculate that shape's
+area. On another shape, the `width` and `height` properties may not exist; the
+method would fall over when it was called with a `Shape`.
+
+## Dynamic Methods
+
+There are a few issues with our previous method of implementing methods. There
+is no method dispatching. No way to decide what method to call depending on the
+type of object. We have to do that manually. However, polymorphism is achievable
+in C. We must use function pointers on the `struct`s themselves.
+
+Let's redeclare our `Rectangle` `struct` to have the methods declared on the
+`struct` itself:
+
+```
+struct RectangleTag {
+    int width;
+    int height;
+
+    int (*get_width)(Rectange *self);
+    int (*get_perimeter)(Rectange *self);
+};
+```
+
+Then the `Rectangle` constructor has to be updated to assign the `*get_width`
+and `*get_perimeter` function pointers to the static functions that were defined
+earlier.
+
+```
+// Constructor
+Rectangle *Rectangle_new(void)
+{
+    // Allocate memory
+    Rectangle *self = malloc(sizeof(Rectangle));
+
+    // Default parameters
+    self->width = 2;
+    self->height = 2;
+
+    // Methods
+    self->get_width = Rectange_get_width;
+    self->get_perimeter = Rectange_get_perimeter;
+
+    return self;
+}
+```
+
+Now the methods can be called dynamically from the object itself.
+
+```
+Rectangle *rect = Rectangle_new(2, 2);
+
+int area = rect->get_area(rect);
+```
+
+In this example, `rect->get_area(rect)` would return `4`.
+
+## Polymorphism
 
 ## Inheritance
 
@@ -164,27 +219,6 @@ struct Shape {
 
 struct Rectangle {
     RECTANGLE_PROPS(Rectangle)
-}
-```
-
-## Polymorphism
-
-```
-// Constructor
-Rectangle *Rectangle_new(void)
-{
-    // Allocate memory
-    Rectangle *self = malloc(sizeof(Rectangle));
-
-    // Default parameters
-    self->width = 2;
-    self->height = 2;
-
-    // Methods
-    self->get_width = Rectange_get_width;
-    self->get_perimeter = Rectange_get_perimeter;
-
-    return self;
 }
 ```
 
