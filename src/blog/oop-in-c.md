@@ -195,9 +195,103 @@ int area = rect->get_area(rect);
 
 In this example, `rect->get_area(rect)` would return `4`.
 
-## Polymorphism
-
 ## Inheritance
+
+In C, it's pretty simple to do object composition where once object is
+referenced from inside of another. But how to do we do `struct`-based
+inheritance? There isn't a built in way to do it in C.
+
+Let's say we want to have a `Cube` `struct` that extends the `Rectangle`
+`struct`, adding the `depth` property. It's not possible to do that with
+structs. We could do this:
+
+```
+struct Rectangle {
+    int width;
+    int height;
+}
+
+struct Cube {
+    int width;
+    int height;
+    int depth;
+}
+```
+
+However, it's not a good idea to copy to properties over. In addition, you can't
+tell that `Cube` is actually inheriting from `Rectangle`.
+
+We are going to solve this problem with macros. Consider this example:
+
+```
+#define RECTANGLE_PROPS\
+    int width;\
+    int height;
+
+struct Rectangle {
+    RECTANGLE_PROPS
+}
+
+#define CUBE_PROPS\
+    RECTANGLE_PROPS\
+    int depth;
+
+struct Cube {
+    CUBE_PROPS
+}
+```
+
+Here `Cube` is inheriting from `Rectangle` using macros and adding the `depth`
+property. Although it's a little messy, it's clear that `Cube` is inheriting
+from `Rectangle`. All that needs to be done is constructors for each method.
+
+Sometimes you want to call the parent "class"' constructor. This is done with
+the `super` method in Java. However, in C, if we call the `Rectangle_new`
+function to create a new `Cube`. It's going to only allocate enough memory for
+the `Rectangle`. The `depth` property won't be allocated. This can cause a
+segmentation fault. I like to solve this problem by creating an `apply` method.
+This behaves like a constructor but doesn't allocate any memory. It just takes a
+pointer to the object and assigns its properties appropriately. In fact, the
+constructor will call its respective `apply` method.
+
+```
+void Rectangle_apply(Rectangle *self, int width, int height)
+{
+    self->width = width;
+    self->height = height;
+}
+
+Rectangle *Rectangle_new(int width, int height)
+{
+    Rectangle *self = malloc(sizeof(Rectangle));
+
+    Rectangle_apply(self);
+
+    return self;
+}
+
+void Cube_apply(Cube *self, int width, int height, int depth)
+{
+    Rectangle_apply(self, width, height);
+
+    self->depth = depth;
+}
+
+Cube *Cube_new(int width, int height, int depth)
+{
+    Cube *self = malloc(sizeof(Cube));
+
+    Cube_apply(self, width, height, depth);
+
+    return self;
+}
+```
+
+Yes, the function pointers could have been added onto the `Rectangle` and `Cube`
+`struct`s. However, the power of that, and proper implementation, you are about
+to be shown.
+
+## Polymorphism
 
 ```
 // Shape.h
