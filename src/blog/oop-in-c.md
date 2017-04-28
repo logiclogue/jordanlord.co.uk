@@ -411,6 +411,32 @@ Circle *Circle_new(int width, int height)
 }
 ```
 
+Now I want to create a method which prints the area of any `Shape` to the
+console. Thanks to polymorphism and inheritance, this is easy.
+
+```
+void print_area(Shape *shape)
+{
+    int area = shape->get_area(shape);
+
+    printf("Area: %f\n", area);
+}
+```
+
+This method can be called with any type that implements the `Shape` interface.
+This is the power of polymorphism. Now let's actually call `print_area`. Make
+sure to cast you're types, otherwise the compiler will warn you.
+
+```
+Rectangle *rect = Rectangle_new(2, 2);
+Circle *circle = Circle_new(3);
+
+print_area((void *)rect); // Prints "Area: 4.000000"
+print_area((void *)circle); // Prints "Area: 28.274334"
+```
+
+Dynamic dispatching in action, in C! What more could anyone want?
+
 ## Dependency Inversion
 
 ## Conclusion
