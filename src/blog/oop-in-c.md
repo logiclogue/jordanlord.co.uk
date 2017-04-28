@@ -293,9 +293,20 @@ to be shown.
 
 ## Polymorphism
 
-```
-// Shape.h
+Polymorphism is a massive aspect of object-oriented programming. It is possible
+to use polymorphism in C, even though inheritance isn't natively supported. It's
+achieved by having `struct`s with the same memory layout and using casts to cast
+a child `struct` to its parent `struct`.
 
+Let's implement an "abstract class" or "interface", as they're called in other
+languages. An "interface" is a type of class that isn't implemented by itself,
+but rather by its child classes. In C, interfaces can be thought of as a
+template for all child `struct`s to conform to.
+
+A good example of this, using the previous example of `Rectangle`, is to create
+a `Shape` which is going to behave as our interface.
+
+```
 #define SHAPE_PROPS(self_t)\
     int (*get_area)(self_t *self);\
     int (*get_perimeter)(self_t *self);
@@ -303,9 +314,18 @@ to be shown.
 struct Shape {
     SHAPE_PROPS(Shape)
 }
+```
 
-// Rectangle.h
+As you can see, the `Shape` has the `get_area` and `get_perimeter` methods. But
+it doesn't actually implement, like we would do with a constructor. It's
+important that the macro used for an interface is a macro function. This way,
+the type can be passed into the function. This allows for inheritance of
+methods.
 
+Now let's create a `Rectangle` which is going to inherit from this `Shape`
+"interface".
+
+```
 #define RECTANGLE_PROPS(self_t)\
     SHAPE_PROPS(self_t)\
     int width;\
@@ -313,6 +333,81 @@ struct Shape {
 
 struct Rectangle {
     RECTANGLE_PROPS(Rectangle)
+}
+```
+
+Then the `Rectangle` constructor must be created, as demonstrated earlier.
+
+```
+void Rectangle_apply(Rectangle *self, int width, int height)
+{
+    self->get_area = Rectangle_get_area;
+    self->get_perimeter = Rectangle_get_perimeter;
+
+    self->width = width;
+    self->height = height;
+}
+
+Rectangle *Rectangle_new(int width, int height)
+{
+    Rectangle *self = malloc(sizeof(Rectangle));
+
+    Rectangle_apply(self);
+
+    return self;
+}
+```
+
+For demonstration purposes, we're going to create a `Circle` which will also
+conform to the `Shape` interface.
+
+```
+#define CIRCLE_PROPS(self_t)\
+    SHAPE_PROPS(self_t)\
+    int radius;
+
+struct Circle {
+    CIRCLE_PROPS(Circle)
+}
+```
+
+Then the circle's `get_area` and `get_permieter` methods.
+
+```
+#include <math.h>
+
+int Circle_get_area(Circle *self)
+{
+    return M_PI * pow(self->radius, 2);
+}
+
+int Circle_get_perimeter(Circle *self)
+{
+    int diameter = self->radius * 2;
+
+    return M_PI * diameter;
+}
+```
+
+And finally the constructor:
+
+```
+void Circle_apply(Circle *self, int width, int height)
+{
+    self->get_area = Circle_get_area;
+    self->get_perimeter = Circle_get_perimeter;
+
+    self->width = width;
+    self->height = height;
+}
+
+Circle *Circle_new(int width, int height)
+{
+    Circle *self = malloc(sizeof(Circle));
+
+    Circle_apply(self);
+
+    return self;
 }
 ```
 
