@@ -25,8 +25,8 @@ Here is an example:
 typedef struct RectangleTag Rectangle;
 
 struct RectangleTag {
-    int width;
-    int height;
+    float width;
+    float height;
 };
 
 // Instantiation
@@ -59,7 +59,7 @@ Here is an example of a constructor function for `Rectangle`:
 #include <stdlib.h>
 
 // Constructor
-Rectangle *Rectangle_new(int width, int height)
+Rectangle *Rectangle_new(float width, float height)
 {
     // Allocate memory to object
     Rectangle *self = malloc(sizeof(Rectangle));
@@ -113,7 +113,7 @@ To do this, our function's first parameter will take a pointer to its object.
 Below is a sample method for calculating the `Rectangle`'s area.
 
 ```
-int Rectangle_get_area(Rectangle *self)
+float Rectangle_get_area(Rectangle *self)
 {
     return self->width * self->height;
 }
@@ -124,14 +124,14 @@ This is used as below. The `area` variable should be equal to `4`.
 ```
 Rectangle *rect = Rectangle_new(2, 2);
 
-int area = Rectangle_get_area(rect);
+float area = Rectangle_get_area(rect);
 ```
 
 Just for reference, here is an example of a method for calculating the
 perimeter.
 
 ```
-int Rectangle_get_perimeter(Rectangle *self)
+float Rectangle_get_perimeter(Rectangle *self)
 {
     return (self->width * 2) + (self->height * 2);
 }
@@ -153,12 +153,14 @@ Let's redeclare our `Rectangle` `struct` to have the methods declared on the
 `struct` itself:
 
 ```
-struct RectangleTag {
-    int width;
-    int height;
+typedef struct RectangleTag Rectangle;
 
-    int (*get_width)(Rectange *self);
-    int (*get_perimeter)(Rectange *self);
+struct RectangleTag {
+    float width;
+    float height;
+
+    float (*get_width)(Rectange *self);
+    float (*get_perimeter)(Rectange *self);
 };
 ```
 
@@ -190,7 +192,7 @@ Now the methods can be called dynamically from the object itself.
 ```
 Rectangle *rect = Rectangle_new(2, 2);
 
-int area = rect->get_area(rect);
+float area = rect->get_area(rect);
 ```
 
 In this example, `rect->get_area(rect)` would return `4`.
@@ -206,16 +208,20 @@ Let's say we want to have a `Cube` `struct` that extends the `Rectangle`
 structs. We could do this:
 
 ```
-struct Rectangle {
-    int width;
-    int height;
-}
+typedef struct RectangleTag Rectangle;
 
-struct Cube {
-    int width;
-    int height;
-    int depth;
-}
+struct RectangleTag {
+    float width;
+    float height;
+};
+
+typedef struct CubeTag Cube;
+
+struct CubeTag {
+    float width;
+    float height;
+    float depth;
+};
 ```
 
 However, it's not a good idea to copy to properties over. In addition, you can't
@@ -225,20 +231,24 @@ We are going to solve this problem with macros. Consider this example:
 
 ```
 #define RECTANGLE_PROPS\
-    int width;\
-    int height;
+    float width;\
+    float height;
 
-struct Rectangle {
+typedef struct RectangleTag Rectangle;
+
+struct RectangleTag {
     RECTANGLE_PROPS
-}
+};
 
 #define CUBE_PROPS\
     RECTANGLE_PROPS\
-    int depth;
+    float depth;
 
-struct Cube {
+typedef struct CubeTag Cube;
+
+struct CubeTag {
     CUBE_PROPS
-}
+};
 ```
 
 Here `Cube` is inheriting from `Rectangle` using macros and adding the `depth`
@@ -255,13 +265,13 @@ pointer to the object and assigns its properties appropriately. In fact, the
 constructor will call its respective `apply` method.
 
 ```
-void Rectangle_apply(Rectangle *self, int width, int height)
+void Rectangle_apply(Rectangle *self, float width, float height)
 {
     self->width = width;
     self->height = height;
 }
 
-Rectangle *Rectangle_new(int width, int height)
+Rectangle *Rectangle_new(float width, float height)
 {
     Rectangle *self = malloc(sizeof(Rectangle));
 
@@ -270,14 +280,14 @@ Rectangle *Rectangle_new(int width, int height)
     return self;
 }
 
-void Cube_apply(Cube *self, int width, int height, int depth)
+void Cube_apply(Cube *self, float width, float height, float depth)
 {
     Rectangle_apply(self, width, height);
 
     self->depth = depth;
 }
 
-Cube *Cube_new(int width, int height, int depth)
+Cube *Cube_new(float width, float height, float depth)
 {
     Cube *self = malloc(sizeof(Cube));
 
@@ -308,12 +318,14 @@ a `Shape` which is going to behave as our interface.
 
 ```
 #define SHAPE_PROPS(self_t)\
-    int (*get_area)(self_t *self);\
-    int (*get_perimeter)(self_t *self);
+    float (*get_area)(self_t *self);\
+    float (*get_perimeter)(self_t *self);
 
-struct Shape {
+typedef struct ShapeTag Shape;
+
+struct ShapeTag {
     SHAPE_PROPS(Shape)
-}
+};
 ```
 
 As you can see, the `Shape` has the `get_area` and `get_perimeter` methods. But
@@ -328,18 +340,20 @@ Now let's create a `Rectangle` which is going to inherit from this `Shape`
 ```
 #define RECTANGLE_PROPS(self_t)\
     SHAPE_PROPS(self_t)\
-    int width;\
-    int height;
+    float width;\
+    float height;
 
-struct Rectangle {
+typedef struct RectangleTag Rectangle;
+
+struct RectangleTag {
     RECTANGLE_PROPS(Rectangle)
-}
+};
 ```
 
 Then the `Rectangle` constructor must be created, as demonstrated earlier.
 
 ```
-void Rectangle_apply(Rectangle *self, int width, int height)
+void Rectangle_apply(Rectangle *self, float width, float height)
 {
     self->get_area = Rectangle_get_area;
     self->get_perimeter = Rectangle_get_perimeter;
@@ -348,7 +362,7 @@ void Rectangle_apply(Rectangle *self, int width, int height)
     self->height = height;
 }
 
-Rectangle *Rectangle_new(int width, int height)
+Rectangle *Rectangle_new(float width, float height)
 {
     Rectangle *self = malloc(sizeof(Rectangle));
 
@@ -364,11 +378,13 @@ conform to the `Shape` interface.
 ```
 #define CIRCLE_PROPS(self_t)\
     SHAPE_PROPS(self_t)\
-    int radius;
+    float radius;
 
-struct Circle {
+typedef struct CircleTag Circle;
+
+struct CircleTag {
     CIRCLE_PROPS(Circle)
-}
+};
 ```
 
 Then the circle's `get_area` and `get_permieter` methods.
@@ -376,14 +392,14 @@ Then the circle's `get_area` and `get_permieter` methods.
 ```
 #include <math.h>
 
-int Circle_get_area(Circle *self)
+float Circle_get_area(Circle *self)
 {
     return M_PI * pow(self->radius, 2);
 }
 
-int Circle_get_perimeter(Circle *self)
+float Circle_get_perimeter(Circle *self)
 {
-    int diameter = self->radius * 2;
+    float diameter = self->radius * 2;
 
     return M_PI * diameter;
 }
@@ -392,7 +408,7 @@ int Circle_get_perimeter(Circle *self)
 And finally the constructor:
 
 ```
-void Circle_apply(Circle *self, int width, int height)
+void Circle_apply(Circle *self, float width, float height)
 {
     self->get_area = Circle_get_area;
     self->get_perimeter = Circle_get_perimeter;
@@ -401,7 +417,7 @@ void Circle_apply(Circle *self, int width, int height)
     self->height = height;
 }
 
-Circle *Circle_new(int width, int height)
+Circle *Circle_new(float width, float height)
 {
     Circle *self = malloc(sizeof(Circle));
 
@@ -417,7 +433,7 @@ console. Thanks to polymorphism and inheritance, this is easy.
 ```
 void print_area(Shape *shape)
 {
-    int area = shape->get_area(shape);
+    float area = shape->get_area(shape);
 
     printf("Area: %f\n", area);
 }
@@ -437,8 +453,85 @@ print_area((void *)circle); // Prints "Area: 28.274334"
 
 Dynamic dispatching in action, in C! What more could anyone want?
 
-## Dependency Inversion
+## Dependency Injection
+
+Dependency injection is key to decoupling. Test driven development normally
+isn't easy in C, with everything depending on concretions. However, using the
+methods we have already learnt, it's very easy.
+
+Let's say we had an interface which specified a canvas for a game. It's job is
+to draw players. It's most likely not practical, but good for demonstration
+purposes.
+
+```
+#define CANVAS_PROPS(self_t)\
+    void clear_screen(self_t *self);\
+    void draw_player(self_t *self, Player *player);\
+    void clear_player(self_t *self, Player *player);\
+    void update_score(self_t *self, Score *score);
+
+typedef struct CanvasTag Canvas;
+
+struct CanvasTag {
+    CANVAS_PROPS(Canvas)
+};
+```
+
+Now this canvas can be implemented however we want. We could implement it to
+draw the game like [NetHack](https://en.wikipedia.org/wiki/NetHack) does. Or
+perhaps draw it in 3D, as long as we're using the connect library.
+
+We've got our `Game` `struct`. Let's inject `Canvas` into the constructor
+of `Game`.
+
+```
+#define GAME_PROPS(self_t)\
+    Canvas *canvas;\
+    // Other methods and properties can go here
+
+typedef struct GameTag Game;
+
+struct GameTag {
+    GAME_PROPS(Game)
+};
+
+void Game_apply(Game *self, Canvas *canvas)
+{
+    self->canvas = canvas;
+    // Assign other properties and methods here
+}
+
+// Constructor
+Game *Game_new(Canvas *canvas)
+{
+    Game *self = malloc(sizeof(Game));
+
+    Game_apply(self, canvas);
+
+    return self;
+}
+```
+
+In any `Game` method, `self->canvas->method_name(...)` can be called. Yet, it
+doesn't matter how `Canvas` is implemented, as long as we pass a `Canvas`
+derived object that does implement `Canvas`. It doesn't affect our code in
+`Game`. It also makes `Game` much easier to test. This is because mocked objects
+of `Canvas`, instead of proper implementations, can be injected into `Game`.
+That is beyond the scope of this article.
 
 ## Conclusion
 
-Lots of boiler plate required.
+I have written [`connect-four`
+program](https://github.com/logiclogue/connect-four), which is a simple
+command-line program using the principles stated in this article. It also is
+totally developed using test-driven development. That's something that this
+paradigm allows.
+
+There are many drawbacks to this style though. For one, it takes a lot of boiler
+plate, just to create a simple class. In addition, C++ has of these features,
+and more, with "nice", or rather quick, easily written syntax. Maybe this is one
+of the issues with C++ the fact that it has too much.
+
+Anyway, I'd like to think that implementing object-oriented programming, in C
+even if it isn't that practical, is a great way to get a better understanding of
+object-oriented code. It certainly was the case for me.
