@@ -1,14 +1,14 @@
 include icon.pug
 include iconGithub.pug
 include iconYouTube.pug
+include shortDate.pug
 
 mixin list(items)
     table.list
         each item, i in items
             tr
                 td
-                    if (typeof item.publishDate !== 'undefined')
-                        != item.publishDate.toISOString().substring(0, 10) + ' '
+                    +shortDate(item.publishDate) + ' '
 
                 td
                     a(href='/' + item.path)= item.title

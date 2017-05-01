@@ -1,6 +1,6 @@
 ---
 title: Object-oriented Programming in C
-draft
+publishDate: 2017-05-01
 ---
 
 Implementing object-orientation in C is a fantastic way to understand how
@@ -15,7 +15,7 @@ wars, for now.
 
 ## Objects
 
-Objects are the key data structure in object-oriented programming. C has the
+Objects are the key data structures in object-oriented programming. C has the
 `struct` data type to create, what basically are, objects.
 
 Here is an example:
@@ -533,7 +533,7 @@ do that.
 ```
 // Class.h
 #define CLASS_PROPS(self_t)\
-    void (*destroy)(self_t *self);
+    void (*destroy)(self_t *self);\
     self_t *(*clone)(self_t *self);
 
 typedef struct ClassTag Class;

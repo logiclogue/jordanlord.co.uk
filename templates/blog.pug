@@ -1,0 +1,11 @@
+extends default.pug
+
+include includes/fancyDate.pug
+
+block content
+    h1= title
+
+    p
+        +fancyDate(publishDate)
+
+    != contents

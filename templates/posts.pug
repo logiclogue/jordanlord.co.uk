@@ -1,7 +1,15 @@
 extends default.pug
 include includes/list.pug
+include includes/shortDate.pug
 
 block content
     h1= title
 
-    +list(blog)
+    table.list
+        each post, i in blog
+            tr
+                td
+                    +shortDate(post.publishDate) + ' '
+
+                td
+                    a(href='/' + post.path)= post.title

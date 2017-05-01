@@ -3,6 +3,9 @@ extends default.pug
 block content
     h1= title
 
+    p
+        +fancyDate(publishDate)
+
     .project-links.margin-bottom
         .row
             if web

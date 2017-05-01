@@ -52,7 +52,7 @@ Metalsmith(__dirname)
     }))
     .use(metadata({
         'collections.blog': {
-            layout: 'default.pug'
+            layout: 'blog.pug'
         },
         'collections.projects': {
             layout: 'project.pug'
@@ -71,6 +71,10 @@ Metalsmith(__dirname)
                 path: 'misc'
             },
             {
+                title: 'Blog',
+                path: 'blog'
+            },
+            {
                 title: 'Projects',
                 path: 'projects'
             },
@@ -79,6 +83,21 @@ Metalsmith(__dirname)
                 path: ''
             }
         ];
+
+        data.months = [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec'
+        ]
 
         done();
     })

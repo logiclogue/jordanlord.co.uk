@@ -1,0 +1,5 @@
+mixin shortDate(date)
+    if (typeof date !== 'undefined')
+        != date.toISOString().substring(0, 10)
+    else
+        != ''
