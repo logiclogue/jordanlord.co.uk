@@ -545,8 +545,8 @@ struct ClassTag {
 
 That way all of our classes can inherit. They must implement destroy. I'm going
 to show the `Rectangle` example from earlier. First we'll have to redeclare
-`Shape`. But this time, we're going to say that `Shape` has coordinates. So it
-will have a property for `Coords`.
+`Shape`. But this time, we are going to state that `Shape` has coordinates. So
+it will have a property for `Coords`.
 
 ```
 // Shape.h
@@ -582,7 +582,7 @@ Rectangle *Rectangle_new(Coords *coords, float width, float height);
 void Rectangle_apply(
     Rectangle *self, Coords *coords, float width, float height);
 void Rectangle_destroy(Rectangle *self);
-void Rectangle_clone(Rectangle *self);
+Rectangle *Rectangle_clone(Rectangle *self);
 float Rectangle_get_area(Rectangle *self);
 float Rectangle_get_perimeter(Rectangle *self);
 ```
@@ -664,8 +664,9 @@ int main()
 
 It's a fantastic exercise implementing object-orientation in C. It better helps
 you understand polymorphism with regards to memory management. It better helps
-you understand destructors. It also better helps you understand where the `this`
-object comes from.
+you understand destructors. It better helps you understand constructors. It also
+better helps you understand where the `this` object comes from. With C being low
+level, it shows how object-oriented code works at the low level.
 
 There are many drawbacks to this style though. For one, it takes a lot of boiler
 plate, just to create a simple class. In addition, C++ has all of these
