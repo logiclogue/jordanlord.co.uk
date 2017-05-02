@@ -613,8 +613,8 @@ void Rectangle_apply(Rectangle *self, Coords *coords, float width, float height)
 
     self->get_area = Rectangle_get_area;
     self->get_perimeter = Rectangle_get_perimeter;
+    self->clone = Rectangle_clone;
     self->destroy = Rectangle_destroy;
-    self-> = Rectangle_destroy;
 }
 
 void Rectangle_destroy(Rectangle *self)
@@ -649,12 +649,14 @@ int main()
 {
     Coords *coords = Coords_new(15, 10);
     Rectangle *rect = Rectangle_new(coords, 2, 2);
+    Rectangle *rect_2 = rect->clone(rect);
 
-    float area = rect->get_area(rect);
+    float area = rect_2->get_area(rect);
 
     printf("%f\n", area); // Will print 4
 
     rect->destroy(rect); // Will call `coords->destroy`
+    rect_2->destroy(rect); // Do the same as above but to rect_2 object
 
     return 0;
 }
