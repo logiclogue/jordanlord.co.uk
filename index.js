@@ -59,6 +59,7 @@ Metalsmith(__dirname)
             layout: 'project.pug'
         }
     }))
+    .use(githubReadme())
     .use(markdown())
     .use(permalinks({
         relative: false
@@ -102,7 +103,6 @@ Metalsmith(__dirname)
         engine: 'pug',
         directory: 'templates'
     }))
-    .use(githubReadme())
     .build(function (err) {
         if (err) {
             throw err;
