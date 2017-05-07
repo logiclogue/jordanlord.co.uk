@@ -6,6 +6,7 @@ var permalinks = require('metalsmith-permalinks');
 var sass = require('metalsmith-sass');
 var metadata = require('metalsmith-collection-metadata');
 var highlight = require('metalsmith-metallic');
+var githubReadme = require('./plugins/metalsmith-github-readme');
 
 
 Metalsmith(__dirname)
@@ -101,6 +102,7 @@ Metalsmith(__dirname)
         engine: 'pug',
         directory: 'templates'
     }))
+    .use(githubReadme())
     .build(function (err) {
         if (err) {
             throw err;
