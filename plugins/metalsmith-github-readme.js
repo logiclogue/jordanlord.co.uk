@@ -10,7 +10,13 @@ function plugin() {
         return new Promise(function (resolve, reject) {
             request(url, function (error, response, body) {
                 if (error) {
-                    reject(new Error());
+                    reject(error);
+
+                    return;
+                }
+
+                if (response.statusCode !== 200) {
+                    resolve('');
 
                     return;
                 }
@@ -36,12 +42,12 @@ function plugin() {
             return new Promise(function (resolve, reject) {
                 getReadMe(file.github)
                     .then(function (contents) {
+                        // Add the README contents to the post's contents
                         file.contents += contents;
 
                         resolve();
                     }, function (err) {
-                        reject();
-                        throw err;
+                        reject(err);
                     });
             });
         });
@@ -50,7 +56,7 @@ function plugin() {
             .then(function () {
                 done();
             }, function (err) {
-                throw err;
+                console.log(err);
             });
     }
 }
