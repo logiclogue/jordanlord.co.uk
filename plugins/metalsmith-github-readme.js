@@ -46,7 +46,8 @@ function plugin() {
         for (fileName in files) {
             file = files[fileName];
 
-            if (file.github) {
+            if (file.github && file.readFromGithub) {
+                console.log(file.github);
                 fileArray.push(file);
             }
         }
