@@ -15,6 +15,7 @@ Metalsmith(__dirname)
         siteurl: "http://jordanlord.co.uk",
         year: new Date().getFullYear()
     })
+    .use(githubReadme())
     .use(highlight())
     .use(sass({
         outputStyle: 'expanded',
@@ -59,7 +60,6 @@ Metalsmith(__dirname)
             layout: 'project.pug'
         }
     }))
-    .use(githubReadme())
     .use(markdown())
     .use(permalinks({
         relative: false
