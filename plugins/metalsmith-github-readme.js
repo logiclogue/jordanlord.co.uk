@@ -49,7 +49,7 @@ function plugin() {
             file = files[fileName];
 
             if (file.github && file.readFromGithub) {
-                console.log(file.github);
+                console.log('Got README from', file.github);
                 fileArray.push(file);
             }
         }
