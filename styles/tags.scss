@@ -34,8 +34,13 @@ p {
 }
 
 code {
-    background-color: $selection-bg-colour;
+    background-color: $lighter-bg-colour;
     border-width: 0;
+}
+
+// The block code tag class
+.hljs {
+    background-color: $lighter-bg-colour;
 }
 
 ul {
