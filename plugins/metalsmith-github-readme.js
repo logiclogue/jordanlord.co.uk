@@ -1,4 +1,5 @@
 var request = require('request');
+var sections = require('sections');
 
 function plugin() {
     function getReadMe(githubLink) {
