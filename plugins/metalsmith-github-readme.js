@@ -27,6 +27,18 @@ function plugin() {
         });
     }
 
+    function getRelevantSections(markdown) {
+        var sectionsObj = sections.parse(markdown);
+
+        sectionsObj.sections.map(function (section) {
+            if (section.level === 1) {
+                section.string = section.string.replace(section.heading, '');
+            }
+        });
+
+        return sections.render(sectionsObj);
+    }
+
     return function (files, metalsmith, done) {
         var fileName;
         var fileArray = [];
@@ -44,7 +56,7 @@ function plugin() {
                 getReadMe(file.github)
                     .then(function (contents) {
                         // Add the README contents to the post's contents
-                        file.contents += contents;
+                        file.contents += getRelevantSections(contents);
 
                         resolve();
                     }, function (err) {
