@@ -33,6 +33,8 @@ function plugin() {
         sectionsObj.sections.map(function (section) {
             if (section.level === 1) {
                 section.string = section.string.replace(section.heading, '');
+            } else if (section.title.toLowerCase() === 'author') {
+                section.string = '';
             }
         });
 
@@ -46,7 +48,8 @@ function plugin() {
         for (fileName in files) {
             file = files[fileName];
 
-            if (file.github) {
+            if (file.github && file.readFromGithub) {
+                console.log('Got README from', file.github);
                 fileArray.push(file);
             }
         }

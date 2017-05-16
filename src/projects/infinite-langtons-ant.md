@@ -11,7 +11,6 @@ Langton's Ant written in JavaScript.
 <div class="contentVideoWrapper">
 <iframe src="http://www.jordanlord.co.uk/langtons-ant" frameborder=0 style="width: 100%;"></iframe>
 </div>
-[Click here](http://www.jordanlord.co.uk/langtons-ant) to go fullscreen.
 
 Controls:
 
@@ -20,5 +19,3 @@ Controls:
 `-` key zoom out
 
 Click location to jump there
-
-[GitHub](https://github.com/logiclogue/Langtons-Ant-JavaScript)

@@ -2,6 +2,7 @@
 web: binary_clock
 platform: JS/<i class="fa fa-android" aria-hidden="true"></i>
 github: logiclogue/true-binary-clock-web
+readFromGithub: true
 playstore: com.jordanlorddevelopments.binaryclock
 publishDate: 2015-06-28
 updateDate: 2016-08-07

@@ -20,9 +20,7 @@ Dino'.
 The game was written in JavaScript on top of a simple game engine that I wrote.
 The HTML5 canvas is used for rendering.
 
-<a href="http://www.jordanlord.co.uk/sheepdog_dino">Play the game</a><br>
 <a href="http://ludumdare.com/compo/ludum-dare-33/?action=preview&uid=56366">Ludum Dare page</a><br>
-<a href="https://github.com/logiclogue/Sheepdog_Dino">Source code</a><br>
 
 ## Visualisation of the development
 
