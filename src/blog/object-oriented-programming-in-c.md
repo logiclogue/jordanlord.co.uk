@@ -276,7 +276,7 @@ Rectangle *Rectangle_new(float width, float height)
 {
     Rectangle *self = malloc(sizeof(Rectangle));
 
-    Rectangle_apply(self);
+    Rectangle_apply(self, width, height);
 
     return self;
 }
@@ -366,7 +366,7 @@ Rectangle *Rectangle_new(float width, float height)
 {
     Rectangle *self = malloc(sizeof(Rectangle));
 
-    Rectangle_apply(self);
+    Rectangle_apply(self, width, height);
 
     return self;
 }
@@ -421,7 +421,7 @@ Circle *Circle_new(float width, float height)
 {
     Circle *self = malloc(sizeof(Circle));
 
-    Circle_apply(self);
+    Circle_apply(self, width, height);
 
     return self;
 }
