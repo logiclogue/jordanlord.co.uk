@@ -13,6 +13,7 @@ Metalsmith(__dirname)
     .metadata({
         sitename: "Jordan Lord",
         siteurl: "http://jordanlord.co.uk",
+        sitedescription: "['Programmer', 'Computer nerd', 'Unix enthusiast'];"
         year: new Date().getFullYear()
     })
     .use(githubReadme())
