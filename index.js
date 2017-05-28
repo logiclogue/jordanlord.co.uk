@@ -6,15 +6,27 @@ var permalinks = require('metalsmith-permalinks');
 var sass = require('metalsmith-sass');
 var metadata = require('metalsmith-collection-metadata');
 var highlight = require('metalsmith-metallic');
+var feed = require('metalsmith-feed');
 var githubReadme = require('./plugins/metalsmith-github-readme');
 
 
 Metalsmith(__dirname)
     .metadata({
-        sitename: "Jordan Lord",
-        siteurl: "http://jordanlord.co.uk",
+        sitename: 'Jordan Lord',
+        siteurl: 'http://jordanlord.co.uk',
         sitedescription: "['Programmer', 'Computer nerd', 'Unix enthusiast'];",
         year: new Date().getFullYear()
+    })
+    .use(function (files, metalsmith, done) {
+        var metadata = metalsmith._metadata;
+
+        metadata.site = {
+            title: metadata.sitename,
+            url: metadata.siteurl,
+            author: metadata.sitename
+        };
+
+        done();
     })
     .use(githubReadme())
     .use(highlight())
@@ -64,6 +76,14 @@ Metalsmith(__dirname)
     .use(markdown())
     .use(permalinks({
         relative: false
+    }))
+    .use(feed({
+        collection: 'blog',
+        postDescription: function (file) {
+            file.date = file.publishDate;
+
+            return file.contents;
+        }
     }))
     .use((files, metalsmith, done) => {
         var data = metalsmith._metadata;
