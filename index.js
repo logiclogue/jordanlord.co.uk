@@ -17,7 +17,7 @@ Metalsmith(__dirname)
         sitedescription: "['Programmer', 'Computer nerd', 'Unix enthusiast'];",
         year: new Date().getFullYear()
     })
-    .use(function (files, metalsmith, done) {
+    .use((files, metalsmith, done) => {
         var metadata = metalsmith._metadata;
 
         metadata.site = {
@@ -79,7 +79,7 @@ Metalsmith(__dirname)
     }))
     .use(feed({
         collection: 'blog',
-        postDescription: function (file) {
+        postDescription: (file) => {
             file.date = file.publishDate;
 
             return file.contents;
@@ -116,7 +116,7 @@ Metalsmith(__dirname)
             'Oct',
             'Nov',
             'Dec'
-        ]
+        ];
 
         done();
     })
@@ -124,7 +124,7 @@ Metalsmith(__dirname)
         engine: 'pug',
         directory: 'templates'
     }))
-    .build(function (err) {
+    .build((err) => {
         if (err) {
             throw err;
         }
