@@ -1,0 +1,79 @@
+{
+    "siteMetadata": {
+        "sitename": "Jordan Lord",
+        "siteurl": "http://jordanlord.co.uk",
+        "sitedescription": "['Programmer', 'Computer nerd', 'Unix enthusiast'];"
+    },
+    "collections": {
+        "blog": {
+            "pattern": "blog/*.md",
+            "sortBy": "publishDate",
+            "reverse": true,
+            "metadata": {
+                "name": "Blog"
+            }
+        },
+        "projects": {
+            "pattern": "projects/*.md",
+            "sortBy": "publishDate",
+            "reverse": true,
+            "metadata": {
+                "name": "Projects"
+            }
+        },
+        "misc": {
+            "sortBy": "title"
+        },
+        "retro_computers": {
+            "pattern": "retro-computer-collection/*.md",
+            "reverse": true,
+            "metadata": {
+                "name": "Retro Computer Collection"
+            }
+        }
+    },
+    "collectionMetadata": {
+        "collections.blog": {
+            "layout": "blog.pug"
+        },
+        "collections.projects": {
+            "layout": "project.pug"
+        }
+    },
+    "months": [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+    ],
+    "sass": {
+        "outputStyle": "expanded",
+        "includePaths": ["styles"]
+    },
+    "layouts": {
+        "engine": "pug",
+        "directory": "templates"
+    },
+    "navbar": [
+        {
+            "title": "Home",
+            "path": ""
+        },
+        {
+            "title": "Projects",
+            "path": "projects"
+        },
+        {
+            "title": "Blog",
+            "path": "blog"
+        }
+    ]
+}

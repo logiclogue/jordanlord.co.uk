@@ -8,15 +8,12 @@ var metadata = require('metalsmith-collection-metadata');
 var highlight = require('metalsmith-metallic');
 var feed = require('metalsmith-feed');
 var githubReadme = require('./plugins/metalsmith-github-readme');
+var config = require('./config.json');
 
+config.siteMetadata.year = new Date().getFullYear();
 
 Metalsmith(__dirname)
-    .metadata({
-        sitename: 'Jordan Lord',
-        siteurl: 'http://jordanlord.co.uk',
-        sitedescription: "['Programmer', 'Computer nerd', 'Unix enthusiast'];",
-        year: new Date().getFullYear()
-    })
+    .metadata(config.siteMetadata)
     .use((files, metalsmith, done) => {
         var metadata = metalsmith._metadata;
 
@@ -30,49 +27,12 @@ Metalsmith(__dirname)
     })
     .use(githubReadme())
     .use(highlight())
-    .use(sass({
-        outputStyle: 'expanded',
-        includePaths: ['styles']
-    }))
+    .use(sass(config.sass))
     .source('./src')
     .destination('./build')
     .clean(true)
-    .use(collections({
-        blog: {
-            pattern: 'blog/*.md',
-            sortBy: 'publishDate',
-            reverse: true,
-            metadata: {
-                name: 'Blog'
-            }
-        },
-        projects: {
-            pattern: 'projects/*.md',
-            sortBy: 'publishDate',
-            reverse: true,
-            metadata: {
-                name: 'Projects'
-            }
-        },
-        misc: {
-            sortBy: 'title'
-        },
-        retro_computers: {
-            pattern: 'retro-computer-collection/*.md',
-            reverse: true,
-            metadata: {
-                name: 'Retro Computer Collection'
-            }
-        }
-    }))
-    .use(metadata({
-        'collections.blog': {
-            layout: 'blog.pug'
-        },
-        'collections.projects': {
-            layout: 'project.pug'
-        }
-    }))
+    .use(collections(config.collections))
+    .use(metadata(config.collectionMetadata))
     .use(markdown())
     .use(permalinks({
         relative: false
@@ -88,42 +48,12 @@ Metalsmith(__dirname)
     .use((files, metalsmith, done) => {
         var data = metalsmith._metadata;
 
-        data.navbar = [
-            {
-                title: 'Blog',
-                path: 'blog'
-            },
-            {
-                title: 'Projects',
-                path: 'projects'
-            },
-            {
-                title: 'Home',
-                path: ''
-            }
-        ];
-
-        data.months = [
-            'Jan',
-            'Feb',
-            'Mar',
-            'Apr',
-            'May',
-            'Jun',
-            'Jul',
-            'Aug',
-            'Sep',
-            'Oct',
-            'Nov',
-            'Dec'
-        ];
+        data.navbar = config.navbar.reverse();
+        data.months = config.months;
 
         done();
     })
-    .use(layouts({
-        engine: 'pug',
-        directory: 'templates'
-    }))
+    .use(layouts(config.layouts))
     .build((err) => {
         if (err) {
             throw err;
