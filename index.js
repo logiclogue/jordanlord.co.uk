@@ -7,6 +7,7 @@ var sass = require('metalsmith-sass');
 var metadata = require('metalsmith-collection-metadata');
 var highlight = require('metalsmith-metallic');
 var feed = require('metalsmith-feed');
+var asset = require('metalsmith-static');
 var githubReadme = require('./plugins/metalsmith-github-readme');
 var config = require('./config.json');
 
@@ -28,6 +29,10 @@ Metalsmith(__dirname)
     .use(githubReadme())
     .use(highlight())
     .use(sass(config.sass))
+    .use(asset({
+        src: 'res',
+        dest: '.'
+    }))
     .source('./src')
     .destination('./build')
     .clean(true)
