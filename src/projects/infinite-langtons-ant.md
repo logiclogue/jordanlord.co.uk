@@ -12,5 +12,5 @@ I've had a fascination for cellular automata for some time now. After watching
 this.
 
 <div class="contentVideoWrapper">
-<iframe src="http://www.jordanlord.co.uk/langtons-ant" frameborder=0 style="width: 100%;"></iframe>
+<iframe src="http://jordanlord.co.uk/langtons-ant" frameborder=0 style="width: 100%;"></iframe>
 </div>
