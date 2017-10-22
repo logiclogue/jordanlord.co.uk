@@ -1,5 +1,5 @@
 ---
-web: maze-silver-elements
+web: /maze-silver-elements
 platform: ES6
 github: logiclogue/maze-of-the-silver-elements
 readFromGithub: true

@@ -1,5 +1,5 @@
 ---
-web: langtons-ant
+web: /langtons-ant
 platform: JS
 github: logiclogue/Langtons-Ant-JavaScript
 readFromGithub: true

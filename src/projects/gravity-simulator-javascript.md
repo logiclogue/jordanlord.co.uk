@@ -1,5 +1,5 @@
 ---
-web: particle-simulator
+web: /particle-simulator
 platform: JS
 github: logiclogue/particle-simulator
 readFromGithub: true

@@ -1,5 +1,5 @@
 ---
-web: binary_clock
+web: /binary_clock
 platform: JS/<i class="fa fa-android" aria-hidden="true"></i>
 github: logiclogue/true-binary-clock-web
 readFromGithub: true
