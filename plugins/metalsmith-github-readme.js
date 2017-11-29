@@ -71,8 +71,9 @@ function plugin() {
         Promise.all(promisesFileArray)
             .then(function () {
                 done();
-            }, function (err) {
-                console.log(err);
+            })
+            .catch(function (err) {
+                throw err;
             });
     }
 }
