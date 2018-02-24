@@ -32,6 +32,10 @@
         cursor: hand;
     }
 
+    li.active {
+        border-bottom: 3px solid $link-colour;
+    }
+
     #a-title {
         float: left;
     }
