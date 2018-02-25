@@ -9,6 +9,7 @@ var highlight = require('metalsmith-metallic');
 var feed = require('metalsmith-feed');
 var asset = require('metalsmith-static');
 var githubReadme = require('./plugins/metalsmith-github-readme');
+var rootPath = require('./plugins/rootPath');
 var config = require('./config.json');
 
 config.siteMetadata.year = new Date().getFullYear();
@@ -17,6 +18,8 @@ Metalsmith(__dirname)
     .metadata(config.siteMetadata)
     .use((files, metalsmith, done) => {
         var metadata = metalsmith._metadata;
+
+        metadata.rootPath = rootPath;
 
         metadata.site = {
             title: metadata.sitename,

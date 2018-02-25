@@ -3,4 +3,7 @@
         a#a-title= sitename
         ul
             for item in navbar
-                li: a(href=`/${item.path}`)= item.title
+                if item.path === rootPath(path)
+                    li.active: a(href=`/${item.path}`)= item.title
+                else
+                    li: a(href=`/${item.path}`)= item.title
