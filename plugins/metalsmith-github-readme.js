@@ -1,15 +1,16 @@
-var request = require('request');
-var sections = require('sections');
+const _ = require("lodash");
+const request = require('request');
+const sections = require('sections');
 
 function plugin() {
     function getReadMe(githubLink) {
-        var url =
-            'https://raw.githubusercontent.com/' +
-            githubLink +
-            '/master/README.md';
+        const url
+            = "https://raw.githubusercontent.com/"
+            + githubLink
+            + "/master/README.md";
 
-        return new Promise(function (resolve, reject) {
-            request(url, function (error, response, body) {
+        return new Promise((resolve, reject) => {
+            request(url, (error, response, body) => {
                 if (error) {
                     reject(error);
 
@@ -17,7 +18,7 @@ function plugin() {
                 }
 
                 if (response.statusCode !== 200) {
-                    resolve('');
+                    resolve("");
 
                     return;
                 }
@@ -28,13 +29,13 @@ function plugin() {
     }
 
     function getRelevantSections(markdown) {
-        var sectionsObj = sections.parse(markdown);
+        const sectionsObj = sections.parse(markdown);
 
-        sectionsObj.sections.map(function (section) {
+        sectionsObj.sections.map((section) => {
             if (section.level === 1) {
-                section.string = section.string.replace(section.heading, '');
-            } else if (section.title.toLowerCase() === 'author') {
-                section.string = '';
+                section.string = section.string.replace(section.heading, "");
+            } else if (section.title.toLowerCase() === "author") {
+                section.string = "";
             }
         });
 
@@ -42,37 +43,28 @@ function plugin() {
     }
 
     return function (files, metalsmith, done) {
-        var fileName;
-        var fileArray = [];
+        const fileArray = _(files)
+            .filter(file => file.github && file.readFromGithub)
+            .value();
 
-        for (fileName in files) {
-            file = files[fileName];
+        fileArray.forEach(file => console.log("Got README from", file.github));
 
-            if (file.github && file.readFromGithub) {
-                console.log('Got README from', file.github);
-                fileArray.push(file);
-            }
-        }
-
-        var promisesFileArray = fileArray.map(function (file) {
-            return new Promise(function (resolve, reject) {
+        const promisesFileArray = fileArray.map((file) => {
+            return new Promise((resolve, reject) => {
                 getReadMe(file.github)
-                    .then(function (contents) {
+                    .then((contents) => {
                         // Add the README contents to the post's contents
                         file.contents += getRelevantSections(contents);
 
                         resolve();
-                    }, function (err) {
-                        reject(err);
-                    });
+                    })
+                    .catch(reject);
             });
         });
 
         Promise.all(promisesFileArray)
-            .then(function () {
-                done();
-            })
-            .catch(function (err) {
+            .then(() => done())
+            .catch((err) => {
                 throw err;
             });
     }

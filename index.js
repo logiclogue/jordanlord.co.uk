@@ -1,23 +1,23 @@
-var Metalsmith = require('metalsmith');
-var collections = require('metalsmith-collections');
-var layouts = require('metalsmith-layouts');
-var markdown = require('metalsmith-markdown');
-var permalinks = require('metalsmith-permalinks');
-var sass = require('metalsmith-sass');
-var metadata = require('metalsmith-collection-metadata');
-var highlight = require('metalsmith-metallic');
-var feed = require('metalsmith-feed');
-var asset = require('metalsmith-static');
-var githubReadme = require('./plugins/metalsmith-github-readme');
-var rootPath = require('./plugins/rootPath');
-var config = require('./config.json');
+const Metalsmith = require("metalsmith");
+const collections = require("metalsmith-collections");
+const layouts = require("metalsmith-layouts");
+const markdown = require("metalsmith-markdown");
+const permalinks = require("metalsmith-permalinks");
+const sass = require("metalsmith-sass");
+const metadata = require("metalsmith-collection-metadata");
+const highlight = require("metalsmith-metallic");
+const feed = require("metalsmith-feed");
+const asset = require("metalsmith-static");
+const githubReadme = require("./plugins/metalsmith-github-readme");
+const rootPath = require("./plugins/rootPath");
+const config = require("./config.json");
 
 config.siteMetadata.year = new Date().getFullYear();
 
 Metalsmith(__dirname)
     .metadata(config.siteMetadata)
     .use((files, metalsmith, done) => {
-        var metadata = metalsmith._metadata;
+        let metadata = metalsmith._metadata;
 
         metadata.rootPath = rootPath;
 
@@ -33,11 +33,11 @@ Metalsmith(__dirname)
     .use(highlight())
     .use(sass(config.sass))
     .use(asset({
-        src: 'res',
-        dest: '.'
+        src: "res",
+        dest: "."
     }))
-    .source('./src')
-    .destination('./build')
+    .source("./src")
+    .destination("./build")
     .clean(true)
     .use(collections(config.collections))
     .use(metadata(config.collectionMetadata))
@@ -46,7 +46,7 @@ Metalsmith(__dirname)
         relative: false
     }))
     .use(feed({
-        collection: 'blog',
+        collection: "blog",
         postDescription: (file) => {
             file.date = file.publishDate;
 
@@ -54,7 +54,7 @@ Metalsmith(__dirname)
         }
     }))
     .use((files, metalsmith, done) => {
-        var data = metalsmith._metadata;
+        let data = metalsmith._metadata;
 
         data.navbar = config.navbar.reverse();
         data.months = config.months;
@@ -67,6 +67,6 @@ Metalsmith(__dirname)
             throw err;
         }
         else {
-            console.log('Site build complete');
+            console.log("Site build complete");
         }
     });
