@@ -1,5 +1,5 @@
 ---
-layout: default.pug
+layout: contact.pug
 ---
 
 me@jordanlord.co.uk
