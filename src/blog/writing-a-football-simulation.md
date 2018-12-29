@@ -12,4 +12,5 @@ generate more and more information about the football match.
 I'm going to weight the football teams using the Elo rating system. The reason
 for this is it's easy to find the Elo ratings of real life football teams from
 websites like **clubelo.com**(?) and **the website which provides ratings for
-national teams**. Also, the formulas already exist to
+national teams**. Also, it's easy to reverse engineer the formulas to randomly
+output match results rather than create a prediction.
