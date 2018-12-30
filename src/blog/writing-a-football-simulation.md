@@ -14,3 +14,9 @@ for this is it's easy to find the Elo ratings of real life football teams from
 websites like **clubelo.com**(?) and **the website which provides ratings for
 national teams**. Also, it's easy to reverse engineer the formulas to randomly
 output match results rather than create a prediction.
+
+The programming language that I'll be using is OCaml, using BuckleScript to
+compile to JavaScript for NodeJS. This will not be a tutorial for OCaml, nor
+will I explain the features of the language.
+
+Okay, so first of all, we want to generate a football match outcome from a 
