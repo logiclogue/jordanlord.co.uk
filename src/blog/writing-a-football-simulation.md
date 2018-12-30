@@ -19,4 +19,8 @@ The programming language that I'll be using is OCaml, using BuckleScript to
 compile to JavaScript for NodeJS. This will not be a tutorial for OCaml, nor
 will I explain the features of the language.
 
-Okay, so first of all, we want to generate a football match outcome from a 
+Okay, so first of all, to generate a match outcome from ratings, I'll be using
+the elo formula for finding the expected value. Then from that, using a random
+number generator to pick either win, draw, or loss.
+
+Based on the 2017-18 Premier League season, draws occurred 26% of the time.
