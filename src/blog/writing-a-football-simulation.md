@@ -23,4 +23,19 @@ Okay, so first of all, to generate a match outcome from ratings, I'll be using
 the elo formula for finding the expected value. Then from that, using a random
 number generator to pick either win, draw, or loss.
 
-Based on the 2017-18 Premier League season, draws occurred 26% of the time.
+Based on the 2017-18 Premier League season, draws occurred 26% of the time. This
+will be useful later on. Elo's system doesn't give us probabilities for draws
+occurring.
+
+Let's start with the simplest part of the system, the rating. We're going to
+create `Rating.mli` which will define the rating type as a float.
+
+```
+type t = float
+```
+
+From here, we're going to define all of the elo functions that we'll need, let's
+start with the interface `Elo.mli`
+
+```
+```
