@@ -61,6 +61,11 @@ Derby win ↦ 0.37
 Draw ↦ 0.63
 Forest win ↦ 1
 
+Now to put this into code. We're going to represent the PDF as a list of tuples
+rather than a function, this will become clearer why later on.
+
+**TODO**
+
 ## Quantile Function
 
 The final step is to calculate the *quantile function* from our *probability
