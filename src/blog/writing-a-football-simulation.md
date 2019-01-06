@@ -37,5 +37,51 @@ type t = float
 From here, we're going to define all of the elo functions that we'll need, let's
 start with the interface `Elo.mli`
 
-```
-```
+## Probability Mass Function
+
+The probability mass function will help us simulate the outcomes of the matches.
+Our Elo model will give us the probability of different outcomes occurring.
+
+Let's keep it simple and not consider draws. Say Derby County are
+facing their local East Midlands rivals Nottingham Forest. At this moment in
+time, let's assume they both have the same rating of 1550. Using the expected
+Elo rating formula, this will give us the following probability mass function:
+
+Derby win ↦ 0.37
+Draw ↦ 0.26
+Forest win ↦ 0.37
+
+## Probability Density Function
+
+To use a random number to simulate the outcome of the match, we'll have to
+calculate the probability density function from the probability mass function
+which we had previously.
+
+Derby win ↦ 0.37
+Draw ↦ 0.63
+Forest win ↦ 1
+
+## Quantile Function
+
+The final step is to calculate the *quantile function* from our *probability
+density function*. The quantile function is just the inverse of the probability
+density function.
+
+All we have to do is swap the arrows around.
+
+0 .. 0.37 ↦ Derby win
+0.37 .. 0.63 ↦ Draw
+0.63 .. 1 ↦ Forest win
+
+## Simulating Outcomes
+
+Now by picking a random number before 0 and 1, we can simulate the outcome of
+the match, using our quantile function.
+
+The random number generator chose: 0.29.
+
+quantile function(0.29) ↦ Derby win
+
+Derby have won!
+
+Now you can start to see how this works.
