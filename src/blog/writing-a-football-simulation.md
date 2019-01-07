@@ -51,6 +51,15 @@ Derby win ↦ 0.37
 Draw ↦ 0.26
 Forest win ↦ 0.37
 
+Now to put this into code. We're going to represent the PMF as a list of tuples
+rather than a function, this will become clearer why later on.
+
+```
+let pmf = [(Win, 0.37), (Draw, 0.63), (Loss, 0.37)]
+
+let f x pmf = List.find (fun (y, _) -> x == y) pmf |> snd
+```
+
 ## Probability Density Function
 
 To use a random number to simulate the outcome of the match, we'll have to
@@ -61,10 +70,7 @@ Derby win ↦ 0.37
 Draw ↦ 0.63
 Forest win ↦ 1
 
-Now to put this into code. We're going to represent the PDF as a list of tuples
-rather than a function, this will become clearer why later on.
-
-**TODO**
+Now using our previous definition of the PMF, we can compute the PDF easily.
 
 ## Quantile Function
 
