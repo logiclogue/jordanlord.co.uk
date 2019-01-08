@@ -72,6 +72,10 @@ Forest win ↦ 1
 
 Now using our previous definition of the PMF, we can compute the PDF easily.
 
+```
+let pmf_to_pdf pmf = **TODO**
+```
+
 ## Quantile Function
 
 The final step is to calculate the *quantile function* from our *probability
