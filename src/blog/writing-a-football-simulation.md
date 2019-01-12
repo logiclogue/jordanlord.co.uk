@@ -100,3 +100,40 @@ quantile function(0.29) ↦ Derby win
 Derby have won!
 
 Now you can start to see how this works.
+
+## Premier League 2017/18
+
+| Team | W  | D  | L  | Rating |
+|------|----|----|----|--------|
+| MCI  | 32 |  4 |  2 |   1316 |
+| MUN  | 25 |  6 |  7 |   1189 |
+| TOT  | 23 |  8 |  7 |   1168 |
+| LIV  | 21 | 12 |  5 |   1168 |
+| CHE  | 21 |  7 | 10 |   1116 |
+| ARS  | 19 |  6 | 13 |   1063 |
+| BUR  | 14 | 12 | 12 |   1021 |
+| EVE  | 13 | 10 | 15 |    979 |
+| LEI  | 12 | 11 | 15 |    968 |
+| NEW  | 12 |  8 | 18 |    937 |
+| CRY  | 11 | 11 | 16 |    947 |
+| BOU  | 11 | 11 | 16 |    947 |
+| WHU  | 10 | 12 | 16 |    937 |
+| WAT  | 11 |  8 | 19 |    916 |
+| BHA  |  9 | 13 | 16 |    926 |
+| HUD  |  9 | 10 | 19 |    895 |
+| SOU  |  7 | 15 | 16 |    905 |
+| SWA  |  8 |  9 | 21 |    863 |
+| STK  |  7 | 12 | 19 |    874 |
+| WBA  |  6 | 13 | 19 |    863 |
+
+I'm using this formula to calculate the elo ratings:
+
+```
+f(wins, draws, losses) = (total_elo + 400 * (wins - losses)) / games
+```
+
+Which reduces to:
+
+```
+f(wins, draws, losses) = 1000 + (400 / 38) * (wins - losses)
+```
