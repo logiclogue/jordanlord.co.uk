@@ -73,28 +73,38 @@ f (wins, draws, losses) = 1000 + (400 / 38) * (wins - losses)
 For our calculations, it'll be important for this to be in a nice lookup table.
 
 ```
-[
-("MCI", 1316),
-("MUN", 1189),
-("TOT", 1168),
-("LIV", 1168),
-("CHE", 1116),
-("ARS", 1063),
-("BUR", 1021),
-("EVE", 979),
-("LEI", 968),
-("NEW", 937),
-("CRY", 947),
-("BOU", 947),
-("WHU", 937),
-("WAT", 916),
-("BHA", 926),
-("HUD", 895),
-("SOU", 905),
-("SWA", 863),
-("STK", 874),
-("WBA", 863)
+teamsList :: [(String, Int)]
+teamsList = [
+    ("MCI", 1316),
+    ("MUN", 1189),
+    ("TOT", 1168),
+    ("LIV", 1168),
+    ("CHE", 1116),
+    ("ARS", 1063),
+    ("BUR", 1021),
+    ("EVE", 979),
+    ("LEI", 968),
+    ("NEW", 937),
+    ("CRY", 947),
+    ("BOU", 947),
+    ("WHU", 937),
+    ("WAT", 916),
+    ("BHA", 926),
+    ("HUD", 895),
+    ("SOU", 905),
+    ("SWA", 863),
+    ("STK", 874),
+    ("WBA", 863)
 ]
+```
+
+It's easy to use `Data.Map` with this data structure.
+
+```
+import qualified Data.Map as Map
+
+teamsMap :: Map String Int
+teamsMap = Map.fromList teamsList
 ```
 
 ## Past Matches
