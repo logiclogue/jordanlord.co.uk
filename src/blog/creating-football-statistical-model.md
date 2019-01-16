@@ -109,1162 +109,402 @@ teamsMap = Map.fromList teamsList
 
 ## Past Matches
 
-ARS BOU = 3–0
-1063
-947
-ARS BHA = 2–0
-1063
-926
-ARS BUR = 5–0
-1063
-1021
-ARS CHE = 2–2
-1063
-1116
-ARS CRY = 4–1
-1063
-947
-ARS EVE = 5–1
-1063
-979
-ARS HUD = 5–0
-1063
-895
-ARS LEI = 4–3
-1063
-968
-ARS LIV = 3–3
-1063
-1168
-ARS MCI = 0–3
-1063
-1316
-ARS MUN = 1–3
-1063
-1189
-ARS NEW = 1–0
-1063
-937
-ARS SOU = 3–2
-1063
-905
-ARS STK = 3–0
-1063
-874
-ARS SWA = 2–1
-1063
-863
-ARS TOT = 2–0
-1063
-1168
-ARS WAT = 3–0
-1063
-916
-ARS WBA = 2–0
-1063
-863
-ARS WHU = 4–1
-1063
-937
+("ARS", "BOU", 3, 0)
+("ARS", "BHA", 2, 0)
+("ARS", "BUR", 5, 0)
+("ARS", "CHE", 2, 2)
+("ARS", "CRY", 4, 1)
+("ARS", "EVE", 5, 1)
+("ARS", "HUD", 5, 0)
+("ARS", "LEI", 4, 3)
+("ARS", "LIV", 3, 3)
+("ARS", "MCI", 0, 3)
+("ARS", "MUN", 1, 3)
+("ARS", "NEW", 1, 0)
+("ARS", "SOU", 3, 2)
+("ARS", "STK", 3, 0)
+("ARS", "SWA", 2, 1)
+("ARS", "TOT", 2, 0)
+("ARS", "WAT", 3, 0)
+("ARS", "WBA", 2, 0)
+("ARS", "WHU", 4, 1)
 
-BOU ARS = 2–1
-947
-1063
-BOU BHA = 2–1
-947
-926
-BOU BUR = 1–2
-947
-1021
-BOU CHE = 0–1
-947
-1116
-BOU CRY = 2–2
-947
-947
-BOU EVE = 2–1
-947
-979
-BOU HUD = 4–0
-947
-895
-BOU LEI = 0–0
-947
-968
-BOU LIV = 0–4
-947
-1168
-BOU MCI = 1–2
-947
-1316
-BOU MUN = 0–2
-947
-1189
-BOU NEW = 2–2
-947
-937
-BOU SOU = 1–1
-947
-905
-BOU STK = 2–1
-947
-874
-BOU SWA = 1–0
-947
-863
-BOU TOT = 1–4
-947
-1168
-BOU WAT = 0–2
-947
-916
-BOU WBA = 2–1
-947
-863
-BOU WHU = 3–3
-947
-937
+("BOU", "ARS", 2, 1)
+("BOU", "BHA", 2, 1)
+("BOU", "BUR", 1, 2)
+("BOU", "CHE", 0, 1)
+("BOU", "CRY", 2, 2)
+("BOU", "EVE", 2, 1)
+("BOU", "HUD", 4, 0)
+("BOU", "LEI", 0, 0)
+("BOU", "LIV", 0, 4)
+("BOU", "MCI", 1, 2)
+("BOU", "MUN", 0, 2)
+("BOU", "NEW", 2, 2)
+("BOU", "SOU", 1, 1)
+("BOU", "STK", 2, 1)
+("BOU", "SWA", 1, 0)
+("BOU", "TOT", 1, 4)
+("BOU", "WAT", 0, 2)
+("BOU", "WBA", 2, 1)
+("BOU", "WHU", 3, 3)
 
-BHA ARS = 2–1
-926
-1063
-BHA BOU = 2–2
-926
-947
-BHA BUR = 0–0
-926
-1021
-BHA CHE = 0–4
-926
-1116
-BHA CRY = 0–0
-926
-947
-BHA EVE = 1–1
-926
-979
-BHA HUD = 1–1
-926
-895
-BHA LEI = 0–2
-926
-968
-BHA LIV = 1–5
-926
-1168
-BHA MCI = 0–2
-926
-1316
-BHA MUN = 1–0
-926
-1189
-BHA NEW = 1–0
-926
-937
-BHA SOU = 1–1
-926
-905
-BHA STK = 2–2
-926
-874
-BHA SWA = 4–1
-926
-863
-BHA TOT = 1–1
-926
-1168
-BHA WAT = 1–0
-926
-916
-BHA WBA = 3–1
-926
-863
-BHA WHU = 3–1
-926
-937
+("BHA", "ARS", 2, 1)
+("BHA", "BOU", 2, 2)
+("BHA", "BUR", 0, 0)
+("BHA", "CHE", 0, 4)
+("BHA", "CRY", 0, 0)
+("BHA", "EVE", 1, 1)
+("BHA", "HUD", 1, 1)
+("BHA", "LEI", 0, 2)
+("BHA", "LIV", 1, 5)
+("BHA", "MCI", 0, 2)
+("BHA", "MUN", 1, 0)
+("BHA", "NEW", 1, 0)
+("BHA", "SOU", 1, 1)
+("BHA", "STK", 2, 2)
+("BHA", "SWA", 4, 1)
+("BHA", "TOT", 1, 1)
+("BHA", "WAT", 1, 0)
+("BHA", "WBA", 3, 1)
+("BHA", "WHU", 3, 1)
 
-BUR ARS = 0–1
-1021
-1063
-BUR BOU = 1–2
-1021
-947
-BUR BHA = 0–0
-1021
-926
-BUR CHE = 1–2
-1021
-1116
-BUR CRY = 1–0
-1021
-947
-BUR EVE = 2–1
-1021
-979
-BUR HUD = 0–0
-1021
-895
-BUR LEI = 2–1
-1021
-968
-BUR LIV = 1–2
-1021
-1168
-BUR MCI = 1–1
-1021
-1316
-BUR MUN = 0–1
-1021
-1189
-BUR NEW = 1–0
-1021
-937
-BUR SOU = 1–1
-1021
-905
-BUR STK = 1–0
-1021
-874
-BUR SWA = 2–0
-1021
-863
-BUR TOT = 0–3
-1021
-1168
-BUR WAT = 1–0
-1021
-916
-BUR WBA = 0–1
-1021
-863
-BUR WHU = 1–1
-1021
-937
+("BUR", "ARS", 0, 1)
+("BUR", "BOU", 1, 2)
+("BUR", "BHA", 0, 0)
+("BUR", "CHE", 1, 2)
+("BUR", "CRY", 1, 0)
+("BUR", "EVE", 2, 1)
+("BUR", "HUD", 0, 0)
+("BUR", "LEI", 2, 1)
+("BUR", "LIV", 1, 2)
+("BUR", "MCI", 1, 1)
+("BUR", "MUN", 0, 1)
+("BUR", "NEW", 1, 0)
+("BUR", "SOU", 1, 1)
+("BUR", "STK", 1, 0)
+("BUR", "SWA", 2, 0)
+("BUR", "TOT", 0, 3)
+("BUR", "WAT", 1, 0)
+("BUR", "WBA", 0, 1)
+("BUR", "WHU", 1, 1)
 
-CHE ARS = 0–0
-1116
-1063
-CHE BOU = 0–3
-1116
-947
-CHE BHA = 2–0
-1116
-926
-CHE BUR = 2–3
-1116
-1021
-CHE CRY = 2–1
-1116
-947
-CHE EVE = 2–0
-1116
-979
-CHE HUD = 1–1
-1116
-895
-CHE LEI = 0–0
-1116
-968
-CHE LIV = 1–0
-1116
-1168
-CHE MCI = 0–1
-1116
-1316
-CHE MUN = 1–0
-1116
-1189
-CHE NEW = 3–1
-1116
-937
-CHE SOU = 1–0
-1116
-905
-CHE STK = 5–0
-1116
-874
-CHE SWA = 1–0
-1116
-863
-CHE TOT = 1–3
-1116
-1168
-CHE WAT = 4–2
-1116
-916
-CHE WBA = 3–0
-1116
-863
-CHE WHU = 1–1
-1116
-937
+("CHE", "ARS", 0, 0)
+("CHE", "BOU", 0, 3)
+("CHE", "BHA", 2, 0)
+("CHE", "BUR", 2, 3)
+("CHE", "CRY", 2, 1)
+("CHE", "EVE", 2, 0)
+("CHE", "HUD", 1, 1)
+("CHE", "LEI", 0, 0)
+("CHE", "LIV", 1, 0)
+("CHE", "MCI", 0, 1)
+("CHE", "MUN", 1, 0)
+("CHE", "NEW", 3, 1)
+("CHE", "SOU", 1, 0)
+("CHE", "STK", 5, 0)
+("CHE", "SWA", 1, 0)
+("CHE", "TOT", 1, 3)
+("CHE", "WAT", 4, 2)
+("CHE", "WBA", 3, 0)
+("CHE", "WHU", 1, 1)
 
-CRY ARS = 2–3
-947
-1063
-CRY BOU = 2–2
-947
-947
-CRY BHA = 3–2
-947
-926
-CRY BUR = 1–0
-947
-1021
-CRY CHE = 2–1
-947
-1116
-CRY EVE = 2–2
-947
-979
-CRY HUD = 0–3
-947
-895
-CRY LEI = 5–0
-947
-968
-CRY LIV = 1–2
-947
-1168
-CRY MCI = 0–0
-947
-1316
-CRY MUN = 2–3
-947
-1189
-CRY NEW = 1–1
-947
-937
-CRY SOU = 0–1
-947
-905
-CRY STK = 2–1
-947
-874
-CRY SWA = 0–2
-947
-863
-CRY TOT = 0–1
-947
-1168
-CRY WAT = 2–1
-947
-916
-CRY WBA = 2–0
-947
-863
-CRY WHU = 2–2
-947
-937
+("CRY", "ARS", 2, 3)
+("CRY", "BOU", 2, 2)
+("CRY", "BHA", 3, 2)
+("CRY", "BUR", 1, 0)
+("CRY", "CHE", 2, 1)
+("CRY", "EVE", 2, 2)
+("CRY", "HUD", 0, 3)
+("CRY", "LEI", 5, 0)
+("CRY", "LIV", 1, 2)
+("CRY", "MCI", 0, 0)
+("CRY", "MUN", 2, 3)
+("CRY", "NEW", 1, 1)
+("CRY", "SOU", 0, 1)
+("CRY", "STK", 2, 1)
+("CRY", "SWA", 0, 2)
+("CRY", "TOT", 0, 1)
+("CRY", "WAT", 2, 1)
+("CRY", "WBA", 2, 0)
+("CRY", "WHU", 2, 2)
 
-EVE ARS = 2–5
-979
-1063
-EVE BOU = 2–1
-979
-947
-EVE BHA = 2–0
-979
-926
-EVE BUR = 0–1
-979
-1021
-EVE CHE = 0–0
-979
-1116
-EVE CRY = 3–1
-979
-947
-EVE HUD = 2–0
-979
-895
-EVE LEI = 2–1
-979
-968
-EVE LIV = 0–0
-979
-1168
-EVE MCI = 1–3
-979
-1316
-EVE MUN = 0–2
-979
-1189
-EVE NEW = 1–0
-979
-937
-EVE SOU = 1–1
-979
-905
-EVE STK = 1–0
-979
-874
-EVE SWA = 3–1
-979
-863
-EVE TOT = 0–3
-979
-1168
-EVE WAT = 3–2
-979
-916
-EVE WBA = 1–1
-979
-863
-EVE WHU = 4–0
-979
-937
+("EVE", "ARS", 2, 5)
+("EVE", "BOU", 2, 1)
+("EVE", "BHA", 2, 0)
+("EVE", "BUR", 0, 1)
+("EVE", "CHE", 0, 0)
+("EVE", "CRY", 3, 1)
+("EVE", "HUD", 2, 0)
+("EVE", "LEI", 2, 1)
+("EVE", "LIV", 0, 0)
+("EVE", "MCI", 1, 3)
+("EVE", "MUN", 0, 2)
+("EVE", "NEW", 1, 0)
+("EVE", "SOU", 1, 1)
+("EVE", "STK", 1, 0)
+("EVE", "SWA", 3, 1)
+("EVE", "TOT", 0, 3)
+("EVE", "WAT", 3, 2)
+("EVE", "WBA", 1, 1)
+("EVE", "WHU", 4, 0)
 
-HUD ARS = 0–1
-895
-1063
-HUD BOU = 4–1
-895
-947
-HUD BHA = 2–0
-895
-926
-HUD BUR = 0–0
-895
-1021
-HUD CHE = 1–3
-895
-1116
-HUD CRY = 0–2
-895
-947
-HUD EVE = 0–2
-895
-979
-HUD LEI = 1–1
-895
-968
-HUD LIV = 0–3
-895
-1168
-HUD MCI = 1–2
-895
-1316
-HUD MUN = 2–1
-895
-1189
-HUD NEW = 1–0
-895
-937
-HUD SOU = 0–0
-895
-905
-HUD STK = 1–1
-895
-874
-HUD SWA = 0–0
-895
-863
-HUD TOT = 0–4
-895
-1168
-HUD WAT = 1–0
-895
-916
-HUD WBA = 1–0
-895
-863
-HUD WHU = 1–4
-895
-937
+("HUD", "ARS", 0, 1)
+("HUD", "BOU", 4, 1)
+("HUD", "BHA", 2, 0)
+("HUD", "BUR", 0, 0)
+("HUD", "CHE", 1, 3)
+("HUD", "CRY", 0, 2)
+("HUD", "EVE", 0, 2)
+("HUD", "LEI", 1, 1)
+("HUD", "LIV", 0, 3)
+("HUD", "MCI", 1, 2)
+("HUD", "MUN", 2, 1)
+("HUD", "NEW", 1, 0)
+("HUD", "SOU", 0, 0)
+("HUD", "STK", 1, 1)
+("HUD", "SWA", 0, 0)
+("HUD", "TOT", 0, 4)
+("HUD", "WAT", 1, 0)
+("HUD", "WBA", 1, 0)
+("HUD", "WHU", 1, 4)
 
-LEI ARS = 3–1
-968
-1063
-LEI BOU = 1–1
-968
-947
-LEI BHA = 2–0
-968
-926
-LEI BUR = 1–0
-968
-1021
-LEI CHE = 1–2
-968
-1116
-LEI CRY = 0–3
-968
-947
-LEI EVE = 2–0
-968
-979
-LEI HUD = 3–0
-968
-895
-LEI LIV = 2–3
-968
-1168
-LEI MCI = 0–2
-968
-1316
-LEI MUN = 2–2
-968
-1189
-LEI NEW = 1–2
-968
-937
-LEI SOU = 0–0
-968
-905
-LEI STK = 1–1
-968
-874
-LEI SWA = 1–1
-968
-863
-LEI TOT = 2–1
-968
-1168
-LEI WAT = 2–0
-968
-916
-LEI WBA = 1–1
-968
-863
-LEI WHU = 0–2
-968
-937
+("LEI", "ARS", 3, 1)
+("LEI", "BOU", 1, 1)
+("LEI", "BHA", 2, 0)
+("LEI", "BUR", 1, 0)
+("LEI", "CHE", 1, 2)
+("LEI", "CRY", 0, 3)
+("LEI", "EVE", 2, 0)
+("LEI", "HUD", 3, 0)
+("LEI", "LIV", 2, 3)
+("LEI", "MCI", 0, 2)
+("LEI", "MUN", 2, 2)
+("LEI", "NEW", 1, 2)
+("LEI", "SOU", 0, 0)
+("LEI", "STK", 1, 1)
+("LEI", "SWA", 1, 1)
+("LEI", "TOT", 2, 1)
+("LEI", "WAT", 2, 0)
+("LEI", "WBA", 1, 1)
+("LEI", "WHU", 0, 2)
 
-LIV ARS = 4–0
-1168
-1063
-LIV BOU = 3–0
-1168
-947
-LIV BHA = 4–0
-1168
-926
-LIV BUR = 1–1
-1168
-1021
-LIV CHE = 1–1
-1168
-1116
-LIV CRY = 1–0
-1168
-947
-LIV EVE = 1–1
-1168
-979
-LIV HUD = 3–0
-1168
-895
-LIV LEI = 2–1
-1168
-968
-LIV MCI = 4–3
-1168
-1316
-LIV MUN = 0–0
-1168
-1189
-LIV NEW = 2–0
-1168
-937
-LIV SOU = 3–0
-1168
-905
-LIV STK = 0–0
-1168
-874
-LIV SWA = 5–0
-1168
-863
-LIV TOT = 2–2
-1168
-1168
-LIV WAT = 5–0
-1168
-916
-LIV WBA = 0–0
-1168
-863
-LIV WHU = 4–1
-1168
-937
+("LIV", "ARS", 4, 0)
+("LIV", "BOU", 3, 0)
+("LIV", "BHA", 4, 0)
+("LIV", "BUR", 1, 1)
+("LIV", "CHE", 1, 1)
+("LIV", "CRY", 1, 0)
+("LIV", "EVE", 1, 1)
+("LIV", "HUD", 3, 0)
+("LIV", "LEI", 2, 1)
+("LIV", "MCI", 4, 3)
+("LIV", "MUN", 0, 0)
+("LIV", "NEW", 2, 0)
+("LIV", "SOU", 3, 0)
+("LIV", "STK", 0, 0)
+("LIV", "SWA", 5, 0)
+("LIV", "TOT", 2, 2)
+("LIV", "WAT", 5, 0)
+("LIV", "WBA", 0, 0)
+("LIV", "WHU", 4, 1)
 
-MCI ARS = 3–1
-1316
-1063
-MCI BOU = 4–0
-1316
-947
-MCI BHA = 3–1
-1316
-926
-MCI BUR = 3–0
-1316
-1021
-MCI CHE = 1–0
-1316
-1116
-MCI CRY = 5–0
-1316
-947
-MCI EVE = 1–1
-1316
-979
-MCI HUD = 0–0
-1316
-895
-MCI LEI = 5–1
-1316
-968
-MCI LIV = 5–0
-1316
-1168
-MCI MUN = 2–3
-1316
-1189
-MCI NEW = 3–1
-1316
-937
-MCI SOU = 2–1
-1316
-905
-MCI STK = 7–2
-1316
-874
-MCI SWA = 5–0
-1316
-863
-MCI TOT = 4–1
-1316
-1168
-MCI WAT = 3–1
-1316
-916
-MCI WBA = 3–0
-1316
-863
-MCI WHU = 2–1
-1316
-937
+("MCI", "ARS", 3, 1)
+("MCI", "BOU", 4, 0)
+("MCI", "BHA", 3, 1)
+("MCI", "BUR", 3, 0)
+("MCI", "CHE", 1, 0)
+("MCI", "CRY", 5, 0)
+("MCI", "EVE", 1, 1)
+("MCI", "HUD", 0, 0)
+("MCI", "LEI", 5, 1)
+("MCI", "LIV", 5, 0)
+("MCI", "MUN", 2, 3)
+("MCI", "NEW", 3, 1)
+("MCI", "SOU", 2, 1)
+("MCI", "STK", 7, 2)
+("MCI", "SWA", 5, 0)
+("MCI", "TOT", 4, 1)
+("MCI", "WAT", 3, 1)
+("MCI", "WBA", 3, 0)
+("MCI", "WHU", 2, 1)
 
-MUN ARS = 2–1
-1189
-1063
-MUN BOU = 1–0
-1189
-947
-MUN BHA = 1–0
-1189
-926
-MUN BUR = 2–2
-1189
-1021
-MUN CHE = 2–1
-1189
-1116
-MUN CRY = 4–0
-1189
-947
-MUN EVE = 4–0
-1189
-979
-MUN HUD = 2–0
-1189
-895
-MUN LEI = 2–0
-1189
-968
-MUN LIV = 2–1
-1189
-1168
-MUN MCI = 1–2
-1189
-1316
-MUN NEW = 4–1
-1189
-937
-MUN SOU = 0–0
-1189
-905
-MUN STK = 3–0
-1189
-874
-MUN SWA = 2–0
-1189
-863
-MUN TOT = 1–0
-1189
-1168
-MUN WAT = 1–0
-1189
-916
-MUN WBA = 0–1
-1189
-863
-MUN WHU = 4–0
-1189
-937
+("MUN", "ARS", 2, 1)
+("MUN", "BOU", 1, 0)
+("MUN", "BHA", 1, 0)
+("MUN", "BUR", 2, 2)
+("MUN", "CHE", 2, 1)
+("MUN", "CRY", 4, 0)
+("MUN", "EVE", 4, 0)
+("MUN", "HUD", 2, 0)
+("MUN", "LEI", 2, 0)
+("MUN", "LIV", 2, 1)
+("MUN", "MCI", 1, 2)
+("MUN", "NEW", 4, 1)
+("MUN", "SOU", 0, 0)
+("MUN", "STK", 3, 0)
+("MUN", "SWA", 2, 0)
+("MUN", "TOT", 1, 0)
+("MUN", "WAT", 1, 0)
+("MUN", "WBA", 0, 1)
+("MUN", "WHU", 4, 0)
 
-NEW ARS = 2–1
-937
-1063
-NEW BOU = 0–1
-937
-947
-NEW BHA = 0–0
-937
-926
-NEW BUR = 1–1
-937
-1021
-NEW CHE = 3–0
-937
-1116
-NEW CRY = 1–0
-937
-947
-NEW EVE = 0–1
-937
-979
-NEW HUD = 1–0
-937
-895
-NEW LEI = 2–3
-937
-968
-NEW LIV = 1–1
-937
-1168
-NEW MCI = 0–1
-937
-1316
-NEW MUN = 1–0
-937
-1189
-NEW SOU = 3–0
-937
-905
-NEW STK = 2–1
-937
-874
-NEW SWA = 1–1
-937
-863
-NEW TOT = 0–2
-937
-1168
-NEW WAT = 0–3
-937
-916
-NEW WBA = 0–1
-937
-863
-NEW WHU = 3–0
-937
-937
+("NEW", "ARS", 2, 1)
+("NEW", "BOU", 0, 1)
+("NEW", "BHA", 0, 0)
+("NEW", "BUR", 1, 1)
+("NEW", "CHE", 3, 0)
+("NEW", "CRY", 1, 0)
+("NEW", "EVE", 0, 1)
+("NEW", "HUD", 1, 0)
+("NEW", "LEI", 2, 3)
+("NEW", "LIV", 1, 1)
+("NEW", "MCI", 0, 1)
+("NEW", "MUN", 1, 0)
+("NEW", "SOU", 3, 0)
+("NEW", "STK", 2, 1)
+("NEW", "SWA", 1, 1)
+("NEW", "TOT", 0, 2)
+("NEW", "WAT", 0, 3)
+("NEW", "WBA", 0, 1)
+("NEW", "WHU", 3, 0)
 
-SOU ARS = 1–1
-905
-1063
-SOU BOU = 2–1
-905
-947
-SOU BHA = 1–1
-905
-926
-SOU BUR = 0–1
-905
-1021
-SOU CHE = 2–3
-905
-1116
-SOU CRY = 1–2
-905
-947
-SOU EVE = 4–1
-905
-979
-SOU HUD = 1–1
-905
-895
-SOU LEI = 1–4
-905
-968
-SOU LIV = 0–2
-905
-1168
-SOU MCI = 0–1
-905
-1316
-SOU MUN = 0–1
-905
-1189
-SOU NEW = 2–2
-905
-937
-SOU STK = 0–0
-905
-874
-SOU SWA = 0–0
-905
-863
-SOU TOT = 1–1
-905
-1168
-SOU WAT = 0–2
-905
-916
-SOU WBA = 1–0
-905
-863
-SOU WHU = 3–2
-905
-937
+("SOU", "ARS", 1, 1)
+("SOU", "BOU", 2, 1)
+("SOU", "BHA", 1, 1)
+("SOU", "BUR", 0, 1)
+("SOU", "CHE", 2, 3)
+("SOU", "CRY", 1, 2)
+("SOU", "EVE", 4, 1)
+("SOU", "HUD", 1, 1)
+("SOU", "LEI", 1, 4)
+("SOU", "LIV", 0, 2)
+("SOU", "MCI", 0, 1)
+("SOU", "MUN", 0, 1)
+("SOU", "NEW", 2, 2)
+("SOU", "STK", 0, 0)
+("SOU", "SWA", 0, 0)
+("SOU", "TOT", 1, 1)
+("SOU", "WAT", 0, 2)
+("SOU", "WBA", 1, 0)
+("SOU", "WHU", 3, 2)
 
-STK ARS = 1–0
-874
-1063
-STK BOU = 1–2
-874
-947
-STK BHA = 1–1
-874
-926
-STK BUR = 1–1
-874
-1021
-STK CHE = 0–4
-874
-1116
-STK CRY = 1–2
-874
-947
-STK EVE = 1–2
-874
-979
-STK HUD = 2–0
-874
-895
-STK LEI = 2–2
-874
-968
-STK LIV = 0–3
-874
-1168
-STK MCI = 0–2
-874
-1316
-STK MUN = 2–2
-874
-1189
-STK NEW = 0–1
-874
-937
-STK SOU = 2–1
-874
-905
-STK SWA = 2–1
-874
-863
-STK TOT = 1–2
-874
-1168
-STK WAT = 0–0
-874
-916
-STK WBA = 3–1
-874
-863
-STK WHU = 0–3
-874
-937
+("STK", "ARS", 1, 0)
+("STK", "BOU", 1, 2)
+("STK", "BHA", 1, 1)
+("STK", "BUR", 1, 1)
+("STK", "CHE", 0, 4)
+("STK", "CRY", 1, 2)
+("STK", "EVE", 1, 2)
+("STK", "HUD", 2, 0)
+("STK", "LEI", 2, 2)
+("STK", "LIV", 0, 3)
+("STK", "MCI", 0, 2)
+("STK", "MUN", 2, 2)
+("STK", "NEW", 0, 1)
+("STK", "SOU", 2, 1)
+("STK", "SWA", 2, 1)
+("STK", "TOT", 1, 2)
+("STK", "WAT", 0, 0)
+("STK", "WBA", 3, 1)
+("STK", "WHU", 0, 3)
 
-SWA ARS = 3–1
-863
-1063
-SWA BOU = 0–0
-863
-947
-SWA BHA = 0–1
-863
-926
-SWA BUR = 1–0
-863
-1021
-SWA CHE = 0–1
-863
-1116
-SWA CRY = 1–1
-863
-947
-SWA EVE = 1–1
-863
-979
-SWA HUD = 2–0
-863
-895
-SWA LEI = 1–2
-863
-968
-SWA LIV = 1–0
-863
-1168
-SWA MCI = 0–4
-863
-1316
-SWA MUN = 0–4
-863
-1189
-SWA NEW = 0–1
-863
-937
-SWA SOU = 0–1
-863
-905
-SWA STK = 1–2
-863
-874
-SWA TOT = 0–2
-863
-1168
-SWA WAT = 1–2
-863
-916
-SWA WBA = 1–0
-863
-863
-SWA WHU = 4–1
-863
-937
+("SWA", "ARS", 3, 1)
+("SWA", "BOU", 0, 0)
+("SWA", "BHA", 0, 1)
+("SWA", "BUR", 1, 0)
+("SWA", "CHE", 0, 1)
+("SWA", "CRY", 1, 1)
+("SWA", "EVE", 1, 1)
+("SWA", "HUD", 2, 0)
+("SWA", "LEI", 1, 2)
+("SWA", "LIV", 1, 0)
+("SWA", "MCI", 0, 4)
+("SWA", "MUN", 0, 4)
+("SWA", "NEW", 0, 1)
+("SWA", "SOU", 0, 1)
+("SWA", "STK", 1, 2)
+("SWA", "TOT", 0, 2)
+("SWA", "WAT", 1, 2)
+("SWA", "WBA", 1, 0)
+("SWA", "WHU", 4, 1)
 
-TOT ARS = 1–0
-1168
-1063
-TOT BOU = 1–0
-1168
-947
-TOT BHA = 2–0
-1168
-926
-TOT BUR = 1–1
-1168
-1021
-TOT CHE = 1–2
-1168
-1116
-TOT CRY = 1–0
-1168
-947
-TOT EVE = 4–0
-1168
-979
-TOT HUD = 2–0
-1168
-895
-TOT LEI = 5–4
-1168
-968
-TOT LIV = 4–1
-1168
-1168
-TOT MCI = 1–3
-1168
-1316
-TOT MUN = 2–0
-1168
-1189
-TOT NEW = 1–0
-1168
-937
-TOT SOU = 5–2
-1168
-905
-TOT STK = 5–1
-1168
-874
-TOT SWA = 0–0
-1168
-863
-TOT WAT = 2–0
-1168
-916
-TOT WBA = 1–1
-1168
-863
-TOT WHU = 1–1
-1168
-937
+("TOT", "ARS", 1, 0)
+("TOT", "BOU", 1, 0)
+("TOT", "BHA", 2, 0)
+("TOT", "BUR", 1, 1)
+("TOT", "CHE", 1, 2)
+("TOT", "CRY", 1, 0)
+("TOT", "EVE", 4, 0)
+("TOT", "HUD", 2, 0)
+("TOT", "LEI", 5, 4)
+("TOT", "LIV", 4, 1)
+("TOT", "MCI", 1, 3)
+("TOT", "MUN", 2, 0)
+("TOT", "NEW", 1, 0)
+("TOT", "SOU", 5, 2)
+("TOT", "STK", 5, 1)
+("TOT", "SWA", 0, 0)
+("TOT", "WAT", 2, 0)
+("TOT", "WBA", 1, 1)
+("TOT", "WHU", 1, 1)
 
-WAT ARS = 2–1
-916
-1063
-WAT BOU = 2–2
-916
-947
-WAT BHA = 0–0
-916
-926
-WAT BUR = 1–2
-916
-1021
-WAT CHE = 4–1
-916
-1116
-WAT CRY = 0–0
-916
-947
-WAT EVE = 1–0
-916
-979
-WAT HUD = 1–4
-916
-895
-WAT LEI = 2–1
-916
-968
-WAT LIV = 3–3
-916
-1168
-WAT MCI = 0–6
-916
-1316
-WAT MUN = 2–4
-916
-1189
-WAT NEW = 2–1
-916
-937
-WAT SOU = 2–2
-916
-905
-WAT STK = 0–1
-916
-874
-WAT SWA = 1–2
-916
-863
-WAT TOT = 1–1
-916
-1168
-WAT WBA = 1–0
-916
-863
-WAT WHU = 2–0
-916
-937
+("WAT", "ARS", 2, 1)
+("WAT", "BOU", 2, 2)
+("WAT", "BHA", 0, 0)
+("WAT", "BUR", 1, 2)
+("WAT", "CHE", 4, 1)
+("WAT", "CRY", 0, 0)
+("WAT", "EVE", 1, 0)
+("WAT", "HUD", 1, 4)
+("WAT", "LEI", 2, 1)
+("WAT", "LIV", 3, 3)
+("WAT", "MCI", 0, 6)
+("WAT", "MUN", 2, 4)
+("WAT", "NEW", 2, 1)
+("WAT", "SOU", 2, 2)
+("WAT", "STK", 0, 1)
+("WAT", "SWA", 1, 2)
+("WAT", "TOT", 1, 1)
+("WAT", "WBA", 1, 0)
+("WAT", "WHU", 2, 0)
 
-WBA ARS = 1–1
-863
-1063
-WBA BOU = 1–0
-863
-947
-WBA BHA = 2–0
-863
-926
-WBA BUR = 1–2
-863
-1021
-WBA CHE = 0–4
-863
-1116
-WBA CRY = 0–0
-863
-947
-WBA EVE = 0–0
-863
-979
-WBA HUD = 1–2
-863
-895
-WBA LEI = 1–4
-863
-968
-WBA LIV = 2–2
-863
-1168
-WBA MCI = 2–3
-863
-1316
-WBA MUN = 1–2
-863
-1189
-WBA NEW = 2–2
-863
-937
-WBA SOU = 2–3
-863
-905
-WBA STK = 1–1
-863
-874
-WBA SWA = 1–1
-863
-863
-WBA TOT = 1–0
-863
-1168
-WBA WAT = 2–2
-863
-916
-WBA WHU = 0–0
-863
-937
+("WBA", "ARS", 1, 1)
+("WBA", "BOU", 1, 0)
+("WBA", "BHA", 2, 0)
+("WBA", "BUR", 1, 2)
+("WBA", "CHE", 0, 4)
+("WBA", "CRY", 0, 0)
+("WBA", "EVE", 0, 0)
+("WBA", "HUD", 1, 2)
+("WBA", "LEI", 1, 4)
+("WBA", "LIV", 2, 2)
+("WBA", "MCI", 2, 3)
+("WBA", "MUN", 1, 2)
+("WBA", "NEW", 2, 2)
+("WBA", "SOU", 2, 3)
+("WBA", "STK", 1, 1)
+("WBA", "SWA", 1, 1)
+("WBA", "TOT", 1, 0)
+("WBA", "WAT", 2, 2)
+("WBA", "WHU", 0, 0)
 
-WHU ARS = 0–0
-937
-1063
-WHU BOU = 1–1
-937
-947
-WHU BHA = 0–3
-937
-926
-WHU BUR = 0–3
-937
-1021
-WHU CHE = 1–0
-937
-1116
-WHU CRY = 1–1
-937
-947
-WHU EVE = 3–1
-937
-979
-WHU HUD = 2–0
-937
-895
-WHU LEI = 1–1
-937
-968
-WHU LIV = 1–4
-937
-1168
-WHU MCI = 1–4
-937
-1316
-WHU MUN = 0–0
-937
-1189
-WHU NEW = 2–3
-937
-937
-WHU SOU = 3–0
-937
-905
-WHU STK = 1–1
-937
-874
-WHU SWA = 1–0
-937
-863
-WHU TOT = 2–3
-937
-1168
-WHU WAT = 2–0
-937
-916
-WHU WBA = 2–1
-937
-863
+("WHU", "ARS", 0, 0)
+("WHU", "BOU", 1, 1)
+("WHU", "BHA", 0, 3)
+("WHU", "BUR", 0, 3)
+("WHU", "CHE", 1, 0)
+("WHU", "CRY", 1, 1)
+("WHU", "EVE", 3, 1)
+("WHU", "HUD", 2, 0)
+("WHU", "LEI", 1, 1)
+("WHU", "LIV", 1, 4)
+("WHU", "MCI", 1, 4)
+("WHU", "MUN", 0, 0)
+("WHU", "NEW", 2, 3)
+("WHU", "SOU", 3, 0)
+("WHU", "STK", 1, 1)
+("WHU", "SWA", 1, 0)
+("WHU", "TOT", 2, 3)
+("WHU", "WAT", 2, 0)
+("WHU", "WBA", 2, 1)
