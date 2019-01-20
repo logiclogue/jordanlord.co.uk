@@ -178,3 +178,18 @@ number. `k` is the 'logistic growth rate'. Finally, `x0` is the x-value of the
 sigmoid midpoint.
 
 So the only values we need to find are `k` and `x0`.
+
+We'll find these values using gradient descent. The process will be similar to
+how neural networks are trained on their training data. We'll be using all of
+Premier League results as training data.
+
+I'm not going to explain the process in massive detail as this article would be
+twice the length. But [here is a great
+article](http://ucanalytics.com/blogs/gradient-descent-logistic-regression-simplified-step-step-visual-guide/)
+I recommend reading on the topic.
+
+- Gradient descent
+- Training our model on Premier League results
+- Using our model to predict the outcome of future matches
+
+- Creating a model for goals scored
