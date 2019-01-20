@@ -26,9 +26,9 @@ Although in later articles I'm going to be using OCaml for the implementation,
 in this article I'll be using Haskell as a tool to help me quickly evaluate
 results.
 
-## Modelling Draws
+## Modelling Wins
 
-The first task is to create an expected value function for draws. I'm going to
+The first task is to create an expected value function for wins. I'm going to
 use results from the 2017/18 Premier League season as posted below.
 
 ## Premier League 2017/18
@@ -121,14 +121,14 @@ The full listing can be found in the [football.lhs](./football.lhs) file.
 
 ## Logistic Regression
 
-With this data, we're going to plot draws against absolute rating difference.
+With this data, we're going to plot wins against rating difference.
 
 First of all, we need a function which will be able to tell whether a match is a
-draw or not.
+win or not.
 
 ```
-isMatchDraw :: Match -> Bool
-isMatchDraw (_, _, homeGoals, awayGoals) = homeGoals == awayGoals
+isMatchWin :: Match -> Bool
+isMatchWin (_, _, homeGoals, awayGoals) = homeGoals > awayGoals
 ```
 
 Then we need a function to give us the match rating difference:
@@ -150,21 +150,21 @@ matchRatingDiff teams (homeTeam, awayTeam, _, _) = ratingDifference where
 It's now possible to write a function which does both:
 
 ```
-matchDrawWithRating :: [Team] -> Match -> (Rating, String)
-matchDrawWithRating teams match = (ratingDiff, isDraw) where
+matchWinWithRating :: [Team] -> Match -> (Rating, String)
+matchWinWithRating teams match = (ratingDiff, isWin) where
 
     ratingDiff :: Rating
-    ratingDiff = abs $ matchRatingDiff teams match
+    ratingDiff = matchRatingDiff teams match
 
-    isDraw :: Bool
-    isDraw = isMatchDraw match
+    isWin :: Bool
+    isWin = isMatchWin match
 ```
 
-By mapping `matchDrawWithRating teams` over `matches`, it's possible to get all
+By mapping `matchWinWithRating teams` over `matches`, it's possible to get all
 of the data we need.
 
 Now we need to understand how Logistic regression works so that we can create a
-logistic model for the rating against draws. Then we should be able to fit that
+logistic model for the rating against wins. Then we should be able to fit that
 into Elo's model.
 
 A logistic function is of the form:

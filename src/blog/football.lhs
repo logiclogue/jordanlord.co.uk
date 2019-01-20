@@ -413,10 +413,10 @@ Here are all of the 2017/18 Premier League results:
 >     ("WHU", "WAT", 2, 0),
 >     ("WHU", "WBA", 2, 1)]
 
-Function for whether a match is a draw or not:
+Function for whether a match is a win or not:
 
-> isMatchDraw :: Match -> Bool
-> isMatchDraw (_, _, homeGoals, awayGoals) = homeGoals == awayGoals
+> isMatchWin :: Match -> Bool
+> isMatchWin (_, _, homeGoals, awayGoals) = homeGoals > awayGoals
 
 Get the match rating difference:
 
@@ -432,16 +432,21 @@ Get the match rating difference:
 >     ratingDifference = homeRating - awayRating
 >
 >     homeRating :: Rating
->     homeRating = getRating homeTeam teams + 75
+>     homeRating = getRating homeTeam teams
 >
 >     awayRating :: Rating
 >     awayRating = getRating awayTeam teams
 
-> matchDrawWithRating :: [Team] -> Match -> (Rating, Bool)
-> matchDrawWithRating teams match = (ratingDiff, isDraw) where
+> matchWinWithRating :: [Team] -> Match -> (Rating, Bool)
+> matchWinWithRating teams match = (ratingDiff, isWin) where
 > 
 >     ratingDiff :: Rating
->     ratingDiff = abs $ matchRatingDiff teams match
+>     ratingDiff = matchRatingDiff teams match
 > 
->     isDraw :: Bool
->     isDraw = isMatchDraw match
+>     isWin :: Bool
+>     isWin = isMatchWin match
+
+> homeAndAway :: Match -> [Match]
+> homeAndAway (homeTeam, awayTeam, homeGoals, awayGoals) = [
+>     (homeTeam, awayTeam, homeGoals, awayGoals),
+>     (awayTeam, homeTeam, awayGoals, homeGoals)]
