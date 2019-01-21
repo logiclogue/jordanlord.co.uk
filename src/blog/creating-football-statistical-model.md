@@ -193,3 +193,4 @@ I recommend reading on the topic.
 - Using our model to predict the outcome of future matches
 
 - Creating a model for goals scored
+    - Poisson regression
