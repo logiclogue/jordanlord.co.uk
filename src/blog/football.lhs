@@ -418,6 +418,9 @@ Function for whether a match is a win or not:
 > isMatchWin :: Match -> Bool
 > isMatchWin (_, _, homeGoals, awayGoals, _) = homeGoals > awayGoals
 
+> isMatchDraw :: Match -> Bool
+> isMatchDraw (_, _, homeGoals, awayGoals, _) = homeGoals == awayGoals
+
 Get the match rating difference:
 
 > getRating :: String -> [Team] -> Rating
@@ -437,14 +440,17 @@ Get the match rating difference:
 >     awayRating :: Rating
 >     awayRating = getRating awayTeam teams
 
-> matchWinWithRating :: [Team] -> Match -> (Rating, Bool)
-> matchWinWithRating teams match = (ratingDiff, isWin) where
+> matchWinWithRating :: [Team] -> Match -> (Rating, Int, Int)
+> matchWinWithRating teams match = (ratingDiff, isWin, isDraw) where
 > 
 >     ratingDiff :: Rating
 >     ratingDiff = matchRatingDiff teams match
 > 
->     isWin :: Bool
->     isWin = isMatchWin match
+>     isWin :: Int
+>     isWin = if isMatchWin match then 1 else 0
+>
+>     isDraw :: Int
+>     isDraw = if isMatchDraw match then 1 else 0
 
 > homeAndAway :: Match -> [Match]
 > homeAndAway (homeTeam, awayTeam, homeGoals, awayGoals, isHome) = [

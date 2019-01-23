@@ -189,6 +189,15 @@ article](http://ucanalytics.com/blogs/gradient-descent-logistic-regression-simpl
 I recommend reading on the topic.
 
 - Gradient descent
+
+## Logistic Regression With R
+
+```
+train <- read.csv('train.csv', header=T, na.string=c(""))
+
+model <- glm(Win ~ ., family = binomial(link = 'logit'), data = train)
+```
+
 - Training our model on Premier League results
 - Using our model to predict the outcome of future matches
 
