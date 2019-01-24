@@ -435,7 +435,7 @@ Get the match rating difference:
 >     ratingDiff = homeRating - awayRating
 >
 >     homeRating :: Rating
->     homeRating = getRating homeTeam teams + (if isHome then 75 else -75)
+>     homeRating = getRating homeTeam teams + (if isHome then 105 else -105)
 >
 >     awayRating :: Rating
 >     awayRating = getRating awayTeam teams

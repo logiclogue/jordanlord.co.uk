@@ -198,6 +198,16 @@ train <- read.csv('train.csv', header=T, na.string=c(""))
 model <- glm(Win ~ ., family = binomial(link = 'logit'), data = train)
 ```
 
+## Elo Home Advantage
+
+It'll be important to find the Elo home advantage, so that we can correctly
+train our model on the training data. It's clear in football that the home team
+has an advantage, but by how much?
+
+In theory, the average rating difference of wins should be 0. The average rating
+of teams winning when they play at home is 105. Therefore, we can increase the
+home advantage by 105 for all matches.
+
 - Training our model on Premier League results
 - Using our model to predict the outcome of future matches
 
