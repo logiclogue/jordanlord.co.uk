@@ -404,8 +404,8 @@ Function for whether a match is a win or not:
 > isLoss :: Match -> Bool
 > isLoss (_, _, homeGoals, awayGoals, _) = homeGoals < awayGoals
 
-> getHomeTeam :: Match -> String
-> getHomeTeam (homeTeam, _, _, _, _) = homeTeam
+> getTeam :: Match -> String
+> getTeam (homeTeam, _, _, _, _) = homeTeam
 
 > newtype Record = Record (Int, Int, Int) -- (Wins, Draws, Losses)
 
@@ -415,9 +415,9 @@ Function for whether a match is a win or not:
 
 > matchToRecord :: Match -> (String, Record)
 > matchToRecord match
->     | isWin  match = (getHomeTeam match, Record (1, 0, 0))
->     | isDraw match = (getHomeTeam match, Record (0, 1, 0))
->     | isLoss match = (getHomeTeam match, Record (0, 0, 1))
+>     | isWin  match = (getTeam match, Record (1, 0, 0))
+>     | isDraw match = (getTeam match, Record (0, 1, 0))
+>     | isLoss match = (getTeam match, Record (0, 0, 1))
 
 > instance Monoid Record where
 >
@@ -461,6 +461,8 @@ Function for whether a match is a win or not:
 >     diff :: Float
 >     diff = fromIntegral (wins - losses)
 
+Records to Ratings:
+
 > recordToRatingTable :: Map.Map String Record -> Map.Map String Rating
 > recordToRatingTable = Map.map recordToRating
 
@@ -470,18 +472,15 @@ Function for whether a match is a win or not:
 > awayRatings :: Map.Map String Rating
 > awayRatings = recordToRatingTable awayTable
 
+Match Preparation:
 
+> getHomeTeam :: Match -> String
+> getHomeTeam (homeTeam, _, _, _, True)  = homeTeam
+> getHomeTeam (_, homeTeam, _, _, False) = homeTeam
 
-
-
-
-
-
-
-
-
-
-
+> getAwayTeam :: Match -> String
+> getAwayTeam (_, awayTeam, _, _, True)  = awayTeam
+> getAwayTeam (awayTeam, _, _, _, False) = awayTeam
 
 Get the match rating difference:
 
@@ -490,26 +489,34 @@ Get the match rating difference:
 >     Just rating -> rating
 >     Nothing     -> 1000
 
-> matchRatingDiff :: [Team] -> Match -> Rating
-> matchRatingDiff teams (homeTeam, awayTeam, _, _, isHome) = ratingDiff where
->
->     ratingDiff :: Rating
->     ratingDiff = homeRating - awayRating
->
+> matchRatingDiff ::
+>     Map.Map String Rating -> Map.Map String Rating -> Match -> Rating
+> matchRatingDiff homeRatings awayRatings match = homeRating - awayRating where
+> 
+>     lookup :: String -> Map.Map String Rating -> Rating
+>     lookup team = Data.Maybe.fromMaybe 1000 . Map.lookup team
+> 
 >     homeRating :: Rating
->     homeRating = getRating homeTeam teams + (if isHome then 105 else -105)
->
+>     homeRating = lookup (getHomeTeam match) homeRatings
+> 
 >     awayRating :: Rating
->     awayRating = getRating awayTeam teams
+>     awayRating = lookup (getAwayTeam match) awayRatings
 
-> matchWinWithRating :: [Team] -> Match -> (Rating, Int, Int)
-> matchWinWithRating teams match = (ratingDiff, isWinInt, isDrawInt) where
+> matchRatingDiffWithWin ::
+>     Map.Map String Rating -> Map.Map String Rating -> Match -> (Rating, Int)
+> matchRatingDiffWithWin homeRatings awayRatings match = (ratingDiff, win) where
 > 
 >     ratingDiff :: Rating
->     ratingDiff = matchRatingDiff teams match
+>     ratingDiff = matchRatingDiff homeRatings awayRatings match
 > 
->     isWinInt :: Int
->     isWinInt = if isWin match then 1 else 0
->
->     isDrawInt :: Int
->     isDrawInt = if isDraw match then 1 else 0
+>     win :: Int
+>     win = if isWin match then 1 else 0
+
+> allMatches :: [Match]
+> allMatches = concatMap homeAndAway matches
+
+> allMatchesDiffWithWin :: [(Rating, Int)]
+> allMatchesDiffWithWin = map ratingDiffWithWin allMatches where
+> 
+>     ratingDiffWithWin :: Match -> (Rating, Int)
+>     ratingDiffWithWin = (matchRatingDiffWithWin homeRatings awayRatings)

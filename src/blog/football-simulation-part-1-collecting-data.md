@@ -249,7 +249,7 @@ awayRatings = recordToRatingTable awayTable
 ```
 
 Perfect! It's now possible to lookup Manchester United's home rating with
-`Map.lookup "MUN" homeTeam`.
+`Map.lookup "MUN" homeRatings` which is `Just 1274`.
 
 ## Match Preparation
 
@@ -258,4 +258,63 @@ some random variable and try to map it to a logistic curve like the Elo expected
 result formula, but one that gives us the correct expected chance of winning for
 football matches.
 
-## Writing To A CSV
+For each match, we'll pair up the rating difference with whether the match was
+won or not (`1` for a win, `0` for anything else).
+
+First we'll need a better way of finding a home team or away team from a match:
+
+```
+getHomeTeam :: Match -> String
+getHomeTeam (homeTeam, _, _, _, True)  = homeTeam
+getHomeTeam (_, homeTeam, _, _, False) = homeTeam
+
+getAwayTeam :: Match -> String
+getAwayTeam (_, awayTeam, _, _, True)  = awayTeam
+getAwayTeam (awayTeam, _, _, _, False) = awayTeam
+```
+
+And a way of calculating the rating difference of a match:
+
+```
+matchRatingDiff ::
+    Map.Map String Rating -> Map.Map String Rating -> Match -> Rating
+matchRatingDiff homeRatings awayRatings match = homeRating - awayRating where
+
+    lookup :: String -> Map.Map String Rating -> Rating
+    lookup team = Data.Maybe.fromMaybe 1000 . Map.lookup team
+
+    homeRating :: Rating
+    homeRating = lookup (getHomeTeam match) homeRatings
+
+    awayRating :: Rating
+    awayRating = lookup (getAwayTeam match) awayRatings
+```
+
+```
+matchRatingDiffWithWin ::
+    Map.Map String Rating -> Map.Map String Rating -> Match -> (Rating, Int)
+matchRatingDiffWithWin homeRatings awayRatings match = (ratingDiff, win) where
+
+    ratingDiff :: Rating
+    ratingDiff = matchRatingDiff homeRatings awayRatings match
+
+    win :: Int
+    win = if isWin match then 1 else 0
+```
+
+It's possible to map this across all the matches to get what we want:
+
+```
+allMatches :: [Match]
+allMatches = concatMap homeAndAway matches
+```
+
+```
+allMatchesDiffWithWin :: [(Rating, Int)]
+allMatchesDiffWithWin = map ratingDiffWithWin allMatches where
+
+    ratingDiffWithWin :: Match -> (Rating, Int)
+    ratingDiffWithWin = (matchRatingDiffWithWin homeRatings awayRatings)
+```
+
+## Writing To A CSV File
