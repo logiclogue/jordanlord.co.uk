@@ -1,30 +1,9 @@
+> import qualified Data.Map.Strict as Map
+
 Elo lookup table:
 
 > type Rating = Int
 > type Team = (String, Rating)
-
-> teams :: [Team]
-> teams = [
->     ("MCI", 1316),
->     ("MUN", 1189),
->     ("TOT", 1168),
->     ("LIV", 1168),
->     ("CHE", 1116),
->     ("ARS", 1063),
->     ("BUR", 1021),
->     ("EVE", 979),
->     ("LEI", 968),
->     ("NEW", 937),
->     ("CRY", 947),
->     ("BOU", 947),
->     ("WHU", 937),
->     ("WAT", 916),
->     ("BHA", 926),
->     ("HUD", 895),
->     ("SOU", 905),
->     ("SWA", 863),
->     ("STK", 874),
->     ("WBA", 863)]
 
 Here are all of the 2017/18 Premier League results:
 
@@ -415,11 +394,25 @@ Here are all of the 2017/18 Premier League results:
 
 Function for whether a match is a win or not:
 
-> isMatchWin :: Match -> Bool
-> isMatchWin (_, _, homeGoals, awayGoals, _) = homeGoals > awayGoals
+> isWin :: Match -> Bool
+> isWin (_, _, homeGoals, awayGoals, _) = homeGoals > awayGoals
 
-> isMatchDraw :: Match -> Bool
-> isMatchDraw (_, _, homeGoals, awayGoals, _) = homeGoals == awayGoals
+> isDraw :: Match -> Bool
+> isDraw (_, _, homeGoals, awayGoals, _) = homeGoals == awayGoals
+
+> isLoss :: Match -> Bool
+> isLoss (_, _, homeGoals, awayGoals, _) = homeGoals < awayGoals
+
+> getHomeTeam :: Match -> String
+> getHomeTeam (homeTeam, _, _, _, _) = homeTeam
+
+> type Record = (Int, Int, Int) -- (Wins, Draws, Losses)
+
+> matchToRecord :: Match -> (String, Record)
+> matchToRecord match
+>     | isWin  match = (getHomeTeam match, (1, 0, 0))
+>     | isDraw match = (getHomeTeam match, (0, 1, 0))
+>     | isLoss match = (getHomeTeam match, (0, 0, 1))
 
 Get the match rating difference:
 
@@ -441,16 +434,16 @@ Get the match rating difference:
 >     awayRating = getRating awayTeam teams
 
 > matchWinWithRating :: [Team] -> Match -> (Rating, Int, Int)
-> matchWinWithRating teams match = (ratingDiff, isWin, isDraw) where
+> matchWinWithRating teams match = (ratingDiff, isWinInt, isDrawInt) where
 > 
 >     ratingDiff :: Rating
 >     ratingDiff = matchRatingDiff teams match
 > 
->     isWin :: Int
->     isWin = if isMatchWin match then 1 else 0
+>     isWinInt :: Int
+>     isWinInt = if isWin match then 1 else 0
 >
->     isDraw :: Int
->     isDraw = if isMatchDraw match then 1 else 0
+>     isDrawInt :: Int
+>     isDrawInt = if isDraw match then 1 else 0
 
 > homeAndAway :: Match -> [Match]
 > homeAndAway (homeTeam, awayTeam, homeGoals, awayGoals, isHome) = [
