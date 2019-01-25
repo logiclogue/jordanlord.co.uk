@@ -93,12 +93,13 @@ matches = [
     ("WHU", "WBA", 2, 1)]
 ```
 
-The full listing can be found in the [football.lhs](./football.lhs) file.
+The full listing can be found in the [football.lhs](./football.lhs) file, along
+with all code from this article.
 
 ## Calculating Home And Away Tables
 
 ```
-type Record = (Int, Int, Int) -- (Wins, Draws, Losses)
+newtype Record = Record (Int, Int, Int) -- (Wins, Draws, Losses)
 
 isWin :: Match -> Bool
 isWin (_, _, homeGoals, awayGoals, _) = homeGoals > awayGoals
@@ -109,8 +110,8 @@ isDraw (_, _, homeGoals, awayGoals, _) = homeGoals == awayGoals
 isLoss :: Match -> Bool
 isLoss (_, _, homeGoals, awayGoals, _) = homeGoals < awayGoals
 
-getHomeTeam :: Match -> String
-getHomeTeam (homeTeam, _, _, _, _) = homeTeam
+getTeam :: Match -> String
+getTeam (homeTeam, _, _, _, _) = homeTeam
 ```
 
 Now we want to create a home table and away table. We'll represent this as type
@@ -121,20 +122,140 @@ be many teams with `Record`s that only have one value.
 ```
 matchToRecord :: Match -> (String, Record)
 matchToRecord match
-    | isWin  match = (getHomeTeam match, (1, 0, 0))
-    | isDraw match = (getHomeTeam match, (0, 1, 0))
-    | isLoss match = (getHomeTeam match, (0, 0, 1))
+    | isWin  match = (getTeam match, Record (1, 0, 0))
+    | isDraw match = (getTeam match, Record (0, 1, 0))
+    | isLoss match = (getTeam match, Record (0, 0, 1))
 ```
 
 We can create a list of records by doing `map matchToRecord matches`. But the
 question is, how do we fold this into a table?
 
-We're going to use Haskell's `Data.Map.String`
+We're going to use Haskell's `Data.Map.Strict` library and treat the table as a
+`Map` of `Map String Record`.
 
 ```
 import qualified Data.Map.Strict as Map
 ```
 
-Our function, will have to be of type, `Match -> (String, Record)`.
+To create a home table, it'll be best to start with an empty map `Map.empty` and
+fold the records into that. It'll be a map of type `Map.Map String Record`, as
+we want the team name (`String`) to be the key and the team's records (`Record`)
+to be the associated value.
+
+We'll create a `Monoid` and `Semigroup` instance for records as that'll give us
+empty records and a nice function to combine them.
+
+```
+instance Monoid Record where
+
+    mempty = Record (0, 0, 0)
+
+instance Semigroup Record where
+
+    (<>)
+        (Record (winsA, drawsA, lossesA))
+        (Record (winsB, drawsB, lossesB)) =
+            Record (winsA + winsB, drawsA + drawsB, lossesA + lossesB)
+```
+
+Now we can use `Map.fromListWith` to create our table.
+
+```
+homeTable :: Map.Map String Record
+homeTable = Map.fromListWith (<>) (map matchToRecord matches)
+```
+
+Here is a more generic function for calculating tables from results:
+
+```
+createTable :: [Match] -> Map.Map String Record
+createTable = Map.fromListWith (<>) . map matchToRecord
+```
+
+To get the away table, we'll need to use `createTable` with the away results.
+
+```
+awayMatch :: Match -> Match
+awayMatch (homeTeam, awayTeam, homeGoals, awayGoals, isHome) =
+    (awayTeam, homeTeam, awayGoals, homeGoals, not isHome)
+```
+
+Now by using this function, we can calculate the away table:
+
+```
+awayTable :: Map.Map String Record
+awayTable = (createTable . map awayMatch) matches
+```
+
+We can even get the full table by first getting the home and away match from the
+home match:
+
+```
+homeAndAway :: Match -> [Match]
+homeAndAway match = [match, awayMatch match]
+```
+
+Then flat mapping across the matches and applying it to `createTable` gives us
+the full Premier League table:
+
+```
+fullTable :: Map.Map String Record
+fullTable = (createTable . concatMap homeAndAway) matches
+```
+
+## Tables To Ratings
+
+The goal is now to use our table of records to create a lookup table of ratings.
+
+Using the formula from before:
+
+```
+f (wins, draws, losses) = 1000 + (400 / 38) * (wins - losses)
+```
+
+A Haskell function can be created that works with our `Record` data type:
+
+```
+type Rating = Int
+
+recordToRating :: Record -> Rating
+recordToRating (Record (wins, draws, losses)) = rating where
+    
+    rating :: Rating
+    rating = 1000 + round ((400 / fromIntegral totalGames) * diff)
+
+    totalGames :: Int
+    totalGames = wins + draws + losses
+
+    diff :: Float
+    diff = fromIntegral (wins - losses)
+```
+
+Now to map over all the values in our tables to get home and away ratings:
+
+```
+recordToRatingTable :: Map.Map String Record -> Map.Map String Rating
+recordToRatingTable = Map.map recordToRating
+```
+
+```
+homeRatings :: Map.Map String Rating
+homeRatings = recordToRatingTable homeTable
+```
+
+```
+awayRatings :: Map.Map String Rating
+awayRatings = recordToRatingTable awayTable
+```
+
+Perfect! It's now possible to lookup Manchester United's home rating with
+`Map.lookup "MUN" homeTeam`.
+
+## Match Preparation
+
+Ultimately, we want to train our statistical model on rating difference with
+some random variable and try to map it to a logistic curve like the Elo expected
+result formula, but one that gives us the correct expected chance of winning for
+football matches.
 
 ## Writing To A CSV

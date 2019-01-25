@@ -1,4 +1,5 @@
 > import qualified Data.Map.Strict as Map
+> import Data.Maybe
 
 Elo lookup table:
 
@@ -406,13 +407,81 @@ Function for whether a match is a win or not:
 > getHomeTeam :: Match -> String
 > getHomeTeam (homeTeam, _, _, _, _) = homeTeam
 
-> type Record = (Int, Int, Int) -- (Wins, Draws, Losses)
+> newtype Record = Record (Int, Int, Int) -- (Wins, Draws, Losses)
+
+> instance Show Record where
+>
+>     show (Record triple) = show triple 
 
 > matchToRecord :: Match -> (String, Record)
 > matchToRecord match
->     | isWin  match = (getHomeTeam match, (1, 0, 0))
->     | isDraw match = (getHomeTeam match, (0, 1, 0))
->     | isLoss match = (getHomeTeam match, (0, 0, 1))
+>     | isWin  match = (getHomeTeam match, Record (1, 0, 0))
+>     | isDraw match = (getHomeTeam match, Record (0, 1, 0))
+>     | isLoss match = (getHomeTeam match, Record (0, 0, 1))
+
+> instance Monoid Record where
+>
+>     mempty = Record (0, 0, 0)
+
+> instance Semigroup Record where
+>
+>     (<>)
+>         (Record (winsA, drawsA, lossesA))
+>         (Record (winsB, drawsB, lossesB)) =
+>             Record (winsA + winsB, drawsA + drawsB, lossesA + lossesB)
+
+> homeTable :: Map.Map String Record
+> homeTable = Map.fromListWith (<>) (map matchToRecord matches)
+
+> createTable :: [Match] -> Map.Map String Record
+> createTable = Map.fromListWith (<>) . map matchToRecord
+
+> awayMatch :: Match -> Match
+> awayMatch (homeTeam, awayTeam, homeGoals, awayGoals, isHome) =
+>     (awayTeam, homeTeam, awayGoals, homeGoals, not isHome)
+
+> awayTable :: Map.Map String Record
+> awayTable = (createTable . map awayMatch) matches
+
+> homeAndAway :: Match -> [Match]
+> homeAndAway match = [match, awayMatch match]
+
+> fullTable :: Map.Map String Record
+> fullTable = (createTable . concatMap homeAndAway) matches
+
+> recordToRating :: Record -> Rating
+> recordToRating (Record (wins, draws, losses)) = rating where
+>     
+>     rating :: Rating
+>     rating = 1000 + round ((400 / fromIntegral totalGames) * diff)
+> 
+>     totalGames :: Int
+>     totalGames = wins + draws + losses
+> 
+>     diff :: Float
+>     diff = fromIntegral (wins - losses)
+
+> recordToRatingTable :: Map.Map String Record -> Map.Map String Rating
+> recordToRatingTable = Map.map recordToRating
+
+> homeRatings :: Map.Map String Rating
+> homeRatings = recordToRatingTable homeTable
+
+> awayRatings :: Map.Map String Rating
+> awayRatings = recordToRatingTable awayTable
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Get the match rating difference:
 
@@ -444,8 +513,3 @@ Get the match rating difference:
 >
 >     isDrawInt :: Int
 >     isDrawInt = if isDraw match then 1 else 0
-
-> homeAndAway :: Match -> [Match]
-> homeAndAway (homeTeam, awayTeam, homeGoals, awayGoals, isHome) = [
->     (homeTeam, awayTeam, homeGoals, awayGoals, isHome),
->     (awayTeam, homeTeam, awayGoals, homeGoals, not isHome)]
