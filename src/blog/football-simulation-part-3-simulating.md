@@ -1,5 +1,5 @@
 ---
-title: Writing a Football Simulation
+title: Football Simulation Part 3: Simulation
 draft
 ---
 
