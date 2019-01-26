@@ -520,3 +520,7 @@ Get the match rating difference:
 > 
 >     ratingDiffWithWin :: Match -> (Rating, Int)
 >     ratingDiffWithWin = (matchRatingDiffWithWin homeRatings awayRatings)
+
+> toCSV :: [(Rating, Int)] -> String
+> toCSV = foldl (++) "Rating,Win\n"
+>     . map (\(rating, win) -> show rating ++ "," ++ show win ++ "\n")

@@ -318,3 +318,21 @@ allMatchesDiffWithWin = map ratingDiffWithWin allMatches where
 ```
 
 ## Writing To A CSV File
+
+All that needs to be done now is to take each matches' rating difference and win
+variable and convert it to a string that can be written as a CSV file. This is
+dead easy:
+
+```
+toCSV :: [(Rating, Int)] -> String
+toCSV = foldl (++) "Rating,Win\n"
+    . map (\(rating, win) -> show rating ++ "," ++ show win ++ "\n")
+```
+
+To write to a file in Haskell you just have to call `writeFile`:
+
+```
+> writeFile "matches.csv" (toCSV allMatchesDiffWithWin)
+```
+
+- There is problem with the rating difference function
