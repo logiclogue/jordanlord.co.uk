@@ -278,7 +278,11 @@ And a way of calculating the rating difference of a match:
 ```
 matchRatingDiff ::
     Map.Map String Rating -> Map.Map String Rating -> Match -> Rating
-matchRatingDiff homeRatings awayRatings match = homeRating - awayRating where
+matchRatingDiff homeRatings awayRatings match = ratingDiff match where
+
+    ratingDiff :: Match -> Rating
+    ratingDiff (_, _, _, _, True)  = homeRating - awayRating
+    ratingDiff (_, _, _, _, False) = awayRating - homeRating
 
     lookup :: String -> Map.Map String Rating -> Rating
     lookup team = Data.Maybe.fromMaybe 1000 . Map.lookup team
@@ -314,7 +318,7 @@ allMatchesDiffWithWin :: [(Rating, Int)]
 allMatchesDiffWithWin = map ratingDiffWithWin allMatches where
 
     ratingDiffWithWin :: Match -> (Rating, Int)
-    ratingDiffWithWin = (matchRatingDiffWithWin homeRatings awayRatings)
+    ratingDiffWithWin = matchRatingDiffWithWin homeRatings awayRatings
 ```
 
 ## Writing To A CSV File
@@ -334,5 +338,3 @@ To write to a file in Haskell you just have to call `writeFile`:
 ```
 > writeFile "matches.csv" (toCSV allMatchesDiffWithWin)
 ```
-
-- There is problem with the rating difference function

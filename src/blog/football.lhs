@@ -491,7 +491,11 @@ Get the match rating difference:
 
 > matchRatingDiff ::
 >     Map.Map String Rating -> Map.Map String Rating -> Match -> Rating
-> matchRatingDiff homeRatings awayRatings match = homeRating - awayRating where
+> matchRatingDiff homeRatings awayRatings match = ratingDiff match where
+> 
+>     ratingDiff :: Match -> Rating
+>     ratingDiff (_, _, _, _, True)  = homeRating - awayRating
+>     ratingDiff (_, _, _, _, False) = awayRating - homeRating
 > 
 >     lookup :: String -> Map.Map String Rating -> Rating
 >     lookup team = Data.Maybe.fromMaybe 1000 . Map.lookup team
@@ -519,7 +523,7 @@ Get the match rating difference:
 > allMatchesDiffWithWin = map ratingDiffWithWin allMatches where
 > 
 >     ratingDiffWithWin :: Match -> (Rating, Int)
->     ratingDiffWithWin = (matchRatingDiffWithWin homeRatings awayRatings)
+>     ratingDiffWithWin = matchRatingDiffWithWin homeRatings awayRatings
 
 > toCSV :: [(Rating, Int)] -> String
 > toCSV = foldl (++) "Rating,Win\n"
