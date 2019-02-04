@@ -56,3 +56,9 @@ type t = {
     data   : Transaction.t list;
 }
 ```
+
+`BlockChain.ml`:
+
+```
+(** To be implemented **)
+```
