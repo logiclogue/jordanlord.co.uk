@@ -5,48 +5,6 @@ draft
 
 ## Logistic Regression
 
-With this data, we're going to plot wins against rating difference.
-
-First of all, we need a function which will be able to tell whether a match is a
-win or not.
-
-```
-isMatchWin :: Match -> Bool
-isMatchWin (_, _, homeGoals, awayGoals) = homeGoals > awayGoals
-```
-
-Then we need a function to give us the match rating difference:
-
-```
-matchRatingDiff :: [Team] -> Match -> Rating
-matchRatingDiff teams (homeTeam, awayTeam, _, _) = ratingDifference where
-
-    ratingDifference :: Rating
-    ratingDifference = homeRating - awayRating
-
-    homeRating :: Rating
-    homeRating = getRating homeTeam teams + 75
-
-    awayRating :: Rating
-    awayRating = getRating awayTeam teams
-```
-
-It's now possible to write a function which does both:
-
-```
-matchWinWithRating :: [Team] -> Match -> (Rating, String)
-matchWinWithRating teams match = (ratingDiff, isWin) where
-
-    ratingDiff :: Rating
-    ratingDiff = matchRatingDiff teams match
-
-    isWin :: Bool
-    isWin = isMatchWin match
-```
-
-By mapping `matchWinWithRating teams` over `matches`, it's possible to get all
-of the data we need.
-
 Now we need to understand how Logistic regression works so that we can create a
 logistic model for the rating against wins. Then we should be able to fit that
 into Elo's model.
