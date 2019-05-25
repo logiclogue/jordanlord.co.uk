@@ -30,6 +30,9 @@ twice the length. But [here is a great
 article](http://ucanalytics.com/blogs/gradient-descent-logistic-regression-simplified-step-step-visual-guide/)
 I recommend reading on the topic.
 
+- **TODO: Probability of drawing**
+- **TODO: Probability of winning (given a result/not a draw)**
+
 - Gradient descent
 
 ## Logistic Regression With R
