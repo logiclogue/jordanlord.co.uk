@@ -12,7 +12,7 @@ into Elo's model.
 A logistic function is of the form:
 
 ```
-f(x) = L / (1 + e^(-k(x - x0)))
+f(x) = L / (1 + exp(-k(x - x0)))
 ```
 
 Where `L` is the maximum value, which will be 1 in our case. `e` is Euler's
