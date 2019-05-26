@@ -407,6 +407,9 @@ Function for whether a match is a win or not:
 > getTeam :: Match -> String
 > getTeam (homeTeam, _, _, _, _) = homeTeam
 
+> getResults :: [Match] -> [Match]
+> getResults = filter (not . isDraw)
+
 > newtype Record = Record (Int, Int, Int) -- (Wins, Draws, Losses)
 
 > instance Show Record where
