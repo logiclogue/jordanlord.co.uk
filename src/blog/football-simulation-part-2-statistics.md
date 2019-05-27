@@ -31,7 +31,14 @@ article](http://ucanalytics.com/blogs/gradient-descent-logistic-regression-simpl
 I recommend reading on the topic.
 
 - **TODO: Probability of drawing**
+    - Either a logistic function of absolute rating difference against
+      probability of drawing or a normal distribution of rating difference
+      against probability of drawing will be used
+    - Hold out validation will be used to check which model performs best
+
 - **TODO: Probability of winning (given a result/not a draw)**
+    - A logistic function will be used to represent win/loss given that a draw
+      doesn't occur
 
 - Gradient descent
 
