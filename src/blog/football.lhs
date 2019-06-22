@@ -832,8 +832,8 @@ Function for whether a match is a win or not:
 > homeAndAway :: Match -> [Match]
 > homeAndAway match = [match, awayMatch match]
 
-> fullTable :: Map.Map String Record
-> fullTable = (createTable . concatMap homeAndAway) matches
+> fullTable :: [Match] -> Map.Map String Record
+> fullTable = createTable . concatMap homeAndAway
 
 > recordToRating :: Record -> Rating
 > recordToRating (Record (wins, draws, losses)) = rating where
@@ -908,8 +908,8 @@ Get the match rating difference:
 > allMatchesDiffWithWin :: [(Rating, Int)]
 > allMatchesDiffWithWin = map ratingDiffWithWin allMatches where
 > 
->     ratingDiffWithWin :: Match -> (Rating, Int)
->     ratingDiffWithWin = matchRatingDiffWithWin homeRatings awayRatings
+> ratingDiffWithWin :: Match -> (Rating, Int)
+> ratingDiffWithWin = matchRatingDiffWithWin homeRatings awayRatings
 
 > toCSV :: [(Rating, Int)] -> String
 > toCSV = foldl (++) "Rating,Win\n"

@@ -199,8 +199,8 @@ Then flat mapping across the matches and applying it to `createTable` gives us
 the full Premier League table:
 
 ```
-fullTable :: Map.Map String Record
-fullTable = (createTable . concatMap homeAndAway) matches
+fullTable :: [Match] -> Map.Map String Record
+fullTable = createTable . concatMap homeAndAway
 ```
 
 ## Tables To Ratings
