@@ -251,6 +251,21 @@ awayRatings = recordToRatingTable awayTable
 Perfect! It's now possible to lookup Manchester United's home rating with
 `Map.lookup "MUN" homeRatings` which is `Just 1274`.
 
+## **TODO**
+
+The first feature that our model will be predicting will be whether the match
+was a draw or not. The probability of a draw will depend upon the rating
+difference of the two teams.
+
+If the match isn't a draw, then we will calculate if the match is a win for the
+home team or not. This is conditional probability: given not a draw, what is the
+probability of a win?
+
+In order to fit our model to draw probability against rating difference, we must
+first extract all of the draws.
+
+**CODE**
+
 ## Match Preparation
 
 Ultimately, we want to train our statistical model on rating difference with
