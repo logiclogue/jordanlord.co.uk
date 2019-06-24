@@ -262,7 +262,17 @@ home team or not. This is conditional probability: given not a draw, what is the
 probability of a win?
 
 In order to fit our model to draw probability against rating difference, we must
-first extract all of the draws.
+first classify each match into a win or a draw. We already have the `isDraw`
+function, so we just need to write a function which converts a match into a
+record which contains, the rating difference and the feature (whether the match
+was a draw or not).
+
+```
+matchesToDrawFeature :: [Match] -> [(Int, Bool)]
+matchesToDrawFeature = map f where
+```
+
+**TODO**
 
 **CODE**
 
