@@ -276,6 +276,12 @@ matchesToDrawFeature = map f where
 
 **CODE**
 
+## **TODO**
+
+- When match is not a draw (predicting win or loss)
+- Conditional probability
+- First filtering draws out of training data
+
 ## Match Preparation
 
 Ultimately, we want to train our statistical model on rating difference with
