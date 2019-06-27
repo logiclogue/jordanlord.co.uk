@@ -281,6 +281,9 @@ matchesToDrawFeature = map f where
 - When match is not a draw (predicting win or loss)
 - Conditional probability
 - First filtering draws out of training data
+- Export to CSV
+- Performing regression on that data to find relationship between rating
+  difference and chance of winning
 
 ## Match Preparation
 
