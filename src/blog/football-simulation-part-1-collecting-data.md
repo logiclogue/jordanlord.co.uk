@@ -276,6 +276,8 @@ matchesToDrawFeature = map f where
 
 **CODE**
 
+- Rethink a lot of this
+
 ## **TODO**
 
 - When match is not a draw (predicting win or loss)
