@@ -18,3 +18,6 @@ match events, as well as player attributes are simulated as part of an off-chain
 game engine. The off-chain game engine is purely functional and deterministic so
 that the game state can be regenerated on every player's machine independently.
 The player interacts with the front-end React site.
+
+The project is currently receiving funding to be redeveloped for the Algorand
+platform.
