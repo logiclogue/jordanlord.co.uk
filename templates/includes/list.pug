@@ -1,5 +1,6 @@
-include icon.pug
 include iconGithub.pug
+include iconGitlab.pug
+include icon.pug
 include iconYouTube.pug
 include shortDate.pug
 
@@ -20,6 +21,7 @@ mixin list(items)
 
                 td
                     +iconGithub(item.github)
+                    +iconGitlab(item.gitlab)
 
                 td
                     +iconYouTube(item.youtube)
