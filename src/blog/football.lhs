@@ -10,6 +10,9 @@ Here are all of the 2017/18 Premier League results:
 
 > type Match = (String, String, Int, Int, Bool)
 
+> matchGoalsFor :: Match -> Int
+> matchGoalsFor (_, _, goalsFor, _, _) = goalsFor
+
 > matches :: [Match]
 > matches = [
 >     ("ARS", "BOU", 3, 0, True),
@@ -902,14 +905,27 @@ Get the match rating difference:
 >     win :: Int
 >     win = if isWin match then 1 else 0
 
+> matchRatingDiffWithGoalsFor ::
+>     Map.Map String Rating -> Map.Map String Rating -> Match -> (Rating, Int)
+> matchRatingDiffWithGoalsFor homeRatings awayRatings match = (ratingDiff, matchGoalsFor match) where
+> 
+>     ratingDiff :: Rating
+>     ratingDiff = matchRatingDiff homeRatings awayRatings match
+
 > allMatches :: [Match]
 > allMatches = concatMap homeAndAway matches
+
+> allMatchesDiffWithGoalsFor :: [(Rating, Int)]
+> allMatchesDiffWithGoalsFor = map ratingDiffWithGoalsFor allMatches where
+> 
+>     ratingDiffWithGoalsFor :: Match -> (Rating, Int)
+>     ratingDiffWithGoalsFor = matchRatingDiffWithGoalsFor homeRatings awayRatings
 
 > allMatchesDiffWithWin :: [(Rating, Int)]
 > allMatchesDiffWithWin = map ratingDiffWithWin allMatches where
 > 
-> ratingDiffWithWin :: Match -> (Rating, Int)
-> ratingDiffWithWin = matchRatingDiffWithWin homeRatings awayRatings
+>     ratingDiffWithWin :: Match -> (Rating, Int)
+>     ratingDiffWithWin = matchRatingDiffWithWin homeRatings awayRatings
 
 > toCSV :: [(Rating, Int)] -> String
 > toCSV = foldl (++) "Rating,Win\n"
