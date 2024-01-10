@@ -104,3 +104,21 @@ In conclusion, follow a standard set of principles to maintain and protect
 productive work. This allows us to be more productive during work time and enjoy
 our downtime more. In addition, it gives us more downtime! Keep working hard,
 stay focused, keep positive.
+
+## TODO - Feedback
+
+- P
+    - the first four sections into one
+        - they're a bit too wordy and contain not much useful information
+    - support opinions with arguments
+    - telling that I personally do this but not why you think this would be good
+        for other people
+    - more elaboration
+    - more explanation
+- C
+    - add motivation for achievement
+    - having a goal will help improve productivity
+    - how did you find the motivation to keep working hard
+    - people usually do things because they assigned rather than want to which
+        affects their focus and productivity
+    - improve quality of article
