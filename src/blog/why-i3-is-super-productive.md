@@ -1,6 +1,6 @@
 ---
 title: Why i3 is Super Productive
-draft
+draft: true
 ---
 
 - Post a Reddit post

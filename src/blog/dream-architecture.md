@@ -1,6 +1,6 @@
 ---
 title: Dream Architecture
-draft
+draft: true
 ---
 
 - Least abstract to most abstract

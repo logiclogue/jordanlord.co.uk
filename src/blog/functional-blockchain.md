@@ -1,6 +1,6 @@
 ---
 title: The Functional Blockchain
-draft
+draft: true
 ---
 
 The goal is to create a Blockchain with a functional programming language.

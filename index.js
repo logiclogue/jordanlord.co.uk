@@ -3,13 +3,13 @@ const collections = require("metalsmith-collections");
 const layouts = require("metalsmith-layouts");
 const markdown = require("metalsmith-markdown");
 const permalinks = require("metalsmith-permalinks");
-const sass = require("metalsmith-sass");
 const metadata = require("metalsmith-collection-metadata");
 const highlight = require("metalsmith-metallic");
 const feed = require("metalsmith-feed");
 const asset = require("metalsmith-static");
 const githubReadme = require("./plugins/metalsmith-github-readme");
 const rootPath = require("./plugins/rootPath");
+const sass = require("./plugins/metalsmith-sass");
 const config = require("./config.json");
 
 config.siteMetadata.year = new Date().getFullYear();
@@ -32,10 +32,10 @@ Metalsmith(__dirname)
     .use(githubReadme())
     .use(highlight())
     .use(sass(config.sass))
-    .use(asset({
-        src: "res",
-        dest: "."
-    }))
+    //.use(asset({
+    //    src: "res",
+    //    dest: "."
+    //}))
     .source("./src")
     .destination("./build")
     .clean(true)

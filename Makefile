@@ -6,7 +6,7 @@ all: install build
 build: node_modules
 	node index.js
 
-install: git node_modules css
+install: node_modules css
 
 css: $(DIR_LIB)/normalize.css $(DIR_LIB)/skeleton.css $(DIR_LIB)/monokai-sublime.css
 
@@ -25,10 +25,7 @@ $(DIR_LIB)/monokai-sublime.css: $(DIR_LIB)
 $(DIR_LIB):
 	mkdir -p $(DIR_LIB)
 
-git:
-	git pull origin master
-
 node_modules: package.json
 	npm install
 
-.PHONY: build git css install
+.PHONY: build css install

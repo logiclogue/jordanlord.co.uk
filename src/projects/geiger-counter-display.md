@@ -2,7 +2,7 @@
 platform: <i class="fa fa-microchip" aria-hidden="true"></i>
 publishDate: 2015-07-06
 title: Geiger Counter Display
-draft
+draft: true
 ---
 
 A few birthdays back, I received the [MightyOhm Geiger Counter kit](http://mightyohm.com/blog/products/geiger-counter/). One thing that was always frustrating was how it didn't have a display.

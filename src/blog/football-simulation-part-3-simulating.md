@@ -1,6 +1,6 @@
 ---
-title: Football Simulation Part 3: Simulation
-draft
+title: Football Simulation Part 3 - Simulation
+draft: true
 ---
 
 In this article, I'm not going to go into massive detail into writing a really

@@ -1,6 +1,6 @@
 ---
-title: Football Simulation Part 1: Collecting Data
-draft
+title: Football Simulation Part 1 - Collecting Data
+draft: true
 ---
 
 This article is going to be part of a multipart series. The end goal is to write

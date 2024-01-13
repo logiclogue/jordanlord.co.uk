@@ -1,6 +1,6 @@
 ---
 title: Concept for Developing a Developed Society
-draft
+draft: true
 ---
 
 - what is a developed society

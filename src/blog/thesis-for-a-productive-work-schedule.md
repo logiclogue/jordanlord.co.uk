@@ -1,6 +1,6 @@
 ---
 title: Thesis for a Productive Work Schedule
-draft
+draft: true
 ---
 
 ## Introduction

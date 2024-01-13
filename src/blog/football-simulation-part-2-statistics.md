@@ -1,6 +1,6 @@
 ---
-title: Football Simulation Part 2: Statistics With R
-draft
+title: Football Simulation Part 2 - Statistics With R
+draft: true
 ---
 
 ## Logistic Regression
