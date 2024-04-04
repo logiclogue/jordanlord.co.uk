@@ -1,7 +1,7 @@
 body {
     background-color: $bg-colour;
     font-family: $font-stack;
-    font-size: #{$font-size}#{$u};
+    font-size: $font-size + $u;
 }
 
 b {
@@ -30,7 +30,7 @@ a:visited {
 }
 
 p {
-    margin-bottom: $font-size#{$u};
+    margin-bottom: $font-size + $u;
 }
 
 code {
@@ -48,9 +48,9 @@ ul {
 }
 
 iframe {
-    margin-bottom: $font-size#{$u};
+    margin-bottom: $font-size + $u;
 }
 
 .margin-bottom {
-    margin-bottom: $font-size#{$u};
+    margin-bottom: $font-size + $u;
 }

@@ -1,6 +1,6 @@
 .ascii-photo {
     pre {
-        font-size: (0.2 * $font-size)#{$u};
+        font-size: 0.2 * $font-size + $u;
         line-height: 100%;
         text-align: center;
         margin: 0;

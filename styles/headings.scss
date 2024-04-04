@@ -1,7 +1,7 @@
 @for $index from 1 through 6 {
     h#{$index} {
         color: $heading-colour;
-        font-size: $font-size#{$u};
+        font-size: $font-size + $u;
         line-height: 150%;
     }
 }

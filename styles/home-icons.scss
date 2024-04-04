@@ -1,5 +1,5 @@
 .home-icons {
-    font-size: (4 * $font-size)#{$u};
+    font-size: 4 * $font-size + $u;
     text-align: center;
 
     .three {
