@@ -7,6 +7,7 @@ const metadata = require("metalsmith-collection-metadata");
 const highlight = require("metalsmith-metallic");
 const feed = require("metalsmith-feed");
 const asset = require("metalsmith-static");
+const drafts = require("@metalsmith/drafts");
 const githubReadme = require("./plugins/metalsmith-github-readme");
 const rootPath = require("./plugins/rootPath");
 const sass = require("./plugins/metalsmith-sass");
@@ -29,6 +30,7 @@ Metalsmith(__dirname)
 
         done();
     })
+    .use(drafts())
     .use(githubReadme())
     .use(highlight())
     .use(sass(config.sass))
