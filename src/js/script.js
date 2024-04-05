@@ -1,13 +1,9 @@
 // logiclogue-fade component
 (function () {
-    console.log("Jordan talking");
-
     const fadeElements = document.querySelectorAll(".logiclogue-fade");
     const originalTexts = {};
 
     fadeElements.forEach((el, index) => {
-        console.log(el.textContent);
-
         // Store original text and clear the element's text
         originalTexts[index] = el.textContent;
         el.textContent = el.textContent.replace(/[^\r\n]/g, ".");
@@ -21,7 +17,7 @@
                 el.textContent = el.textContent.split("").map((char, i) => {
                     const rand = Math.random();
 
-                    if (rand > 0.9999 && char !== "\n") {
+                    if (rand > 0.999 && char !== "\n") {
                         return String.fromCharCode(char.charCodeAt(0) + 1);
                     } else if (rand > 0.9) {
                         return originalTexts[index][i];
