@@ -5,6 +5,12 @@ block content
         .ascii-photo.margin-bottom
             pre.logiclogue-fade
                 include ../res/ascii-photo.txt
+
+    .twelve
+        img.u-full-width.hidden#sourceImage(src='/res/jordan.png')
+
+    .twelve
+        canvas.u-full-width#myCanvas(width='256', height='192', style={ 'image-rendering': 'pixelated' })
     
     .row.margin-bottom
         .home-icons

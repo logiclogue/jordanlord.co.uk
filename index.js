@@ -6,8 +6,8 @@ const permalinks = require("metalsmith-permalinks");
 const metadata = require("metalsmith-collection-metadata");
 const highlight = require("metalsmith-metallic");
 const feed = require("metalsmith-feed");
-const asset = require("metalsmith-static");
 const drafts = require("@metalsmith/drafts");
+const assets = require("metalsmith-assets");
 const githubReadme = require("./plugins/metalsmith-github-readme");
 const rootPath = require("./plugins/rootPath");
 const sass = require("./plugins/metalsmith-sass");
@@ -30,14 +30,14 @@ Metalsmith(__dirname)
 
         done();
     })
+    .use(assets({
+        source: "./res",
+        destination: "./res"
+    }))
     .use(drafts())
     .use(githubReadme())
     .use(highlight())
     .use(sass(config.sass))
-    //.use(asset({
-    //    src: "res",
-    //    dest: "."
-    //}))
     .source("./src")
     .destination("./build")
     .clean(true)
