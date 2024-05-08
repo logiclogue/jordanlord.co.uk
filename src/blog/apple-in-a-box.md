@@ -5,18 +5,26 @@ draft: true
 
 ## Introduction
 
-My goal with this article is to outline a way of thinking about fundamental
-things we see in the universe, but using reversible cellular automata to think
-about them.
+My goal with this article is to outline a way of thinking fundamentally about
+the universe using reversible cellular automata.
+
+I am not an academic or scientist, but rather a software engineer, this article
+is just my own thoughts. I don't claim to have invented any of the ideas here,
+nor do I have citations for existing ideas. This article is purely an exercise
+of formalising my own thoughts on reversible cellular automata.
+
+- TODO - the blockchain randomness hypothesis
 
 ## Reversible Cellular Automata
 
 Reversible cellular automata are a type of cellular automata where the same
-rule applies both forward and backward.
+rule applies both forward and backward. Most cellular automata that we are
+familiar with only have rules that apply forwards not backwards, Conway's Game
+of Life is a good example of this.
 
-This means that the second law
-of thermodynamics applies which means we can reason about entropy in the same
-way as we do about entropy of real world systems.
+The second law of thermodynamics is implied by having a reversible rule set.
+This means we can reason about entropy in the same way as we do about entropy of
+real world systems.
 
 You'll start with a law state of entropy, as the simulation goes on, entropy
 tends to increase.
