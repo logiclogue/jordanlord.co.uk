@@ -21,12 +21,17 @@ actually travelling to the place). It turns out, it is only possible to build
 this kind of world through either a proof of work or lottery generation. I will
 revisit these ideas later in the article.
 
+Think of this article as a thought experiment. The universe that we will
+conceive is a REVCAR universe (REVersible Cellular Automata with interesting
+Rules). The thought experiment assumes that the second law of thermodynamics
+gives rise to the most fundamental laws and behaviours within the universe.
+
 ## Reversible Cellular Automata
 
 Reversible cellular automata are a type of cellular automata where the same
 rule applies both forward and backward. Most cellular automata that we are
 familiar with only have rules that apply forwards not backwards, Conway's Game
-of Life is a good example of this.
+of Life is a good example.
 
 The second law of thermodynamics is implied by having a reversible rule-set.
 This means we can reason about entropy in the same way as we do about entropy of
@@ -35,37 +40,58 @@ real world systems.
 You'll start with a low state of entropy, as the simulation goes on, entropy
 tends to increase.
 
+The REVCAR universe will be a reversible cellular automata.
+
 ## The Problem with the Game of Life
 
 The Game of Life is a type of cellular automata that was created by
 mathematician John Horton Conway. The Game of Life is probably the most well
 known cellular automata. The problem with it is that entropy tends to decrease
 as the simulation progresses. This is due to the rule only applying forwards and
-not backwards. As a result it is not useful for thinking about life or the
-universe, as it does not emulate the fundamental reality that we observe.
+not backwards. This is fun for creating complexity and interesting structures
+that emulate the behaviour of life.
+
+However, in our case it is not going to be useful for trying to think about how
+fundamental constructs and behaviours in the universe emerge from the second law
+of thermodynamics.
 
 ## Machines
 
-Once you have a reversible cellular automata, you can start thinking about the
-concept of a "machine". Here we will define a machine as a repetitive structure
-within our cellular automata. In order to build a machine in a reversible
-cellular automata, it is either all encompassing or it "breaks down". This later
-property makes it very interesting to think about.
+In our REVCAR universe, we can start thinking about the concept of a "machine".
+Here we will define a machine as a repetitive structure over many iterations. In
+order to build a machine in a reversible cellular automata, it is either all
+encompassing or it "breaks down". To give some examples of what can be
+classified as a machine: a human, bicycle, star, atom.
 
-- environment dependence hypothesis
+In the simplest form, you could think of a simple convection current gradient as
+the most basic "machine".
 
-In traditional cellular automata, a machine more commonly perpetual, meaning
-that it repeats itself forever.
+In the Game of Life, machines are often perpetual repeating structures. A glider
+gun is perhaps the best example. A glider gun does not obey the second law of
+thermodynamics, therefore we aren't interested in these types of constructions
+for the sake of this thought experiment.
+
+I'm going to introduce the idea here of the "environment dependence hypothesis".
+This is the idea that a machine is defined in terms of its environment, and it
+is only created within the context of its environment. A bicycle, for example,
+is not useful in space. In addition, a bicycle does not spontaneously form in
+space. Instead, a bicycle is only useful within a confident environment, such as
+roads, where there are humans that will utilise them for the purpose of leisure
+or transport. This is quite a complex definition, its creation is a result of
+billions of years of evolution and thousands of years of human progress and
+development.
+
+Therefore, for our universe to be interesting, we want to see machines which
+work in their native environment and are created inside of an environment.
 
 ## Apple in a Box
 
 The "apple in a box" is a thought experiment, whereby if you have an apple in a
 perfectly closed box and wait an infinite amount of time, the apple will reform
 in the future into its exact same state, you may have to wait a quadrillion
-years. This is the exact same behaviour as you'd observe in a reversible
-cellular automata. If you deployed a machine into a reversible cellular
-automata, you could forward the state N number of times until the machine
-magically reformed back into itself.
+years. This is the exact same behaviour as you'd observe in REVCAR. If you
+deployed a machine, you could forward the state N number of times until the
+machine magically reformed back into itself.
 
 Although this thought experiment is interesting, it is not at all helpful. This
 is because you'd have to wait an unreasonable amount of time before you see the
@@ -80,7 +106,7 @@ Anti-matter plays an important role in our idea of the universe. In the
 observable universe, we notice that anti-matter is often created spontaneously
 through the creation of particle and anti-particle pairs (quantum foam). This
 type of particle anti-particle pair creation is constantly happening, with these
-particles instantly annhiliating. This is deeply connected with the idea of
+particles instantly annihilating. This is deeply connected with the idea of
 black holes evaporating and obeying the 2nd law. However, it is also important
 in our reversible cellular automata to explain "user input".
 
@@ -96,36 +122,40 @@ every input being the creation of a state anti-state pair.
 The implications of this assumption is that it helps us better understand how
 black holes and space time work within this simulation.
 
+- TODO - quantum foam is defined by user input!
+
 ## Black Holes
 
-Working with our anti-matter hypothesis for our reversible cellular automata, we
-can start to reason about black holes. A black hole is a region of space time
-where the curvature of space time is so large that anything that crosses the
-black hole's "event horizon" has a single destination, the singularity.
+Now knowing REVCAR has quantum foam, we can start to reason about black holes. A
+black hole is a region of space time where the curvature of space time is so
+large that anything that crosses the black hole's "event horizon" has a single
+destination, the singularity.
 
 In the observable universe, the only information that escapes a black hole is
 via the gravitational affect on quantum foam, preventing the particle
-anti-particle pairs from annihilating each other. This property must hold in our
-reversible cellular automata.
+anti-particle pairs from annihilating each other. This property must hold in
+REVCAR for us to be able to identify a black hole.
 
-A black hole is machine within our reversible cellular automata where the only
-information about the creation of the machine (things that fell into it) are
-radiated by our state foam. In addition, it is a region of the cellular automata
-where things can only fall into it, not escape. Without user input (state foam),
-the internal state of the black hole is running on a different system of rules.
+A black hole is machine within REVCAR where the only information about the
+creation of the machine (things that fell into it) are radiated by the
+interaction with quantum foam. In addition, it is a region of the cellular
+automata where things can only fall into it, not escape.
 
 This begs the philosophical question about our observable universe, what if the
-quantum foam was completely still? What if there was no creation of particle
-anti-particle pairs? In this model, the black hole would not radiate any
-information. Is the universe making a promise that at some point in the future,
-a particle anti-particle pair would fall into the black hole?
+quantum foam was completely still? What if there was no user input? In this
+model, the black hole would not radiate any information. Is the universe making
+a promise that at some point in the future, a particle anti-particle pair would
+fall into the black hole? Without an observer, is the universe stale?
 
 ## Space an Time
 
 Based on our conclusions of the black hole hypothesis, space and time is
 emergent from the rules of our reversible cellular automata. Space is not
-defined by the lattice of the universe.
+defined by the lattice of the universe. The core lattice of REVCAR can be
+thought of as just that, the core lattice. Higher order structures are emergent.
+Space time is an emergent property.
 
+---
 ## Exploration
 
 - TODO - holographic principle and how that ties with on-chain blockchain games
@@ -141,12 +171,21 @@ dust. However, I'm here to argue that machines never form from gas and dust.
 Instead, they form from a series of long running processes. If we forward back
 in time, we should see the birth of the universe.
 
+- TODO - below is not written well, "powerful idea"
+
 There's a subtle powerful idea here that closely ties with assembly theory which
 shows that it is in fact impossible to build a machine manually inside a
 reversible cellular automata. There are only a few universes that exist which do
 so, they must be found at random.
 
-- TODO - garden of eden pattern
+## Garden of Eden Patterns
+
+In all non-reversible cellular automata, there are states which are known as
+"Garden of Eden Patterns". These are patterns which do not have a preceeding
+state. The very nature of reversible cellular automata is that no Garden of Eden
+Patterns could possibly exist.
+
+- TODO - what is this? How does it tie with reversible cellular automata
 
 ## Misc
 
@@ -157,3 +196,6 @@ so, they must be found at random.
 - TODO - the speed of light (this is the speed of the rule set or computation)
 - TODO - double slit experiment on a reality scale
 - TODO - thoughts on how that ties with abstraction and how design should work
+
+- the definition of REVCAR is not entirely clear at the start, it is introduced
+    as the article progresses
