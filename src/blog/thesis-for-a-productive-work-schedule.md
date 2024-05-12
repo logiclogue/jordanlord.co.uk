@@ -85,6 +85,20 @@ counter balanced by effectively planning and estimating the size of a task.
 Tasks can be effectively estimated by over estimating! It's incredibly rewarding
 getting a task done ahead of schedule.
 
+### Time schedule
+
+- TODO - discipline
+- TODO - explain how this fits with your time estimates
+
+A time schedule is very important. In a similar way to the Swiss rail system,
+you work on clear intervals, not overrunning. This is important because:
+
+- Gives you time to think - like a full stop at the end of a sentence
+- Gives you a break if you finish early
+- Forces you to make decisions and cut scope if it's too big
+
+- Always try to finish ahead of time
+
 ### Focus
 
 Focus is absolutely paramount. How to maintain focus when you've done all the
