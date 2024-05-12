@@ -295,10 +295,13 @@ function ZXScreen() {
             drawZXScreenDataToCanvas
         } = ZXScreen();
 
-        const img = document.getElementById("sourceImage");
+        const img = new Image();
+
+        const canvas = document.getElementById("myCanvas");
+
+        img.src = canvas.getAttribute("src");
 
         img.onload = function() {
-            const canvas = document.getElementById("myCanvas");
             const ctx = canvas.getContext("2d");
 
             // Resize and draw image onto the canvas

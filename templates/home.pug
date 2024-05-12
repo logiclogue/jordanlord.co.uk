@@ -2,10 +2,7 @@ extends default.pug
 
 block content
     .twelve
-        img.u-full-width.hidden#sourceImage(src='/res/jordan.png')
-
-    .twelve
-        canvas.u-full-width#myCanvas(width='256', height='192', style={ 'image-rendering': 'pixelated' })
+        canvas.u-full-width#myCanvas(width='256', height='192', src='/res/jordan.png' style={ 'image-rendering': 'pixelated' })
     
     .row.margin-bottom
         .home-icons
