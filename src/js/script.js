@@ -295,47 +295,49 @@ function ZXScreen() {
             drawZXScreenDataToCanvas
         } = ZXScreen();
 
-        const img = new Image();
+        const zxCanvases = document.querySelectorAll(".logiclogue-zx-image");
 
-        const canvas = document.getElementById("myCanvas");
+        zxCanvases.forEach((canvas, index) => {
+            const img = new Image();
 
-        img.src = canvas.getAttribute("src");
+            img.src = canvas.getAttribute("src");
 
-        img.onload = function() {
-            const ctx = canvas.getContext("2d");
+            img.onload = function() {
+                const ctx = canvas.getContext("2d");
 
-            // Resize and draw image onto the canvas
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                // Resize and draw image onto the canvas
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-            // Convert canvas data to ZX Spectrum format
-            const zxData = convertCanvasToZXScreen(canvas, ctx);
+                // Convert canvas data to ZX Spectrum format
+                const zxData = convertCanvasToZXScreen(canvas, ctx);
 
-            let currentZxData = zxData.map(() => Math.floor(Math.random() * 256));
-
-            drawZXScreenDataToCanvas(ctx, currentZxData);
-
-            // reintroduce bytes
-            function reintroduceBytes() {
-                currentZxData = zxData.map((thisByte, i) => {
-                    const rand = Math.random();
-
-                    if (rand > 0.9999 && thisByte !== "\n") {
-                        return Math.floor(rand * 256);
-                    } else if (rand > (i / zxData.length)) {
-                        return thisByte;
-                    }
-
-                    return currentZxData[i];
-                });
+                let currentZxData = zxData.map(() => Math.floor(Math.random() * 256));
 
                 drawZXScreenDataToCanvas(ctx, currentZxData);
-            }
 
-            // Start the interval
-            let intervalId = setInterval(reintroduceBytes, 100);
-        };
-        if (img.complete) {
-            img.onload();
-        }
+                // reintroduce bytes
+                function reintroduceBytes() {
+                    currentZxData = zxData.map((thisByte, i) => {
+                        const rand = Math.random();
+
+                        if (rand > 0.9999 && thisByte !== "\n") {
+                            return Math.floor(rand * 256);
+                        } else if (rand > (i / zxData.length)) {
+                            return thisByte;
+                        }
+
+                        return currentZxData[i];
+                    });
+
+                    drawZXScreenDataToCanvas(ctx, currentZxData);
+                }
+
+                // Start the interval
+                let intervalId = setInterval(reintroduceBytes, 100);
+            };
+            if (img.complete) {
+                img.onload();
+            }
+        });
     };
 }());
