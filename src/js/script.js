@@ -40,6 +40,11 @@ function ZXScreen() {
     const screenWidth = 256;
     const screenHeight = 192;
 
+     // 6144 for bitmap + 768 for attributes
+    function getEmptyZxScreen() {
+        return new Uint8Array(6912);
+    };
+
     function attrByteToObj(attr) {
         return {
             flash: (attr & 0b10000000) !== 0,
@@ -98,7 +103,7 @@ function ZXScreen() {
     function getZXScreenIndexes(x, y) {
         // Validate x, y coordinates
         if (x < 0 || x >= screenWidth || y < 0 || y >= screenHeight) {
-            throw new Error("Coordinates out of bounds.");
+            throw new Error(`Coordinates out of bounds. ${x}, ${y}`);
         }
 
         // Calculate area, row, and column
@@ -182,7 +187,7 @@ function ZXScreen() {
 
     function convertCanvasToZXScreen(canvas, ctx) {
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-        const zxScreenData = new Uint8Array(6912); // 6144 for bitmap + 768 for attributes
+        const zxScreenData = getEmptyZxScreen();
 
         function aToXY(a, p) {
             const { ax, ay } = a;
@@ -283,7 +288,9 @@ function ZXScreen() {
 
     return {
         drawZXScreenDataToCanvas,
-        convertCanvasToZXScreen
+        convertCanvasToZXScreen,
+        getEmptyZxScreen,
+        getZXScreenIndexes
     };
 };
 
@@ -335,9 +342,230 @@ function ZXScreen() {
                 // Start the interval
                 let intervalId = setInterval(reintroduceBytes, 100);
             };
+
             if (img.complete) {
                 img.onload();
             }
         });
     };
+}());
+
+///// 3D ENGINE
+
+(function () {
+    const {
+        getEmptyZxScreen,
+        drawZXScreenDataToCanvas,
+        getZXScreenIndexes
+    } = ZXScreen();
+
+    const m4Id = [
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1
+    ];
+
+    function m4Projection(fov, far, near, aspect) {
+        const f = 1 / Math.tan(fov / 2);
+
+        return [
+            f / aspect, 0, 0, 0,
+            0, f, 0, 0,
+            0, 0, (far + near) / (near - far), (2 * far * near) / (near - far),
+            0, 0, -1, 0
+        ];
+    }
+
+    function m4Multiply(a, b) {
+        return [
+            a[0] * b[0] + a[1] * b[4] + a[2] * b[8]  + a[3] * b[12],
+            a[0] * b[1] + a[1] * b[5] + a[2] * b[9]  + a[3] * b[13],
+            a[0] * b[2] + a[1] * b[6] + a[2] * b[10] + a[3] * b[14],
+            a[0] * b[3] + a[1] * b[7] + a[2] * b[11] + a[3] * b[15],
+
+            a[4] * b[0] + a[5] * b[4] + a[6] * b[8]  + a[7] * b[12],
+            a[4] * b[1] + a[5] * b[5] + a[6] * b[9]  + a[7] * b[13],
+            a[4] * b[2] + a[5] * b[6] + a[6] * b[10] + a[7] * b[14],
+            a[4] * b[3] + a[5] * b[7] + a[6] * b[11] + a[7] * b[15],
+
+            a[8] * b[0] + a[9] * b[4] + a[10] * b[8]  + a[11] * b[12],
+            a[8] * b[1] + a[9] * b[5] + a[10] * b[9]  + a[11] * b[13],
+            a[8] * b[2] + a[9] * b[6] + a[10] * b[10] + a[11] * b[14],
+            a[8] * b[3] + a[9] * b[7] + a[10] * b[11] + a[11] * b[15],
+
+            a[12] * b[0] + a[13] * b[4] + a[14] * b[8]  + a[15] * b[12],
+            a[12] * b[1] + a[13] * b[5] + a[14] * b[9]  + a[15] * b[13],
+            a[12] * b[2] + a[13] * b[6] + a[14] * b[10] + a[15] * b[14],
+            a[12] * b[3] + a[13] * b[7] + a[14] * b[11] + a[15] * b[15]
+        ];
+    }
+
+    function m4MultiplyVec4(m, v) {
+        return [
+            m[0] * v[0] + m[1] * v[1] + m[2] * v[2] + m[3] * v[3],
+            m[4] * v[0] + m[5] * v[1] + m[6] * v[2] + m[7] * v[3],
+            m[8] * v[0] + m[9] * v[1] + m[10] * v[2] + m[11] * v[3],
+            m[12] * v[0] + m[13] * v[1] + m[14] * v[2] + m[15] * v[3]
+        ];
+    }
+
+    function m4Transpose(m) {
+        return [
+            m[0], m[4], m[8], m[12],
+            m[1], m[5], m[9], m[13],
+            m[2], m[6], m[10], m[14],
+            m[3], m[7], m[11], m[15]
+        ];
+    }
+
+    // This is only be applied to translate and rotation matrices
+    function m4Inverse(m) {
+        // Separate translation and rotation components
+        const translation = [m[3], m[7], m[11], m[15]];
+        const rotation = [
+            m[0], m[1], m[2], 0,
+            m[4], m[5], m[6], 0,
+            m[8], m[9], m[10], 0,
+            0, 0, 0, 1
+        ];
+
+        // Calculate inverse rotation matrix
+        const invRotation = m4Transpose(rotation);
+
+        // Calculate inverse translation matrix
+        const invTranslation = [
+            1, 0, 0, -translation[0],
+            0, 1, 0, -translation[1],
+            0, 0, 1, -translation[2],
+            0, 0, 0, 1
+        ];
+
+        return m4Multiply(invRotation, invTranslation);
+    }
+
+    function m4RotateY(theta) {
+        return [
+            Math.cos(theta), 0, -Math.sin(theta), 0,
+            0, 1, 0, 0,
+            Math.sin(theta), 0, Math.cos(theta), 0,
+            0, 0, 0, 1
+        ];
+    }
+
+    function m4Translate(x, y, z) {
+        return [
+            1, 0, 0, x,
+            0, 1, 0, y,
+            0, 0, 1, z,
+            0, 0, 0, 1
+        ];
+    }
+
+    function vec4Normalise(vec4) {
+        const [x, y, z, w] = vec4;
+
+        return [
+            x / w,
+            y / w,
+            z / w,
+            1
+        ];
+    }
+
+    function projectToScreen(point, width, height) {
+        // Assuming point is already in normalized device coordinates [-1, 1]
+        return {
+            x: Math.floor((point[0] + 1) * 0.5 * width),
+            y: Math.floor((1 - (point[1] + 1) * 0.5) * height) // flip y for canvas coordinates
+        };
+    }
+
+    function isWithinFrustum(point) {
+        // Perspective division
+        const [x, y, z] = point;
+
+        // Check if the point is within the clip space
+        return (x >= -1 && x <= 1) &&
+               (y >= -1 && y <= 1) &&
+               (z >= -1 && z <= 1);
+    }
+
+    // Example usage
+    const fov = Math.PI / 4; // 45 degrees field of view
+    const aspect = 256 / 192; // aspect ratio
+    const near = 0.1; // near plane
+    const far = 1000; // far plane
+
+    // TODO - replace this with byte mapped memory - currently a cube
+    let vec4Space = [
+        [0, 0, 0, 1],
+        [0, 0, 1, 1],
+        [0, 1, 0, 1],
+        [0, 1, 1, 1],
+        [1, 0, 0, 1],
+        [1, 0, 1, 1],
+        [1, 1, 0, 1],
+        [1, 1, 1, 1]
+    ].map(vec4 => m4MultiplyVec4(m4Translate(-0.5, -0.5, -0.5), vec4));
+
+    const zxCanvases = document.querySelectorAll(".logiclogue-zx-three");
+
+    zxCanvases.forEach((canvas, index) => {
+        const ctx = canvas.getContext("2d");
+
+        let zxScreenData = getEmptyZxScreen();
+
+        drawZXScreenDataToCanvas(ctx, zxScreenData);
+
+        let tick = 0;
+
+        const theta = 0.001;
+
+        function animate() {
+            const thisVec4Space = vec4Space.map(vec4 => m4MultiplyVec4(m4RotateY(tick / 1000), vec4));
+
+            const camera = m4Multiply(m4Translate(0, 0, tick / 100), m4Id);
+            //const camera = m4Multiply(m4RotateY(tick / 10), m4Id);
+            //const camera = m4Multiply(m4Translate(0, 0, tick), m4Id);
+
+            const projectionMatrix = m4Projection(fov, far, near, aspect);
+
+            thisVec4Space
+                .map(vec4 => m4MultiplyVec4(m4Inverse(camera), vec4))
+                .map(vec4 => vec4Normalise(m4MultiplyVec4(projectionMatrix, vec4)))
+                .filter((vec4, index) => {
+                    if (!isWithinFrustum(vec4)) {
+                        console.log("Not within frustum", vec4, index);
+
+                        return false;
+                    }
+
+                    return true;
+                })
+                .forEach(vec4 => {
+                    const { x, y } = projectToScreen(vec4, 256, 192);
+
+                    const { attrIndex, pixelIndex } = getZXScreenIndexes(x, y);
+
+                    zxScreenData[attrIndex] = 3;
+                    zxScreenData[pixelIndex] = 255;
+                });
+
+            const { attrIndex, pixelIndex } = getZXScreenIndexes(0, 0);
+            zxScreenData[attrIndex] = 3;
+            zxScreenData[pixelIndex] = 128;
+
+            drawZXScreenDataToCanvas(ctx, zxScreenData);
+
+            zxScreenData = getEmptyZxScreen();
+
+            console.log("Drawn to screen", tick);
+
+            tick += 1;
+        }
+
+        // Start the interval
+        let intervalId = setInterval(animate, 100);
+    });
 }());
