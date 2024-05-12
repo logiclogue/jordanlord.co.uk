@@ -26,6 +26,9 @@ conceive is a REVCAR universe (REVersible Cellular Automata with interesting
 Rules). The thought experiment assumes that the second law of thermodynamics
 gives rise to the most fundamental laws and behaviours within the universe.
 
+- TODO - the definition of REVCAR is not entirely clear at the start, it is introduced
+    as the article progresses
+
 ## Reversible Cellular Automata
 
 Reversible cellular automata are a type of cellular automata where the same
@@ -108,7 +111,7 @@ through the creation of particle and anti-particle pairs (quantum foam). This
 type of particle anti-particle pair creation is constantly happening, with these
 particles instantly annihilating. This is deeply connected with the idea of
 black holes evaporating and obeying the 2nd law. However, it is also important
-in our reversible cellular automata to explain "user input".
+in our reversible cellular automata to enable "user input".
 
 In order to have a concious external user provide input to our universe, while
 also remaining reversible, particle anti-particle pairs are necessary. Let's
@@ -119,10 +122,11 @@ construction. Our construction must satisfy the property that at iteration n -
 1, the drawn name must be the empty universe. The only way to achieve this is by
 every input being the creation of a state anti-state pair.
 
+In addition to this, all quantum foam is driven by user input. Only the end user
+can create a particle anti-particle pair.
+
 The implications of this assumption is that it helps us better understand how
 black holes and space time work within this simulation.
-
-- TODO - quantum foam is defined by user input!
 
 ## Black Holes
 
@@ -147,7 +151,7 @@ model, the black hole would not radiate any information. Is the universe making
 a promise that at some point in the future, a particle anti-particle pair would
 fall into the black hole? Without an observer, is the universe stale?
 
-## Space an Time
+## Space and Time
 
 Based on our conclusions of the black hole hypothesis, space and time is
 emergent from the rules of our reversible cellular automata. Space is not
@@ -171,31 +175,18 @@ dust. However, I'm here to argue that machines never form from gas and dust.
 Instead, they form from a series of long running processes. If we forward back
 in time, we should see the birth of the universe.
 
-- TODO - below is not written well, "powerful idea"
+Given the 'apple in a box' principle, the so called 'big bang' is not the start.
+The big bang is the point of lowest entropy. Under this idea, the big bounce is
+the most likely explanation for the universe. Time is defined by iterations time
+is an endless sea.
 
-There's a subtle powerful idea here that closely ties with assembly theory which
-shows that it is in fact impossible to build a machine manually inside a
-reversible cellular automata. There are only a few universes that exist which do
-so, they must be found at random.
-
-## Garden of Eden Patterns
-
-In all non-reversible cellular automata, there are states which are known as
-"Garden of Eden Patterns". These are patterns which do not have a preceeding
-state. The very nature of reversible cellular automata is that no Garden of Eden
-Patterns could possibly exist.
-
-- TODO - what is this? How does it tie with reversible cellular automata
-
-## Misc
+## Extra Thoughts and Ideas
 
 - TODO - generalising to higher dimensions
-- TODO - black holes?
-- TODO - space (this is emergent, working with the big bang hypothesis)
-- TODO - time (emergent in a proof of work system)
-- TODO - the speed of light (this is the speed of the rule set or computation)
 - TODO - double slit experiment on a reality scale
 - TODO - thoughts on how that ties with abstraction and how design should work
 
-- the definition of REVCAR is not entirely clear at the start, it is introduced
-    as the article progresses
+## TODO
+
+- TODO - time (emergent in a proof of work system)
+- TODO - the speed of light (this is the speed of the rule set or computation)
