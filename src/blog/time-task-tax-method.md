@@ -1,6 +1,6 @@
 ---
 title: Time Task Tax Method
-draft: true
+publishDate: 2024-05-29
 ---
 
 I'm trying a new time management technique this week. Let's call it the 'time
