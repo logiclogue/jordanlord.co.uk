@@ -536,8 +536,6 @@ function ZXScreen() {
                 .map(vec4 => vec4Normalise(m4MultiplyVec4(projectionMatrix, vec4)))
                 .filter((vec4, index) => {
                     if (!isWithinFrustum(vec4)) {
-                        console.log("Not within frustum", vec4, index);
-
                         return false;
                     }
 
@@ -552,7 +550,38 @@ function ZXScreen() {
                     zxScreenData[pixelIndex] = 255;
                 });
 
-            const { attrIndex, pixelIndex } = getZXScreenIndexes(0, 0);
+            // TODO - raytracing
+            const x = 255;
+            const y = 191;
+
+            const { attrIndex, pixelIndex } = getZXScreenIndexes(x, y);
+
+            // TODO - to inverse these to get the origin and direction vectors
+            /*
+             * x = (a + 1) * 0.5 * 256
+             * x = (a + 1) * (256 / 2)
+             * a + 1 = x / (256 / 2)
+             * a = (2 * x) / 256 - 1
+             *
+             * y = (1 - (b + 1) * 0.5) * 192
+             * y = (1 - b * 0.5 - 0.5) * 192
+             * y = (0.5 - b * 0.5) * 192
+             * y = (0.5 - b * 0.5) * 192
+             * y = 0.5 * 192 - b * 0.5 * 192
+             * b * 0.5 * 192 = 0.5 * 192 - y
+             * b = (0.5 * 192 - y) / (0.5 * 192)
+             * b = 1 - y / (0.5 * 192)
+             * b = 1 - (2 * y) / 192
+             */
+            const a = (2 * x) / 256 - 1;
+            const b = 1 - (2 * y) / 192;
+
+            console.log("a, b", a, b);
+
+            // TODO - unproject this point a, b, these live at the focal length
+            // TODO - origin is the camera, get the direction using these points
+
+            // TODO - draw a point if they intersect
             zxScreenData[attrIndex] = 3;
             zxScreenData[pixelIndex] = 128;
 
