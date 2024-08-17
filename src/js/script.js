@@ -1,3 +1,6 @@
+import { CPU6502, ReadWrite } from "https://cdn.jsdelivr.net/npm/6502-emulator@1.0.0/+esm";
+import { assemble } from "https://cdn.jsdelivr.net/npm/jsasm6502@1.1.2/+esm";
+
 // logiclogue-fade component
 (function () {
     const fadeElements = document.querySelectorAll(".logiclogue-fade");
@@ -54,7 +57,7 @@ function ZXScreen() {
         };
     }
 
-    function displayScreen(ctx, arScr, scrX, scrY) {
+    function displayScreen(ctx, arScr, scrX, scrY, offset = 0) {
         const imageData = ctx.createImageData(screenWidth, screenHeight);
         const data = imageData.data;
 
@@ -63,10 +66,10 @@ function ZXScreen() {
                 for (let row = 0; row < 8; row++) {
                     for (let col = 0; col < 32; col++) {
                         const index = area * 2048 + (line * 8 + row) * 32 + col;
-                        const byte = arScr[index];
+                        const byte = arScr[offset + index];
 
                         const attrIndex = area * 256 + row * 32 + col;
-                        const attr = arScr[6144 + attrIndex];
+                        const attr = arScr[offset + 6144 + attrIndex];
                         const oAttr = attrByteToObj(attr);
 
                         for (let bit = 0; bit < 8; bit++) {
@@ -96,8 +99,8 @@ function ZXScreen() {
         return colour(zxColour, oAttr.bright);
     }
 
-    function drawZXScreenDataToCanvas(ctx, screenData) {
-        displayScreen(ctx, screenData, 0, 0);
+    function drawZXScreenDataToCanvas(ctx, screenData, offset) {
+        displayScreen(ctx, screenData, 0, 0, offset);
     }
 
     function getZXScreenIndexes(x, y) {
@@ -294,6 +297,52 @@ function ZXScreen() {
     };
 };
 
+// RAM
+let ram = {};
+
+function getRAM(ramId) {
+    if (ram[ramId]) {
+        return ram[ramId];
+    }
+
+    ram[ramId] = new Uint8ClampedArray(0xffff);
+
+    return ram[ramId];
+}
+
+// logiclogue-zx-screen - for interfacing RAM with a screen
+(function () {
+    const { getEmptyZxScreen, drawZXScreenDataToCanvas } = ZXScreen();
+
+    const zxCanvases = document.querySelectorAll(".logiclogue-zx-screen");
+
+    zxCanvases.forEach((canvas, index) => {
+        const ctx = canvas.getContext("2d");
+        const rect = canvas.getBoundingClientRect();
+
+        const ram = getRAM(canvas.dataset.ramId || "default");
+        const ramOffset = parseInt(canvas.dataset.ramOffset || "0x4000");
+
+        drawZXScreenDataToCanvas(ctx, ram, ramOffset);
+
+        console.log("BEFORE");
+        canvas.addEventListener("mousemove", e => {
+            const x = Math.floor(((e.clientX - rect.left) / rect.width) * 256);
+            const y = Math.floor(((e.clientY - rect.top) / rect.height) * 192);
+
+            ram[0x3FFE] = x;
+            ram[0x3FFF] = y;
+        });
+
+        function animate() {
+            drawZXScreenDataToCanvas(ctx, ram, ramOffset);
+
+            requestAnimationFrame(animate);
+        }
+
+        requestAnimationFrame(animate);
+    });
+}());
 
 (function () {
     window.onload = function() {
@@ -596,5 +645,75 @@ function ZXScreen() {
 
         // Start the interval
         let intervalId = setInterval(animate, 100);
+    });
+}());
+
+// 6502 assembler (logiclogue-6502-asm
+(function () {
+    const asmElements = document.querySelectorAll(".logiclogue-6502-asm");
+    const originalTexts = {};
+
+    console.log(asmElements);
+
+    asmElements.forEach((el, index) => {
+        console.log("here", index);
+
+        const asmFile = el.textContent;
+
+        const ram = getRAM(el.dataset.ramId || "default");
+
+        const src= { name: "test-file", content: asmFile };
+        const asmRes = assemble(src, {});
+
+        console.log("----- DISASM -----");
+        console.log(asmRes.disasm.trim());
+        console.log("----- OBJ -----");
+        console.log(asmRes.obj);
+        console.log("----- HEXDUMP -----");
+
+        asmRes.dump("CODE");
+
+        console.log("----- SEGMENTS -----");
+        console.log(asmRes.segments);
+        console.log("----- SYMBOLS -----");
+        console.log(asmRes.symbols.dump());
+
+        ram.set(asmRes.obj.CODE, asmRes.segments.CODE.start);
+
+        // store reset vector as code start (little endian)
+        ram[0xfffc] = asmRes.segments.CODE.start & 0xff;
+        ram[0xfffd] = asmRes.segments.CODE.start >> 8;
+
+        const accessMemory = (readWrite, address, value) => {
+            // capture a write to 0x6000 as a magic output address, print to console
+            if (address === 0x6000 && readWrite === ReadWrite.write) {
+                console.log("Output: ", value.toString(16));
+                return;
+            }
+
+            // capture a write to 0x6005 as a magic output address, pause the clock
+            if (address === 0x6005 && readWrite === ReadWrite.write) {
+                console.log("Exit captured! pausing clock");
+                cpu.pauseClock();
+                return;
+            }
+
+            // write value to RAM (processor is reading from [address])
+            if (readWrite === ReadWrite.read) {
+                return ram[address];
+            }
+
+            // store value in RAM (processor is writing [value] to [address])
+            ram[address] = value;
+        };
+
+        console.log(CPU6502);
+
+        const cpu = new CPU6502({
+            accessMemory
+        });
+
+        cpu.reset();
+        cpu.startClock();
     });
 }());
