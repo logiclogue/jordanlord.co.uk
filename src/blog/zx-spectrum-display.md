@@ -1,7 +1,7 @@
 ---
 title: ZX Spectrum Display
 publishDate: 2024-08-10
-draft: false
+draft: true
 ---
 
 # Introduction
@@ -85,16 +85,29 @@ loop:
 # Attribute Data
 
 The attribute data is what defines an 8x8 block's colour. The attribute block is
-broken town into two components, the least significant 4-bits which are used for
-storing the 'ink', and the most significant 4-bits for the 'paper'. Note, in
-both 4-bit instances we're only looking at the last significant 3-bits. The last
-bit has a separate use which we're not interested in for this example.
+broken town into two components, the least significant 3-bits which are used for
+storing the 'ink', the next least significant 3-bits for the 'paper'. Then the
+7th most significant bit for whether the colours are bright or not. Finally the
+most significant bit is for the 'flash'. The 'paper' dictates how the 0 bits are
+coloured, the 'ink' dictates how the 1 bits are coloured.
 
-| bit 8 | bit 7-5 | bit 4  | bit 3-1 |
-|-------|---------|--------|---------|
-| flash | paper   | bright | ink     |
+| bit 8 | bit 7  | bit 6-4 | bit 3-1 |
+|-------|--------|---------|---------|
+| flash | bright | paper   | ink     |
 
-- TODO - breakdown of colour
+The ZX Spectrum used a GRB colour scheme instead of a RGB one. Looking at each
+3-bit colour, here is the table by bit breakdown.
+
+| G | R | B | #n | Colour  |
+|---|---|---|----|---------|
+| 0 | 0 | 0 |  0 | Black   |
+| 0 | 0 | 1 |  1 | Blue    |
+| 0 | 1 | 0 |  2 | Red     |
+| 0 | 1 | 1 |  3 | Magenta |
+| 1 | 0 | 0 |  4 | Green   |
+| 1 | 0 | 1 |  5 | Cyan    |
+| 1 | 1 | 0 |  6 | Yellow  |
+| 1 | 1 | 1 |  7 | White   |
 
 The example below shows each block incremented one at a time. So the first
 attribute block would be binary `%00000000` (black paper, black ink),
