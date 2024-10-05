@@ -1,5 +1,5 @@
 ---
-title: ZX Spectrum Display
+title: 6502 Part 1 - ZX Spectrum Display
 publishDate: 2024-08-10
 draft: true
 ---
