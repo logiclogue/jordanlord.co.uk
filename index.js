@@ -13,6 +13,8 @@ const rootPath = require("./plugins/rootPath");
 const sass = require("./plugins/metalsmith-sass");
 const config = require("./config.json");
 
+const draftMode = !!process.env.DRAFT;
+
 config.siteMetadata.year = new Date().getFullYear();
 
 Metalsmith(__dirname)
@@ -34,7 +36,7 @@ Metalsmith(__dirname)
         source: "./res",
         destination: "./res"
     }))
-    .use(drafts())
+    .use(drafts(draftMode))
     .use(githubReadme())
     .use(highlight())
     .use(sass(config.sass))
