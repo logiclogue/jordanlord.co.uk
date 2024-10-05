@@ -6,7 +6,7 @@
     },
     "collections": {
         "blog": {
-            "pattern": "blog/*.md",
+            "pattern": ["blog/*/index.md", "blog/*.md"],
             "sortBy": "publishDate",
             "reverse": true,
             "metadata": {

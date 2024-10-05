@@ -1,6 +1,6 @@
-const _ = require("lodash");
-const request = require('request');
-const sections = require('sections');
+import _ from "lodash";
+import request from "request";
+import * as sections from "sections";
 
 function plugin() {
     function getReadMe(githubLink) {
@@ -70,4 +70,4 @@ function plugin() {
     }
 }
 
-module.exports = plugin;
+export default plugin;

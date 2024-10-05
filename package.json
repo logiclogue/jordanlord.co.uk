@@ -1,6 +1,7 @@
 {
   "name": "jordanlord.co.uk",
   "version": "1.0.0",
+  "type": "module",
   "description": "Source code for my website",
   "main": "index.js",
   "scripts": {
@@ -21,6 +22,7 @@
     "async": "^3.2.5",
     "handlebars": "^4.0.5",
     "lodash": "^4.17.5",
+    "mermaid": "^11.0.2",
     "metalsmith": "^2.6.2",
     "metalsmith-assets": "^0.1.0",
     "metalsmith-collection-metadata": "^0.1.0",
@@ -35,7 +37,8 @@
     "pug": "^3.0.2",
     "request": "^2.81.0",
     "sass": "^1.69.7",
-    "sections": "^1.0.0"
+    "sections": "^1.0.0",
+    "shortcode-parser": "^0.0.1"
   },
   "devDependencies": {
     "http-server": "^14.1.1"

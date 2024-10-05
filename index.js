@@ -1,23 +1,27 @@
-const Metalsmith = require("metalsmith");
-const collections = require("metalsmith-collections");
-const layouts = require("metalsmith-layouts");
-const markdown = require("metalsmith-markdown");
-const permalinks = require("metalsmith-permalinks");
-const metadata = require("metalsmith-collection-metadata");
-const highlight = require("metalsmith-metallic");
-const feed = require("metalsmith-feed");
-const drafts = require("@metalsmith/drafts");
-const assets = require("metalsmith-assets");
-const githubReadme = require("./plugins/metalsmith-github-readme");
-const rootPath = require("./plugins/rootPath");
-const sass = require("./plugins/metalsmith-sass");
-const config = require("./config.json");
+import Metalsmith from "metalsmith";
+import collections from "metalsmith-collections";
+import layouts from "metalsmith-layouts";
+import markdown from "metalsmith-markdown";
+import permalinks from "metalsmith-permalinks";
+import metadata from "metalsmith-collection-metadata";
+import highlight from "metalsmith-metallic";
+import feed from "metalsmith-feed";
+import drafts from "@metalsmith/drafts";
+import assets from "metalsmith-assets";
+import shortcodes from "./plugins/metalsmith-shortcodes.js";
+import githubReadme from "./plugins/metalsmith-github-readme.js";
+import rootPath from "./plugins/rootPath.js";
+import sass from "./plugins/metalsmith-sass.js";
+import path from "path";
+import { readFileSync } from "fs";
+
+const config = JSON.parse(readFileSync("./config.json"));
 
 const draftMode = !!process.env.DRAFT;
 
 config.siteMetadata.year = new Date().getFullYear();
 
-Metalsmith(__dirname)
+Metalsmith(".")
     .metadata(config.siteMetadata)
     .use((files, metalsmith, done) => {
         let metadata = metalsmith._metadata;
@@ -38,6 +42,23 @@ Metalsmith(__dirname)
     }))
     .use(drafts(draftMode))
     .use(githubReadme())
+    .use(shortcodes({
+        files: [".md"],
+        shortcodes: {
+            sixfiveohtwo: (buf, opts, meta) => {
+                const src = path.join("src", path.dirname(meta.file), opts.src);
+
+                const code = readFileSync(src);
+
+                const cleanedCode = code.toString().replace(/</g, "&lt").replace(/>/g, "&gt");
+
+                return `<pre class="hidden logiclogue-6502-asm logiclogue-8bit-ethers" data-ram-id="example-${opts.id}">${cleanedCode}</pre>\n\n\`\`\`asm\n${code}\`\`\``;
+            },
+            zx_screen: (buf, opts) => {
+                return `<canvas class="u-full-width logiclogue-zx-screen" data-ram-id="example-${opts.id}" width="256" height="192" style="image-rendering: pixelated"></canvas>`;
+            }
+        }
+    }))
     .use(highlight())
     .use(sass(config.sass))
     .source("./src")

@@ -1,5 +1,13 @@
 import { CPU6502, ReadWrite } from "https://cdn.jsdelivr.net/npm/6502-emulator@1.0.0/+esm";
 import { assemble } from "https://cdn.jsdelivr.net/npm/jsasm6502@1.1.2/+esm";
+import { ethers } from "https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.min.js";
+import * as msgpack from "https://cdn.jsdelivr.net/npm/@msgpack/msgpack@3.0.0-beta2/+esm";
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+mermaid.initialize({
+    startOnLoad: true,
+    theme: "dark"
+});
 
 // logiclogue-fade component
 (function () {
@@ -318,20 +326,31 @@ function getRAM(ramId) {
 
     zxCanvases.forEach((canvas, index) => {
         const ctx = canvas.getContext("2d");
-        const rect = canvas.getBoundingClientRect();
+        let rect = canvas.getBoundingClientRect();
 
         const ram = getRAM(canvas.dataset.ramId || "default");
         const ramOffset = parseInt(canvas.dataset.ramOffset || "0x4000");
 
         drawZXScreenDataToCanvas(ctx, ram, ramOffset);
 
-        console.log("BEFORE");
+        setInterval(() => {
+            rect = canvas.getBoundingClientRect();
+        }, 1000);
+
         canvas.addEventListener("mousemove", e => {
             const x = Math.floor(((e.clientX - rect.left) / rect.width) * 256);
             const y = Math.floor(((e.clientY - rect.top) / rect.height) * 192);
 
             ram[0x3FFE] = x;
             ram[0x3FFF] = y;
+        });
+
+        canvas.addEventListener("mousedown", e => {
+            ram[0x3FFD] = 1;
+        });
+
+        canvas.addEventListener("mouseup", e => {
+            ram[0x3FFD] = 0;
         });
 
         function animate() {
@@ -648,7 +667,140 @@ function getRAM(ramId) {
     });
 }());
 
-// 6502 assembler (logiclogue-6502-asm
+class EthSendTransaction {
+    constructor(transaction) {
+        this.transaction = transaction;
+    }
+}
+
+// ethers (logiclogue-8bit-ethers)
+(function () {
+    const ethersElements = document.querySelectorAll(".logiclogue-8bit-ethers");
+    const originalTexts = {};
+
+    ethersElements.forEach(async (el, index) => {
+        const ram = getRAM(el.dataset.ramId || "default");
+
+        let signer, address;
+        // It will prompt user for account connections if it isnt connected
+        //const signer = await provider.getSigner();
+        //console.log("Account:", await signer.getAddress());
+
+        const ETH_STATUS_ADDR = 0x6000;
+        const ETH_REQUEST_ADDR = 0x6001;
+        const WALLET_ADDR = 0x6002;
+        const CHAIN_ID_ADDR = 0x6002;
+        const NO_ETH = 0;
+        const ETH = 1;
+        const AUTH_REQUESTED = 3;
+        const AUTH_GRANTED = 5;
+
+        setInterval(async function () {
+            console.log("ram before", ram[0x6001], ram[0x6000]);
+            if (!window.ethereum) {
+                ram[ETH_STATUS_ADDR] = NO_ETH;
+            } else if (ram[ETH_STATUS_ADDR] === NO_ETH) {
+                ram[ETH_STATUS_ADDR] = ETH;
+            }
+
+            if (ram[ETH_REQUEST_ADDR] & 1 && ram[ETH_STATUS_ADDR] === ETH) {
+                ram[ETH_STATUS_ADDR] = AUTH_REQUESTED;
+                console.log("ram after", ram[0x6001], ram[0x6000]);
+
+                console.log("Before provider", window.ethereum);
+
+                window.ethereum.request({ method: "eth_requestAccounts" })
+                    .then(function () {
+                        ram[ETH_STATUS_ADDR] = AUTH_GRANTED;
+                    })
+                    .catch(function () {
+                        ram[ETH_STATUS_ADDR] = ETH;
+                    });
+            }
+
+            if ([ETH, AUTH_GRANTED].includes(ram[ETH_STATUS_ADDR])) {
+                const chainId = await window.ethereum.request({ method: "eth_chainId" });
+
+                console.log("chainId", chainId);
+
+                window.ethereum.request({ method: "eth_accounts" })
+                    .then(function (accounts) {
+                        console.log("accounts", accounts);
+
+                        if (accounts.length > 0) {
+                            ram[ETH_STATUS_ADDR] = AUTH_GRANTED;
+
+                            const extensionCodec = new msgpack.ExtensionCodec();
+
+                            extensionCodec.register({
+                                type: 0x00,
+                                decode: function (data) {
+                                    const address = (data[1] << 8) + data[0];
+                                    const ramSlice = ram.slice(address);
+
+                                    return msgpack.decode(ramSlice, { extensionCodec });
+                                }
+                            });
+
+                            extensionCodec.register({
+                                type: 0x10,
+                                decode: function (data) {
+                                    return "0x" + Array.from(data).map(byte => byte.toString(16).padStart(2, "0")).join("");
+                                }
+                            });
+
+                            extensionCodec.register({
+                                type: 0x20,
+                                decode: function (data) {
+                                    console.log("Unpacking:", data);
+                                    const result = msgpack.decodeMulti(data, { extensionCodec });
+
+                                    console.log("Unpacked:", result);
+
+                                    const [to, value, input] = result;
+
+                                    // TODO
+                                    return {
+                                        method: "eth_sendTransaction",
+                                        params: [
+                                            {
+                                                from: accounts[0],
+                                                to,
+                                                //gas: "0x76c0", // 30400
+                                                //gasPrice: "0x9184e72a000", // 10000000000000
+                                                value,
+                                                input,
+                                            }
+                                        ]
+                                    }
+                                }
+                            });
+
+                            const testInput = "C74920C71410D46E8DD67C5D32BE8058BB8EB970870F07244567D6109184E72AC72910d46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675";
+                            const output = new Uint8Array(testInput.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+
+                            const transaction = msgpack.decode(output, { extensionCodec });
+
+                            console.log("hexstring unpack", transaction, "0x1234");
+
+                            //window.ethereum.request(transaction);
+
+                            // TODO - end
+                        } else {
+                            ram[ETH_STATUS_ADDR] = ETH;
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log("error", error);
+
+                        ram[ETH_STATUS_ADDR] = ETH;
+                    });
+            }
+        }, 1000);
+    });
+}());
+
+// 6502 assembler (logiclogue-6502-asm)
 (function () {
     const asmElements = document.querySelectorAll(".logiclogue-6502-asm");
     const originalTexts = {};
@@ -656,13 +808,11 @@ function getRAM(ramId) {
     console.log(asmElements);
 
     asmElements.forEach((el, index) => {
-        console.log("here", index);
-
         const asmFile = el.textContent;
 
         const ram = getRAM(el.dataset.ramId || "default");
 
-        const src= { name: "test-file", content: asmFile };
+        const src = { name: "test-file", content: asmFile };
         const asmRes = assemble(src, {});
 
         console.log("----- DISASM -----");
@@ -706,8 +856,6 @@ function getRAM(ramId) {
             // store value in RAM (processor is writing [value] to [address])
             ram[address] = value;
         };
-
-        console.log(CPU6502);
 
         const cpu = new CPU6502({
             accessMemory
