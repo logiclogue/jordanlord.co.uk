@@ -44,7 +44,8 @@ The matches play in the following schedule:
 
 Each season is broken up into "Sprints" which run in parity with our development
 cycle, where we have one Sprint per week. The current season that is ending is
-Sprint 85. Pock Town have finished in TODO position after quite poor management.
+Sprint 85. Pock Town have finished in seventh position after quite poor
+management, narrowly avoiding relegation on the final day.
 
 There are 6 divisions, each team member is given an equal share of the 756
 clubs. Here are a list of my clubs and where they currently sit:
@@ -93,7 +94,7 @@ We'll also be automatically signing academy players if the size of the squad is
 less than 30 and there are academy players available to sign. I'm assuming here
 that I have enough Sepolia Eth to sign the players.
 
-# Season One
+# Season One (Sprint 86)
 
 It was a bit of a rocky start. It turns out there was an issue with the auto
 manager, alongside it being release week for Footium, which meant I didn't have
@@ -114,4 +115,70 @@ to make up for.
 - Pock Town finished 3rd
 - most teams got promoted
 
-# Season Two
+# Season Two (Sprint 87)
+
+Season two has started. We've now got two teams in the top division, Pock Town
+and Wiversing.
+
+It wasn't until Tuesday 17:30 that the auto-select bug was found.
+
+Then on Wednesday 09:00 another upgrade was made where we were now properly
+invalidating the player cache, so that the auto select should more accurately
+select the best team. In addition, auto select should now fail a lot less. There
+were instances where auto select was failing to submit lineups because player
+had just been put in training. 
+
+Once that was set, the teams performed a lot better. A number of clubs got
+promoted out of their respective division. Pock Town and Wiversing remained in
+Division One. Sild City and Binchellinst got promoted to Division One. Sadly in
+Division Two - League One, Regingsey didn't make it. They got pipped to
+promotion by Chitnorwore and Moodburn, both Division One giants.
+
+This poor competitive performance can mostly be attributed to the low depth of
+squad of these teams, combined with the inability to react to invalid lineups.
+
+- final league standings
+
+# Season Three (Sprint 88)
+
+In Season Three, we started off with 4 Division One Clubs Binchellinst,
+Wiversing, Pock Town, and Sild City. And 8 Division Two clubs, Baton United,
+Bexham Rovers, Caistord, Crough Wanderers, Helver Rangers, Lyn an Villa, Totlest
+Albion, Wattinstasins, and the poor Regingsey. No clubs remain in Division Six.
+
+At this point we've now ran out of ETH with only 0.16 Sepolia ETH left in the
+wallet. We must be more sustainable moving forwards.
+
+- lineup evaluation
+- more efficient training
+
+# Season Four (Sprint 89)
+
+- Pock Town Champions!
+- Baton United and Regingsey relegated
+
+# Season Five (Sprint 90)
+
+- Pock Town second
+- Binchellinst Champions!
+
+# Season Six (Sprint 91)
+
+- revival of Nick
+- Beverle Champions
+- Hawkbot stops working properly
+
+# Season Seven (Sprint 92)
+
+- Beverle Champions again
+- Hawkbot continues to not run
+
+# Season Eight (Sprint 93)
+
+- TODO
+    - open sources
+    - revival of Hawkbot
+    - cache fixes
+    - formation chooser
+    - squad re-balancer
+    - back-to-back training
