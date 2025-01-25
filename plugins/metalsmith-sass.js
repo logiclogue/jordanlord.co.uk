@@ -86,6 +86,7 @@ function compile(config, basePath, files, filename, done) {
         }
 
         if (error) {
+            console.error("ERROR with sass", error);
             done(error);
             return;
         }

@@ -1,5 +1,11 @@
 footer {
     margin: $font-size + $u 0 $font-size + $u 0;
-    color: $lighter-bg-colour;
+    color: $dark-fg-colour;
+    text-align: center;
+}
+
+.privacy-notice {
+    font-size: 0.5 * $font-size + $u;
+    padding: $font-size + $u 0 $font-size + $u 0;
     text-align: center;
 }

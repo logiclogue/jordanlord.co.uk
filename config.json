@@ -55,8 +55,7 @@
         "Dec"
     ],
     "sass": {
-        "outputStyle": "expanded",
-        "includePaths": ["styles"]
+        "outputStyle": "expanded"
     },
     "layouts": {
         "engine": "pug",
