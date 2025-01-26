@@ -305,6 +305,182 @@ function ZXScreen() {
     };
 };
 
+const PENTAGON_SCREEN_WIDTH = 256;
+const PENTAGON_SCREEN_HEIGHT = 192;
+const PENTAGON_OBJ_COUNT = 64;
+const PENTAGON_CTR_PTR = 0x0000;
+const PENTAGON_OBJ_PTR = 0x0002;
+const PENTAGON_GRA_PTR = 0x0004;
+const PENTAGON_BSCRLX_PTR = 0x0006;
+const PENTAGON_BSCRLY_PTR = 0x0007;
+const PENTAGON_WSCRLX_PTR = 0x0008;
+const PENTAGON_WSCRLY_PTR = 0x0009;
+
+const PENTAGON_SPRITE_LOC = 0x0000;
+const PENTAGON_BACKGROUND_LOC = 0x1000;
+const PENTAGON_BACKGROUND_ATTR_LOC = 0x1400;
+const PENTAGON_BACKGROUND_WIDTH = 32;
+const PENTAGON_BACKGROUND_HEIGHT = 32;
+const PENTAGON_WINDOW_LOC = 0x1500;
+const PENTAGON_PALETTE_LOC = 0x18c0;
+
+const ezPentagonGenerateImageData = (ctx, ram, ramOffset) => {
+    const imageData = ctx.createImageData(PENTAGON_SCREEN_WIDTH, PENTAGON_SCREEN_WIDTH);
+    const data = imageData.data;
+
+    const objPtr = ram[ramOffset + PENTAGON_OBJ_PTR] + (ram[ramOffset + PENTAGON_OBJ_PTR + 1] * 0x100);
+    const graPtr = ram[ramOffset + PENTAGON_GRA_PTR] + (ram[ramOffset + PENTAGON_GRA_PTR + 1] * 0x100);
+    const backgroundPtr = graPtr + PENTAGON_BACKGROUND_LOC;
+    const backgroundAttrPtr = graPtr + PENTAGON_BACKGROUND_ATTR_LOC;
+
+    const xScroll = ram[ramOffset + PENTAGON_BSCRLX_PTR];
+    const yScroll = ram[ramOffset + PENTAGON_BSCRLY_PTR];
+
+    // Draw background
+    for (let x = 0; x < PENTAGON_BACKGROUND_WIDTH; x += 1) {
+        for (let y = 0; y < PENTAGON_BACKGROUND_HEIGHT; y += 1) {
+            const tile = x + (y * PENTAGON_BACKGROUND_WIDTH);
+
+            const attrIndex = (x >> 1) + ((y >> 1) * (PENTAGON_BACKGROUND_WIDTH >> 1));
+            const attrPtr = backgroundAttrPtr + attrIndex;
+
+            const attr = ram[attrPtr];
+
+            const sprite = ram[backgroundPtr + tile];
+            // TODO - look up palette
+            const palette = attr & 7;
+
+            debugger;
+            // TODO - look up attr
+            const isHorizontalFlip = 0;
+            // TODO - look up attr
+            const isVerticalFlip = 0;
+            // TODO - look up size
+            const size = 0;
+
+            const xPos = ((x * 8) + xScroll) % 256;
+            const yPos = ((y * 8) + yScroll) % 256;
+
+            ezPentagonDrawSprite({
+                ram,
+                graPtr,
+                palette,
+                xPos,
+                yPos,
+                isHorizontalFlip,
+                isVerticalFlip,
+                palette,
+                sprite,
+                size,
+                hasTransparency: false,
+                drawPixel: (imageDataIndex, red, green, blue) => {
+                    data[imageDataIndex] = red;
+                    data[imageDataIndex + 1] = green;
+                    data[imageDataIndex + 2] = blue;
+                    data[imageDataIndex + 3] = 255;
+                }
+            })
+        }
+    }
+
+    // Draw objects
+    for (let i = 0; i < PENTAGON_OBJ_COUNT; i += 1) {
+        const ptr = objPtr + (i * 4);
+
+        const xPos = ram[ptr];
+        const yPos = ram[ptr + 1];
+        const attr = ram[ptr + 2];
+        const sprite = ram[ptr + 3];
+
+        // Get palette index from sprite attributes (bottom 3 bits)
+        const palette = attr & 0x07;
+
+        const isHorizontalFlip = (attr >> 6) & 1;
+        const isVerticalFlip = (attr >> 7) & 1;
+
+        ezPentagonDrawSprite({
+            ram,
+            graPtr,
+            palette,
+            xPos,
+            yPos,
+            isHorizontalFlip,
+            isVerticalFlip,
+            palette,
+            sprite,
+            size: 0,
+            hasTransparency: true,
+            drawPixel: (imageDataIndex, red, green, blue) => {
+                data[imageDataIndex] = red;
+                data[imageDataIndex + 1] = green;
+                data[imageDataIndex + 2] = blue;
+                data[imageDataIndex + 3] = 255;
+            }
+        })
+    }
+
+    // TODO - draw window
+
+    return imageData;
+};
+
+/**
+ * ezPentagonGenerateImageData - used for drawing sprites onto image data for
+ * the Pentagon graphics layer
+ * x - 8byte - x position
+ * y - 8byte - y position
+ */
+const ezPentagonDrawSprite = ({
+    ram,
+    graPtr,
+    isHorizontalFlip,
+    isVerticalFlip,
+    xPos,
+    yPos,
+    palette,
+    sprite,
+    size,
+    hasTransparency,
+    drawPixel
+}) => {
+    const spritePtr = graPtr + (sprite * 16);
+    const palettePtr = graPtr + PENTAGON_PALETTE_LOC;
+
+    for (let y = 0; y < 8; y += 1) {
+        const yOffset = isVerticalFlip ? (7 - y) : y;
+        const spriteRowA = ram[spritePtr + yOffset];
+        const spriteRowB = ram[spritePtr + yOffset + 8];
+        // TODO - 4x4, 8x16, etc (size)
+
+        for (let x = 0; x < 8; x += 1) {
+            const imageDataIndex = (((xPos + x) % PENTAGON_SCREEN_WIDTH) + (PENTAGON_SCREEN_WIDTH * ((yPos + y) % PENTAGON_SCREEN_WIDTH))) * 4;
+
+            const xOffset = isHorizontalFlip ? x : (7 - x);
+
+            const spriteBitA = (spriteRowA >> xOffset) & 1;
+            const spriteBitB = (spriteRowB >> xOffset) & 1;
+            const colourIndex = spriteBitA + (spriteBitB * 2);
+
+            // If the colour is transparent, don't draw
+            if (hasTransparency && colourIndex === 0) {
+                continue;
+            }
+
+            const paletteAddress = palettePtr + (palette * 4) + colourIndex;
+
+            const colourValue = ram[paletteAddress];
+
+            // Extract individual RGB components (2 bits each)
+            //const opacity = ((colourValue >> 6) & 0x03) * 85;
+            const red = ((colourValue >> 4) & 0x03) * 85;
+            const green = ((colourValue >> 2) & 0x03) * 85;
+            const blue = (colourValue & 0x03) * 85;
+
+            drawPixel(imageDataIndex, red, green, blue);
+        }
+    }
+};
+
 // RAM
 let ram = {};
 
@@ -355,6 +531,28 @@ function getRAM(ramId) {
 
         function animate() {
             drawZXScreenDataToCanvas(ctx, ram, ramOffset);
+
+            requestAnimationFrame(animate);
+        }
+
+        requestAnimationFrame(animate);
+    });
+}());
+
+// logiclogue-ez-pentagon-screen - for more advanced graphics, named after the spectrum clone
+(function () {
+    const canvases = document.querySelectorAll(".logiclogue-ez-pentagon-screen");
+
+    canvases.forEach((canvas, index) => {
+        const ram = getRAM(canvas.dataset.ramId || "default");
+        const ramOffset = parseInt(canvas.dataset.ramOffset || "0x2000");
+
+        const ctx = canvas.getContext("2d");
+
+        function animate() {
+            const imageData = ezPentagonGenerateImageData(ctx, ram, ramOffset);
+
+            ctx.putImageData(imageData, 0, 0);
 
             requestAnimationFrame(animate);
         }
@@ -864,4 +1062,85 @@ class EthSendTransaction {
         cpu.reset();
         cpu.startClock();
     });
+}());
+
+// Analytics rom
+(function () {
+    const startTime = performance.now();
+    const uuid = crypto.randomUUID();
+    const romEndpoint = "https://api.jordanlord.co.uk/rom";
+
+    window.addEventListener("load", function () {
+        const timeSpent = performance.now() - startTime;
+
+        fetch(romEndpoint, {
+            method: "POST",
+            body: JSON.stringify({
+                type: "load",
+                uuid: uuid,
+                isSolflare: window.solflare ? true : false,
+                isEthereum: window.ethereum ? true : false,
+                pathname: window.location.pathname,
+                href: window.location.href,
+                referrer: document.referrer,
+                useragent: navigator.userAgent,
+                language: navigator.language || navigator.languages,
+                online: navigator.onLine,
+                screenWidth: window.screen.width,
+                screenHeight: window.screen.height,
+                innerWidth: window.innerWidth,
+                innerHeight: window.innerHeight,
+                devicePixelRatio: window.devicePixelRatio,
+                timeSpent: timeSpent
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+    });
+
+    let events = [];
+
+    window.addEventListener("click", function (e) {
+        const timeSpent = performance.now() - startTime;
+
+        events.push({
+            type: "click",
+            timeSpent: timeSpent,
+            id: e.target.id,
+            tagName: e.target.tagName,
+            className: e.target.className,
+            pageX: e.pageX,
+            pageY: e.pageY,
+            x: e.x,
+            y: e.y
+        });
+    });
+
+    window.addEventListener("scrollend", function () {
+        const timeSpent = performance.now() - startTime;
+
+        events.push({
+            type: "scroll",
+            timeSpent: timeSpent
+        });
+    });
+
+    setInterval(function () {
+        if (events.length > 0) {
+            fetch(romEndpoint, {
+                method: "POST",
+                body: JSON.stringify({
+                    type: "events",
+                    uuid: uuid,
+                    events
+                }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            events = [];
+        }
+    }, 5000);
 }());
