@@ -1,41 +1,40 @@
 ---
-title: 6502 Part 1 - ZX Spectrum Display
-publishDate: 2024-08-10
-draft: true
+title: 6502 vs ZX Spectrum - A Graphics Experiment You Didn’t Expect
+publishDate: 2024-02-03
 ---
 
 # Introduction
 
 Okay so this might seem like a bit of a strange article. But trust me. I've had
-this burning idea recently to combine retro computer components together to
-create something a bit different. In this case, it's an emulation of a ZX
-Spectrum graphics display with a 6502 processor. What makes this strange is that
-the ZX Spectrum used a Z80 processor, not a 6502. This will be part of a series
-of articles where I'll combine retro and modern technology together in weird and
-wonderful ways to run some experiments. There is a lot of support for the 6502
-processor thanks to the popularity of systems worldwide like the Commodore 64
+this burning idea recently to combine retro computer components to create
+something a bit different. In this case, it's an emulation of a ZX Spectrum
+display wired up with a 6502 processor. What makes this strange is that the ZX
+Spectrum uses a Z80 processor, not a 6502. This will be part of a series of
+articles where I'll combine retro and modern technology together in weird and
+wonderful ways to create experiments. There is a lot of support for the 6502
+processor thanks to the worldwide popularity of systems like the Commodore 64
 and the Nintendo Entertainment System.
 
 There is something special about the ZX Spectrum. It was released in the UK in
 1983 for £125, taking the domestic home computer market by storm. It almost
-instantly took off as a kind of game console of its day, birthing the likes
-Manic Miner, { TODO insert some game titles here }. Being an incredibly cheap
-machine of its day, a lot of corners were cut. One most notable was its graphics
-ability.
+instantly took off as a kind of *game console of its day*, birthing the likes
+Manic Miner, Knight Lore and Atic Atac. Being an incredibly cheap machine of its
+day, a lot of corners were cut. One corner most notable was its graphics
+capability.
 
-The graphics of the ZX Spectrum consisted of a 256x192 bitmapped screen, with
+The graphics of the ZX Spectrum consist of a 256x192 bitmapped screen, with
 8x8 pixel attribute blocks. Now, the most striking thing here is that each
-attribute block could only have two colours. Those attribute blocks were fixed
+attribute blocks could only have two colours. Those attribute blocks were fixed
 to a grid. This was unlike other machines at the time, which had support for
 more than two colours and even native sprites. In a way, it was like the ZX
 Spectrum was actually monochrome, with a sprinkle of colour added to its
 monochromatic display to give the illusion of colour. The result - a breadth of
-games that had an unusual, unpolished, but absolutely unique and undoubtubly ZX
-Spectrum look to it.
+games that had an unusual, unpolished, but undoubtedly unique ZX Spectrum
+look to it.
 
 # How does it work?
 
-The display itself was memory mapped into two main sections. The pixel data is
+The display itself is memory mapped into two main sections. The pixel data is
 written from addresses 0x4000 to 0x57FF. The attribute data written from 0x5800
 to 0x5AFF. This meant that the pixel data has 6144 bytes, while each byte of the
 attribute corresponded to its respective 8x8 block.
@@ -193,7 +192,7 @@ mouse cursor. We're going to memory map the mouse X and Y positions relative to
 the screen to addresses 0x3FFE and 0x3FFF respectively.
 
 In order to draw the mouse position on the screen, we have to calculate a few
-different things. We have to calculate the row, column, line, and area that we'd
+different things. We have to calculate the row, column, line and area that we'd
 like to draw onto. As well as calculating the individual byte itself.
 
 The row is calculated by taking the mouse y position, masking it against
@@ -257,7 +256,7 @@ update_mouse_area:
     RTS
 ```
 
-Having the row, column, and area is only good enough to draw to a specific byte
+Having the row, column and area is only good enough to draw to a specific byte
 on the screen. However, we also want to draw to a specific pixel. To achieve
 this we have to bit-shift a single pixel right n number of times. We calculate n
 by masking the least significant 3 bits from the mouse's x position.
@@ -282,7 +281,7 @@ loop_update_mouse_byte:
 
 Finally to draw, we have to calculate the address, then write the byte to that
 address in memory in order to draw to the screen.  Fortunately, the address is
-two bytes, so we can break the calculation into two separate ones.
+two bytes, so the calculation can be broken down into two separate ones.
 
 Let's calculate the offsets. For the least significant byte of the offset we do
 `column + row`, simple!
@@ -308,8 +307,8 @@ bitmap address you're actually going to write to.
 We're not going to stop there, we also want the attribute offset so that we can
 write the background colour too. Fortunately, that's also relatively simple.
 I'm going to leave the assembly below for demonstration. Basically, it involving
-bit masking and bit-shifting to achieve the desired final address offset.  Of
-course, the assembly below makes it look a lot more complex.
+bit masking and bit-shifting to achieve the desired final address offset. the
+assembly below makes it look a lot more complex than it actually is.
 
 ```
 attribute_offset:
@@ -634,3 +633,8 @@ CharMap:
 </textarea>
 
 <canvas class="u-full-width logiclogue-zx-screen" data-ram-id="example-n" width="256" height="192" style="image-rendering: pixelated"></canvas>
+
+# References and Acknowledgements
+
+- [jywlewis' 6502 Emulator](https://www.npmjs.com/package/6502-emulator)
+- [kktos' 6502 Assembler](https://www.npmjs.com/package/jsasm6502)
