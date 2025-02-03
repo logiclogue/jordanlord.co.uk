@@ -1,6 +1,6 @@
 ---
 title: 6502 vs ZX Spectrum - A Graphics Experiment You Didn’t Expect
-publishDate: 2024-02-03
+publishDate: 2025-02-03
 ---
 
 # Introduction
