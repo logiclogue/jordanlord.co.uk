@@ -494,6 +494,21 @@ function getRAM(ramId) {
     return ram[ramId];
 }
 
+function ramGetShort(ram, ptr) {
+    return (ram[ptr] << 8) | ram[ptr + 1];
+}
+
+function ramSetShort(ram, ptr, short) {
+    ram[ptr] = ((short & 0xFF00) >> 8);
+    ram[ptr + 1] = (short & 0x00FF);
+}
+
+function ramUpdateShort(ram, ptr, f) {
+    const value = ramGetShort(ram, ptr);
+
+    ramSetShort(ram, ptr, f(value));
+}
+
 // logiclogue-zx-screen - for interfacing RAM with a screen
 (function () {
     const { getEmptyZxScreen, drawZXScreenDataToCanvas } = ZXScreen();
@@ -551,6 +566,278 @@ function getRAM(ramId) {
 
         function animate() {
             const imageData = ezPentagonGenerateImageData(ctx, ram, ramOffset);
+
+            ctx.putImageData(imageData, 0, 0);
+
+            requestAnimationFrame(animate);
+        }
+
+        requestAnimationFrame(animate);
+    });
+}());
+
+const SUSA_OBJ_COUNT = 512;
+const SUSA_BACKGROUND_WIDTH = 64;
+const SUSA_BACKGROUND_HEIGHT = 64;
+
+const SUSA_CTRL_PTR = 0x1000;
+const SUSA_STATUS_PTR = 0x1001;
+const SUSA_OSCRLY = 0x1004;
+const SUSA_BSCRLX = 0x1006;
+const SUSA_BSCRLY = 0x1008;
+const SUSA_WSCRLX = 0x100a;
+const SUSA_WSCRLY = 0x100c;
+const SUSA_SWIDTH = 0x100e;
+const SUSA_SHIGHT = 0x1010;
+const SUSA_TICKKK = 0x1012;
+const SUSA_MILLIS = 0x1014;
+const SUSA_MOUSEX = 0x1016;
+const SUSA_MOUSEY = 0x1018;
+const SUSA_KEYPRA = 0x101a;
+const SUSA_KEYPRB = 0x101b;
+const SUSA_SPALET = 0x1020;
+const SUSA_BPALET = 0x1030;
+
+const SUSA_SPRITE_PTR = 0x2000;
+const SUSA_OBJECT_PTR = 0x6000;
+const SUSA_BACKGR_PTR = 0x7000;
+const SUSA_WINDOW_PTR = 0x8000;
+
+const ezSusaGenerateImageData = (ctx, ram) => {
+    const screenWidth = ramGetShort(ram, SUSA_SWIDTH);
+    const screenHeight = ramGetShort(ram, SUSA_SHIGHT);
+
+    const imageData = ctx.createImageData(screenWidth, screenHeight);
+    const data = imageData.data;
+
+    const xBackgroundScroll = ramGetShort(ram, SUSA_BSCRLX);
+    const yBackgroundScroll = ramGetShort(ram, SUSA_BSCRLY);
+
+    // Draw background
+    for (let x = 0; x < SUSA_BACKGROUND_WIDTH; x += 1) {
+        for (let y = 0; y < SUSA_BACKGROUND_HEIGHT; y += 1) {
+            const tile = x + (y * SUSA_BACKGROUND_WIDTH);
+
+            const attrIndex = tile * 2;
+            const attrPtr = SUSA_BACKGR_PTR + attrIndex;
+
+            const spriteIndex = ram[attrPtr];
+            const attr = ram[attrPtr + 1];
+            const spriteSheet = attr & 0b00000011;
+            const palette = (attr & 0b00011100) >> 2;
+
+            const sprite = (spriteIndex | (spriteSheet << 8));
+
+            const isHorizontalFlip = ((attr & 0b01000000) >> 5) && true;
+            const isVerticalFlip = ((attr & 0b10000000) >> 7) && true;
+            const xPos = ((x * 8) + xBackgroundScroll) % (SUSA_BACKGROUND_WIDTH * 8);
+            const yPos = ((y * 8) + yBackgroundScroll) % (SUSA_BACKGROUND_HEIGHT * 8);
+
+            ezSusaDrawSprite({
+                ram,
+                palette,
+                xPos,
+                yPos,
+                isHorizontalFlip,
+                isVerticalFlip,
+                sprite,
+                drawPixel: (imageDataIndex, red, green, blue) => {
+                    data[imageDataIndex] = red;
+                    data[imageDataIndex + 1] = green;
+                    data[imageDataIndex + 2] = blue;
+                    data[imageDataIndex + 3] = 255;
+                }
+            });
+        }
+    }
+
+    // Draw objects
+    /*
+    * for (let i = 0; i < PENTAGON_OBJ_COUNT; i += 1) {
+    *     const ptr = objPtr + (i * 4);
+
+    *     const xPos = ram[ptr];
+    *     const yPos = ram[ptr + 1];
+    *     const attr = ram[ptr + 2];
+    *     const sprite = ram[ptr + 3];
+
+    *     // Get palette index from sprite attributes (bottom 3 bits)
+    *     const palette = attr & 0x07;
+
+    *     const isHorizontalFlip = (attr >> 6) & 1;
+    *     const isVerticalFlip = (attr >> 7) & 1;
+
+    *     ezPentagonDrawSprite({
+    *         ram,
+    *         graPtr,
+    *         palette,
+    *         xPos,
+    *         yPos,
+    *         isHorizontalFlip,
+    *         isVerticalFlip,
+    *         palette,
+    *         sprite,
+    *         size: 0,
+    *         hasTransparency: true,
+    *         drawPixel: (imageDataIndex, red, green, blue) => {
+    *             data[imageDataIndex] = red;
+    *             data[imageDataIndex + 1] = green;
+    *             data[imageDataIndex + 2] = blue;
+    *             data[imageDataIndex + 3] = 255;
+    *         }
+    *     })
+    * }
+    */
+
+    // TODO - draw window
+
+    return imageData;
+};
+
+/**
+ * ezSusaGenerateImageData - used for drawing sprites onto image data for
+ * the Susa advanced graphics layer
+ * x - 8byte - x position
+ * y - 8byte - y position
+ */
+const ezSusaDrawSprite = ({
+    ram,
+    isHorizontalFlip,
+    isVerticalFlip,
+    xPos,
+    yPos,
+    palette,
+    sprite,
+    size,
+    drawPixel
+}) => {
+    const screenWidth = ramGetShort(ram, SUSA_SWIDTH);
+    const screenHeight = ramGetShort(ram, SUSA_SHIGHT);
+    const spritePtr = SUSA_SPRITE_PTR + (sprite * 16);
+
+    for (let y = 0; y < 8; y += 1) {
+        const yOffset = isVerticalFlip ? (7 - y) : y;
+        const spriteRowA = ram[spritePtr + yOffset];
+        const spriteRowB = ram[spritePtr + yOffset + 8];
+        // TODO - 4x4, 8x16, etc (size)
+
+        for (let x = 0; x < 8; x += 1) {
+            const thisX = (xPos + x) % screenWidth;
+            const thisY = (yPos + y) % screenHeight;
+
+            if (thisX < 0 || thisX >= screenWidth || thisY < 0 || thisY >= screenHeight) {
+                continue;
+            }
+
+            const imageDataIndex = (thisX + (screenWidth * thisY)) * 4;
+
+            const xOffset = isHorizontalFlip ? x : (7 - x);
+
+            const spriteBitA = (spriteRowA >> xOffset) & 1;
+            const spriteBitB = (spriteRowB >> xOffset) & 1;
+            const colourIndex = spriteBitA + (spriteBitB * 2);
+
+            // TODO - If the colour is transparent, don't draw
+            //if (hasTransparency && colourIndex === 0) {
+            //    continue;
+            //}
+
+            const paletteAddress = SUSA_SPALET + (palette * 4) + colourIndex;
+
+            const colourValue = ram[paletteAddress];
+
+            // TODO - Extract individual RGB components (2 bits each)
+            //const opacity = ((colourValue >> 6) & 0x03) * 85;
+            const red = ((colourValue >> 4) & 0x03) * 85;
+            const green = ((colourValue >> 2) & 0x03) * 85;
+            const blue = (colourValue & 0x03) * 85;
+
+            drawPixel(imageDataIndex, red, green, blue);
+        }
+    }
+};
+
+const ezSusaRunSampleLogic = ram => {
+    // init
+    if (!ram[0x0000]) {
+        // set sample sprite
+        ram[SUSA_SPRITE_PTR + 0] = 0b00000000;
+        ram[SUSA_SPRITE_PTR + 1] = 0b00111100;
+        ram[SUSA_SPRITE_PTR + 2] = 0b01100110;
+        ram[SUSA_SPRITE_PTR + 3] = 0b01111110;
+        ram[SUSA_SPRITE_PTR + 4] = 0b01100110;
+        ram[SUSA_SPRITE_PTR + 5] = 0b01100110;
+        ram[SUSA_SPRITE_PTR + 6] = 0b01100110;
+        ram[SUSA_SPRITE_PTR + 7] = 0b00000000;
+
+        // set palette
+        ram[SUSA_SPALET] = 0b00110100;
+
+        // set background to that sprite
+        for (let x = 0; x < SUSA_BACKGROUND_WIDTH; x += 1) {
+            for (let y = 0; y < SUSA_BACKGROUND_HEIGHT; y += 1) {
+                const i = x + (y * SUSA_BACKGROUND_WIDTH);
+
+                // set the sprite
+                ram[SUSA_BACKGR_PTR + (i * 2)] = Math.floor(Math.random() * 5);
+                // set the attribute
+                ram[SUSA_BACKGR_PTR + (i * 2) + 1] = 0b00000000;
+            }
+        }
+
+        ram[0x0000] = 1;
+    }
+
+    ramUpdateShort(ram, SUSA_BSCRLX, () => {
+        //const tick = ramGetShort(ram, SUSA_TICKKK);
+
+        //return tick >> 3;
+
+        return ramGetShort(ram, SUSA_MOUSEX);
+    });
+
+    ramUpdateShort(ram, SUSA_BSCRLY, () => {
+        //const tick = ramGetShort(ram, SUSA_TICKKK);
+
+        //return tick >> 3;
+
+        return ramGetShort(ram, SUSA_MOUSEY);
+    });
+};
+
+// logiclogue-ez-susa-screen - for more advanced graphics, named after some
+// place to do with heptagons
+(function () {
+    const canvases = document.querySelectorAll(".logiclogue-ez-susa-screen");
+
+    canvases.forEach((canvas, index) => {
+        const ram = getRAM(canvas.dataset.ramId || "default");
+        const screenWidth = canvas.dataset.screenWidth || 256;
+        const screenHeight = canvas.dataset.screenHeight || 192;
+
+        ramSetShort(ram, SUSA_SWIDTH, screenWidth);
+        ramSetShort(ram, SUSA_SHIGHT, screenHeight);
+
+        const ctx = canvas.getContext("2d");
+
+        canvas.addEventListener("mousemove", e => {
+            const rect = canvas.getBoundingClientRect();
+
+            const x = Math.floor(((e.clientX - rect.left) / rect.width) * screenWidth);
+            const y = Math.floor(((e.clientY - rect.top) / rect.height) * screenHeight);
+
+            ramSetShort(ram, SUSA_MOUSEX, x);
+            ramSetShort(ram, SUSA_MOUSEY, y);
+        });
+
+        function animate() {
+            ramUpdateShort(ram, SUSA_TICKKK, tick => {
+                return tick + 1;
+            });
+
+            ezSusaRunSampleLogic(ram);
+
+            const imageData = ezSusaGenerateImageData(ctx, ram);
 
             ctx.putImageData(imageData, 0, 0);
 

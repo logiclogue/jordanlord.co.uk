@@ -59,6 +59,9 @@ Metalsmith(".")
             },
             ez_pentagon_screen: (buf, opts) => {
                 return `<canvas class="u-full-width logiclogue-ez-pentagon-screen" data-ram-id="example-${opts.id}" width="256" height="192" style="image-rendering: pixelated"></canvas>`;
+            },
+            ez_susa_screen: (buf, opts) => {
+                return `<canvas class="u-full-width logiclogue-ez-susa-screen" data-ram-id="example-${opts.id}" width="${opts.width || 256}" height="${opts.height || 192}" style="image-rendering: pixelated"></canvas>`;
             }
         }
     }))
