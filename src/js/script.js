@@ -626,12 +626,12 @@ const ezSusaGenerateImageData = (ctx, ram) => {
             const spriteSheet = attr & 0b00000011;
             const palette = (attr & 0b00011100) >> 2;
 
-            const sprite = (spriteIndex | (spriteSheet << 8));
+            const sprite = spriteIndex | (spriteSheet << 8);
 
-            const isHorizontalFlip = ((attr & 0b01000000) >> 5) && true;
-            const isVerticalFlip = ((attr & 0b10000000) >> 7) && true;
-            const xPos = ((x * 8) + xBackgroundScroll) % (SUSA_BACKGROUND_WIDTH * 8);
-            const yPos = ((y * 8) + yBackgroundScroll) % (SUSA_BACKGROUND_HEIGHT * 8);
+            const isHorizontalFlip = ((attr & 0b01000000) >> 5) ? true : false;
+            const isVerticalFlip = ((attr & 0b10000000) >> 7) ? true : false;
+            const xPos = ((x * 8) + xBackgroundScroll + 8) % (SUSA_BACKGROUND_WIDTH * 8) - 8;
+            const yPos = ((y * 8) + yBackgroundScroll + 8) % (SUSA_BACKGROUND_HEIGHT * 8) - 8;
 
             ezSusaDrawSprite({
                 ram,
@@ -722,8 +722,8 @@ const ezSusaDrawSprite = ({
         // TODO - 4x4, 8x16, etc (size)
 
         for (let x = 0; x < 8; x += 1) {
-            const thisX = (xPos + x) % screenWidth;
-            const thisY = (yPos + y) % screenHeight;
+            const thisX = xPos + x;
+            const thisY = yPos + y;
 
             if (thisX < 0 || thisX >= screenWidth || thisY < 0 || thisY >= screenHeight) {
                 continue;
