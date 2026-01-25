@@ -57,23 +57,23 @@ MOUSEY      $1018   YYYY YYYY YYYY YYYY     Mouse Y position
 KEYPRA      $101a   AAAA AAAA               Key press A
 KEYPRB      $101b   BBBB BBBB               Key press B
 
-PALET0      $1020   BBBB AAAA BBBB CCCC     Palette 0 (sprite)
-PALET1      $1022   BBBB AAAA BBBB CCCC     Palette 1 (sprite)
-PALET2      $1024   BBBB AAAA BBBB CCCC     Palette 2 (sprite)
-PALET3      $1026   BBBB AAAA BBBB CCCC     Palette 3 (sprite)
-PALET4      $1028   BBBB AAAA BBBB CCCC     Palette 4 (sprite)
-PALET5      $102a   BBBB AAAA BBBB CCCC     Palette 5 (sprite)
-PALET6      $102c   BBBB AAAA BBBB CCCC     Palette 6 (sprite)
-PALET7      $102e   BBBB AAAA BBBB CCCC     Palette 7 (sprite)
+PALET0      $1020   4 bytes ABCD            Palette 0 (sprite)
+PALET1      $1024   4 bytes ABCD            Palette 1 (sprite)
+PALET2      $1028   4 bytes ABCD            Palette 2 (sprite)
+PALET3      $102c   4 bytes ABCD            Palette 3 (sprite)
+PALET4      $1030   4 bytes ABCD            Palette 4 (sprite)
+PALET5      $1034   4 bytes ABCD            Palette 5 (sprite)
+PALET6      $1038   4 bytes ABCD            Palette 6 (sprite)
+PALET7      $103c   4 bytes ABCD            Palette 7 (sprite)
 
-PALET8      $1030   BBBB AAAA BBBB CCCC     Palette 8 (background)
-PALET9      $1032   BBBB AAAA BBBB CCCC     Palette 9 (background)
-PALETa      $1034   BBBB AAAA BBBB CCCC     Palette a (background)
-PALETb      $1036   BBBB AAAA BBBB CCCC     Palette b (background)
-PALETc      $1038   BBBB AAAA BBBB CCCC     Palette c (background)
-PALETd      $103a   BBBB AAAA BBBB CCCC     Palette d (background)
-PALETe      $103c   BBBB AAAA BBBB CCCC     Palette e (background)
-PALETf      $103e   BBBB AAAA BBBB CCCC     Palette f (background)
+PALET8      $1040   4 bytes ABCD            Palette 8 (background)
+PALET9      $1044   4 bytes ABCD            Palette 9 (background)
+PALETa      $1048   4 bytes ABCD            Palette a (background)
+PALETb      $104c   4 bytes ABCD            Palette b (background)
+PALETc      $1050   4 bytes ABCD            Palette c (background)
+PALETd      $1054   4 bytes ABCD            Palette d (background)
+PALETe      $1058   4 bytes ABCD            Palette e (background)
+PALETf      $105c   4 bytes ABCD            Palette f (background)
 ```
 
 - Object memory
@@ -84,17 +84,51 @@ in order of the array, later elements will overlap. The renderer will stop
 drawing when it receives an address of 0.
 
 ```
-XPOS    0   XXXX XXXX XXXX XXXX     X position of the sprite
-YPOS    2   YYYY YYYY YYYY YYYY     Y position of the sprite
-ATTR    4   7654 3210               Attribute register (TODO - 2 bytes, for text, sprite sizes etc)
+XPOS    0   2 bytes                 X position of the sprite
+YPOS    2   2 bytes                 Y position of the sprite
+ATTA    4   7654 3210               Attribute register A
             |||| ||||
-            |||| |+++ Palette of sprite
-            |||+-+--- Selection (00: default 8x8; 01: right 4x8; 10: left 4x8; 11: double 8x16)
-            ||+------ Priority (0: in front of background; 1: behind background)
-            |+------- Flip sprite horizontally
-            +-------- Flip sprite vertically
-ADDR    6   AAAA AAAA AAAA AAAA     Sprite address
+            |||| ++++ Palette of sprite
+            ||++----- Mode
+            |+------- 2 colour mode (default 4 colours)
+            +-------- Text mode
+ATTB    5   7654 3210               Attribute register A
+            |||| ||++ Priority
+            |||| |+-- Flip sprite horizontally
+            |||| +--- Flip sprite vertically
+            ||++----- Scroll mode
+            |+------- Transparency
+            +-------- (Unused)
+ADDR    6   2 bytes                 Sprite address / text address
 ```
+
+Mode (default)
+
+- 00: 8x8
+- 01: 8x16
+- 10: 16x8
+- 11: 16x16
+
+Mode (text)
+
+- 00: 4x8
+- 01: 8x8
+- 10: 8x16
+- 11: 16x16
+
+Priority
+
+- 00: behind background
+- 01: in front of background
+- 10: in front of window
+- 11: in front of window
+
+Scroll mode
+
+- 00: sprite scroll
+- 01: background scroll
+- 10: window scroll
+- 11: no scroll
 
 - Sprite table
 
@@ -144,7 +178,7 @@ wraps around defined by the background scroll registers.
 
 ```
 SPRITE  0   NNNN NNNN   Index of the sprite
-ATTR    0   7654 3210               Attribute register (TODO - 2 bytes, for text, sprite sizes etc)
+ATTR    1   7654 3210               Attribute register (TODO - 2 bytes, for text, sprite sizes etc)
             |||| ||||
             |||| ||++ Sprite sheet selection
             |||+ ++-- Palette of sprite

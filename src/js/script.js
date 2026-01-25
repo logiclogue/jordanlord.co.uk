@@ -498,6 +498,10 @@ function ramGetShort(ram, ptr) {
     return (ram[ptr] << 8) | ram[ptr + 1];
 }
 
+function ramGetArray(ram, ptr, length) {
+    return ram.subarray(ptr, ptr + length);
+}
+
 function ramSetShort(ram, ptr, short) {
     ram[ptr] = ((short & 0xFF00) >> 8);
     ram[ptr + 1] = (short & 0x00FF);
@@ -507,6 +511,32 @@ function ramUpdateShort(ram, ptr, f) {
     const value = ramGetShort(ram, ptr);
 
     ramSetShort(ram, ptr, f(value));
+}
+
+function ramUpdateSerialised(ram, ptr, parse, serialise, f) {
+    const parsed = parse(ram, ptr);
+
+    const result = f(parsed);
+
+    ramSetArray(ram, ptr, serialise(result));
+}
+
+function ramGetByte(ram, ptr) {
+    return ram[ptr];
+}
+
+function ramSetByte(ram, ptr, byte) {
+    ram[ptr] = byte & 0xFF;
+}
+
+function ramSetArray(ram, ptr, array) {
+    ram.set(array, ptr);
+}
+
+function ramUpdateByte(ram, ptr, f) {
+    const value = ramGetByte(ram, ptr);
+
+    ramSetByte(ram, ptr, f(value));
 }
 
 // logiclogue-zx-screen - for interfacing RAM with a screen
@@ -596,12 +626,91 @@ const SUSA_MOUSEY = 0x1018;
 const SUSA_KEYPRA = 0x101a;
 const SUSA_KEYPRB = 0x101b;
 const SUSA_SPALET = 0x1020;
-const SUSA_BPALET = 0x1030;
+const SUSA_BPALET = 0x1040;
 
 const SUSA_SPRITE_PTR = 0x2000;
 const SUSA_OBJECT_PTR = 0x6000;
 const SUSA_BACKGR_PTR = 0x7000;
 const SUSA_WINDOW_PTR = 0x8000;
+const SUSA_UNALLO_PTR = 0x9000;
+
+const susaObjectGet = (ram, ptr) => {
+    const subarray = ramGetArray(ram, ptr, 8);
+
+    const view = new DataView(subarray.slice().buffer);
+
+    const xPos = view.getUint16(0, true);
+    const yPos = view.getUint16(2, true);
+
+    const attAByte = view.getUint8(4);
+    const attA = {
+        textMode: (attAByte >> 7) & 0x1 ? true : false,
+        twoColour: (attAByte >> 6) & 0x1 ? true : false,
+        mode: (attAByte >> 4) & 0x3,
+        palette: attAByte & 0xF,
+    };
+
+    const attBByte = view.getUint8(5);
+    const attB = {
+        transparency: (attBByte >> 7) & 0x1 ? true : false,
+        scrollMode: (attBByte >> 5) & 0x3,
+        flipV: (attBByte >> 4) & 0x1 ? true : false,
+        flipH: (attBByte >> 3) & 0x1 ? true : false,
+        priority: attBByte & 0x3,
+    };
+
+    const addr = view.getUint16(6, true);
+
+    return { xPos, yPos, attA, attB, addr };
+};
+
+const susaStringGet = (ram, ptr) => {
+    const length = ram[ptr];
+
+    const array = ram.slice(ptr + 1, ptr + length + 1);
+
+    const str = new TextDecoder("ascii").decode(array);
+
+    return str;
+};
+
+const susaObjectSerialise = ({ xPos, yPos, attA, attB, addr }) => {
+    const buffer = new ArrayBuffer(8);
+    const view = new DataView(buffer);
+
+    view.setUint16(0, xPos, true);
+    view.setUint16(2, yPos, true);
+
+    // attA: build bit-packed value
+    let attAByte = 0;
+    attAByte |= (attA.textMode & 0x1) << 7;
+    attAByte |= (attA.twoColour & 0x1) << 6;
+    attAByte |= (attA.mode & 0x3) << 4;
+    attAByte |= (attA.palette & 0xF);
+    view.setUint8(4, attAByte);
+
+    // attB: build bit-packed value
+    let attBByte = 0;
+    attBByte |= (attB.transparency & 0x1) << 7;
+    attBByte |= (attB.scrollMode & 0x3) << 5;
+    attBByte |= (attB.flipV & 0x1) << 4;
+    attBByte |= (attB.flipH & 0x1) << 3;
+    attBByte |= (attB.priority & 0x3);
+    view.setUint8(5, attBByte);
+
+    view.setUint16(6, addr, true);
+
+    return new Uint8Array(buffer);
+};
+
+const susaStringSerialise = (str) => {
+    const array = new Uint8ClampedArray(str.length + 1);
+
+    array[0] = str.length;
+    array.set(Uint8Array.from(str.split("").map(x => x.charCodeAt())), 1);
+
+    return array;
+};
 
 const ezSusaGenerateImageData = (ctx, ram) => {
     const screenWidth = ramGetShort(ram, SUSA_SWIDTH);
@@ -624,7 +733,7 @@ const ezSusaGenerateImageData = (ctx, ram) => {
             const spriteIndex = ram[attrPtr];
             const attr = ram[attrPtr + 1];
             const spriteSheet = attr & 0b00000011;
-            const palette = (attr & 0b00011100) >> 2;
+            const palette = 8 + ((attr & 0b00011100) >> 2);
 
             const sprite = spriteIndex | (spriteSheet << 8);
 
@@ -652,53 +761,65 @@ const ezSusaGenerateImageData = (ctx, ram) => {
     }
 
     // Draw objects
-    /*
-    * for (let i = 0; i < PENTAGON_OBJ_COUNT; i += 1) {
-    *     const ptr = objPtr + (i * 4);
+    for (let i = 0; i < SUSA_OBJ_COUNT; i += 1) {
+        const ptr = SUSA_OBJECT_PTR + (i * 8);
 
-    *     const xPos = ram[ptr];
-    *     const yPos = ram[ptr + 1];
-    *     const attr = ram[ptr + 2];
-    *     const sprite = ram[ptr + 3];
+        const { xPos, yPos, attA, attB, addr } = susaObjectGet(ram, ptr);
 
-    *     // Get palette index from sprite attributes (bottom 3 bits)
-    *     const palette = attr & 0x07;
+        const sprite = attA.twoColour
+            ? (addr - SUSA_SPRITE_PTR) >> 3
+            : (addr - SUSA_SPRITE_PTR) >> 4;
 
-    *     const isHorizontalFlip = (attr >> 6) & 1;
-    *     const isVerticalFlip = (attr >> 7) & 1;
+        if (sprite < 0) {
+            break;
+        }
 
-    *     ezPentagonDrawSprite({
-    *         ram,
-    *         graPtr,
-    *         palette,
-    *         xPos,
-    *         yPos,
-    *         isHorizontalFlip,
-    *         isVerticalFlip,
-    *         palette,
-    *         sprite,
-    *         size: 0,
-    *         hasTransparency: true,
-    *         drawPixel: (imageDataIndex, red, green, blue) => {
-    *             data[imageDataIndex] = red;
-    *             data[imageDataIndex + 1] = green;
-    *             data[imageDataIndex + 2] = blue;
-    *             data[imageDataIndex + 3] = 255;
-    *         }
-    *     })
-    * }
-    */
+        if (attA.textMode) {
+            ezSusaDrawText({
+                ram,
+                palette: attA.palette,
+                xPos,
+                yPos,
+                isTransparent: attB.transparency,
+                textPtr: addr,
+                mode: attA.mode,
+                drawPixel: (imageDataIndex, red, green, blue) => {
+                    data[imageDataIndex] = red;
+                    data[imageDataIndex + 1] = green;
+                    data[imageDataIndex + 2] = blue;
+                    data[imageDataIndex + 3] = 255;
+                }
+            });
+        } else {
+            ezSusaDrawCompositeSprite({
+                ram,
+                palette: attA.palette,
+                xPos,
+                yPos,
+                isTransparent: attB.transparency,
+                isHorizontalFlip: attB.flipH,
+                isVerticalFlip: attB.flipV,
+                sprite,
+                mode: attA.mode,
+                isTwoColours: attA.twoColour,
+                drawPixel: (imageDataIndex, red, green, blue) => {
+                    data[imageDataIndex] = red;
+                    data[imageDataIndex + 1] = green;
+                    data[imageDataIndex + 2] = blue;
+                    data[imageDataIndex + 3] = 255;
+                }
+            })
+        }
+    }
 
     // TODO - draw window
 
     return imageData;
 };
 
-/**
- * ezSusaGenerateImageData - used for drawing sprites onto image data for
- * the Susa advanced graphics layer
- * x - 8byte - x position
- * y - 8byte - y position
+/*
+ * ezSusaDrawSprite - used for drawing sprites onto image data for the Susa
+ * advanced graphics layer
  */
 const ezSusaDrawSprite = ({
     ram,
@@ -708,20 +829,24 @@ const ezSusaDrawSprite = ({
     yPos,
     palette,
     sprite,
-    size,
+    isTransparent,
+    isTwoColours,
+    xStart,
+    xEnd,
     drawPixel
 }) => {
+    const spriteSize = isTwoColours ? 8 : 16;
+
     const screenWidth = ramGetShort(ram, SUSA_SWIDTH);
     const screenHeight = ramGetShort(ram, SUSA_SHIGHT);
-    const spritePtr = SUSA_SPRITE_PTR + (sprite * 16);
+    const spritePtr = SUSA_SPRITE_PTR + (sprite * spriteSize);
 
     for (let y = 0; y < 8; y += 1) {
         const yOffset = isVerticalFlip ? (7 - y) : y;
         const spriteRowA = ram[spritePtr + yOffset];
         const spriteRowB = ram[spritePtr + yOffset + 8];
-        // TODO - 4x4, 8x16, etc (size)
 
-        for (let x = 0; x < 8; x += 1) {
+        for (let x = xStart || 0; x < (xEnd || 8); x += 1) {
             const thisX = xPos + x;
             const thisY = yPos + y;
 
@@ -734,44 +859,233 @@ const ezSusaDrawSprite = ({
             const xOffset = isHorizontalFlip ? x : (7 - x);
 
             const spriteBitA = (spriteRowA >> xOffset) & 1;
-            const spriteBitB = (spriteRowB >> xOffset) & 1;
+            const spriteBitB = isTwoColours ? 0 : (spriteRowB >> xOffset) & 1;
             const colourIndex = spriteBitA + (spriteBitB * 2);
-
-            // TODO - If the colour is transparent, don't draw
-            //if (hasTransparency && colourIndex === 0) {
-            //    continue;
-            //}
 
             const paletteAddress = SUSA_SPALET + (palette * 4) + colourIndex;
 
             const colourValue = ram[paletteAddress];
 
-            // TODO - Extract individual RGB components (2 bits each)
-            //const opacity = ((colourValue >> 6) & 0x03) * 85;
             const red = ((colourValue >> 4) & 0x03) * 85;
             const green = ((colourValue >> 2) & 0x03) * 85;
             const blue = (colourValue & 0x03) * 85;
+
+            if (colourIndex === 0 && isTransparent) {
+                continue;
+            }
 
             drawPixel(imageDataIndex, red, green, blue);
         }
     }
 };
 
+/*
+ * ezSusaDrawCompositeSprite - used for drawing sprites by mode, uses
+ * ezSusaDrawSprite
+ */
+const ezSusaDrawCompositeSprite = ({
+    ram,
+    isHorizontalFlip,
+    isVerticalFlip,
+    xPos,
+    yPos,
+    palette,
+    sprite,
+    mode,
+    isTransparent,
+    isTwoColours,
+    drawPixel
+}) => {
+    const is16width = mode & 0b10;
+    const is16height = mode & 0b01;
+    const spritesOnRow = isTwoColours ? 32 : 16;
+
+    // top left sprite
+    ezSusaDrawSprite({
+        ram,
+        isHorizontalFlip,
+        isVerticalFlip,
+        xPos: isHorizontalFlip && is16width ? xPos + 8 : xPos,
+        yPos: isVerticalFlip && is16height ? yPos + 8 : yPos,
+        palette,
+        sprite,
+        isTransparent,
+        isTwoColours,
+        drawPixel
+    });
+
+    // bottom left sprite
+    if (mode & 0b01) {
+        ezSusaDrawSprite({
+            ram,
+            isHorizontalFlip,
+            isVerticalFlip,
+            xPos: isHorizontalFlip && is16width ? xPos + 8 : xPos,
+            yPos: isVerticalFlip && is16height ? yPos : yPos + 8,
+            palette,
+            sprite: sprite + spritesOnRow,
+            isTransparent,
+            isTwoColours,
+            drawPixel
+        });
+    }
+
+    // top right sprite
+    if (mode & 0b10) {
+        ezSusaDrawSprite({
+            ram,
+            isHorizontalFlip,
+            isVerticalFlip,
+            xPos: isHorizontalFlip && is16width ? xPos : xPos + 8,
+            yPos: isVerticalFlip && is16height ? yPos + 8 : yPos,
+            palette,
+            sprite: sprite + 1,
+            isTransparent,
+            isTwoColours,
+            drawPixel
+        });
+    }
+
+    // bottom right sprite
+    if (mode === 0b11) {
+        ezSusaDrawSprite({
+            ram,
+            isHorizontalFlip,
+            isVerticalFlip,
+            xPos: isHorizontalFlip && is16width ? xPos : xPos + 8,
+            yPos: isVerticalFlip && is16height ? yPos : yPos + 8,
+            palette,
+            sprite: sprite + spritesOnRow + 1,
+            isTransparent,
+            isTwoColours,
+            drawPixel
+        });
+    }
+};
+
+/*
+ * ezSusaDrawText - used for drawing text, uses ezSusaDrawSprite
+ */
+const ezSusaDrawText = ({
+    ram,
+    palette,
+    xPos,
+    yPos,
+    isTransparent,
+    textPtr,
+    mode,
+    drawPixel
+}) => {
+    const length = ram[textPtr];
+
+    // TODO - use mode
+
+    for (let i = 0; i < length; i += 1) {
+        const charCode = ram[textPtr + i + 1];
+
+        ezSusaDrawSprite({
+            ram,
+            isHorizontalFlip: false,
+            isVerticalFlip: false,
+            // TODO - alternate
+            xPos: charCode % 2 ? xPos + (i * 4) - 4 : xPos + (i * 4),
+            yPos,
+            palette,
+            sprite: charCode >> 1,
+            mode: 1,
+            isTransparent,
+            isTwoColours: true,
+            xStart: charCode % 2 ? 4 : 0,
+            xEnd: charCode % 2 ? 8 : 4,
+            drawPixel
+        });
+    }
+};
+
 const ezSusaRunSampleLogic = ram => {
+    const mouseObjectPtr = SUSA_OBJECT_PTR;
+
+    const font = [
+        0x06, 0x09, 0x0F, 0x09, 0x09, 0x0F, 0x06, 0x00,
+        0x60, 0xFA, 0x9E, 0xFE, 0xFE, 0x94, 0x64, 0x00,
+        0x44, 0x44, 0xEA, 0xEA, 0xE4, 0x44, 0x4E, 0x00,
+        0x40, 0x40, 0xE4, 0xEE, 0xEE, 0x44, 0xE0, 0x00,
+        0xF0, 0xF0, 0xB4, 0x1A, 0x1A, 0xB4, 0xF0, 0xF0,
+        0xFF, 0xFF, 0xBB, 0x55, 0x55, 0xBB, 0xFF, 0xFF,
+        0x07, 0x45, 0xA7, 0xA4, 0x44, 0xEC, 0x4C, 0x00,
+        0x74, 0x5D, 0x56, 0x5F, 0x56, 0xFB, 0xF2, 0x00,
+        0x81, 0xC3, 0xE7, 0xFF, 0xE7, 0xC3, 0x81, 0x00,
+        0x6A, 0xFA, 0x6A, 0x6A, 0x6A, 0xF0, 0x6A, 0x00,
+        0x77, 0xB8, 0xB6, 0x79, 0x39, 0x36, 0x31, 0x0E,
+        0x06, 0x0F, 0x06, 0x06, 0x06, 0xFF, 0xF6, 0x0F,
+        0x66, 0xF6, 0x66, 0x66, 0x66, 0x6F, 0x66, 0x00,
+        0x00, 0x00, 0x24, 0xFF, 0xFF, 0x24, 0x00, 0x00,
+        0x00, 0x00, 0x06, 0x0F, 0x86, 0xF0, 0x00, 0x00,
+        0x00, 0x6F, 0x6F, 0x6F, 0xF6, 0xF6, 0xF6, 0x00,
+        0x04, 0x04, 0x04, 0x04, 0x04, 0x00, 0x04, 0x00, //  , !
+        0xA0, 0xAA, 0xAE, 0x0A, 0x0E, 0x0A, 0x00, 0x00, // ", #
+        0x4A, 0xE2, 0x84, 0x44, 0x24, 0xE8, 0x4A, 0x00, // $, %
+        0x46, 0xA2, 0xA4, 0x40, 0x50, 0xA0, 0xE0, 0x30, // &, '
+        0x28, 0x44, 0x82, 0x82, 0x82, 0x44, 0x28, 0x00, // (, )
+        0x00, 0xA4, 0x44, 0xEE, 0x44, 0xA4, 0x00, 0x00, // *, +
+        0x00, 0x00, 0x00, 0x0E, 0x00, 0x60, 0x20, 0x40, // ,, -
+        0x02, 0x02, 0x04, 0x04, 0x04, 0x48, 0x48, 0x00, // ., /
+        0x44, 0xAC, 0xE4, 0xE4, 0xA4, 0xA4, 0x4E, 0x00, // 0, 1
+        0x44, 0xAA, 0x22, 0x44, 0x42, 0x8A, 0xE4, 0x00, // 2, 3
+        0x2E, 0xA8, 0xAC, 0xE2, 0x22, 0x2A, 0x24, 0x00, // 4, 5
+        0x4E, 0xA2, 0x82, 0xC4, 0xA4, 0xA8, 0x48, 0x00, // 6, 7
+        0x44, 0xAA, 0xAA, 0x46, 0xA2, 0xAA, 0x44, 0x00, // 8, 9
+        0x00, 0x44, 0x44, 0x00, 0x00, 0x44, 0x44, 0x08, // :, ;
+        0x10, 0x20, 0x4E, 0x80, 0x4E, 0x20, 0x10, 0x00, // <, =
+        0x84, 0x4A, 0x22, 0x14, 0x24, 0x40, 0x84, 0x00, // >, ?
+        0x44, 0xAA, 0xAA, 0xEE, 0xEA, 0x8A, 0x6A, 0x00, // @, A
+        0xC4, 0xAA, 0xA8, 0xC8, 0xA8, 0xAA, 0xC4, 0x00, // B, C
+        0xCE, 0xA8, 0xA8, 0xAC, 0xA8, 0xA8, 0xCE, 0x00, // D, E
+        0xE4, 0x8A, 0x88, 0xCE, 0x8A, 0x8A, 0x84, 0x00, // F, G
+        0xAE, 0xA4, 0xA4, 0xE4, 0xA4, 0xA4, 0xAE, 0x00, // H, I
+        0x2A, 0x2A, 0x2C, 0x2C, 0x2A, 0xAA, 0x4A, 0x00, // J, K
+        0x8A, 0x8E, 0x8E, 0x8E, 0x8A, 0x8A, 0xEA, 0x00, // L, M
+        0x2E, 0xAA, 0xEA, 0xEA, 0xEA, 0xAA, 0xAE, 0x00, // N, O
+        0xC4, 0xAA, 0xAA, 0xCA, 0x8A, 0x8A, 0x84, 0x02, // P, Q
+        0xC4, 0xAA, 0xA8, 0xC4, 0xA2, 0xAA, 0xA4, 0x00, // R, S
+        0xEA, 0x4A, 0x4A, 0x4A, 0x4A, 0x4A, 0x4E, 0x00, // T, U
+        0xAA, 0xAA, 0xAA, 0xAA, 0xAE, 0x4E, 0x4A, 0x00, // V, W
+        0xAA, 0xAA, 0xEA, 0x44, 0xE4, 0xA4, 0xA4, 0x00, // X, Y
+        0xE6, 0x24, 0x44, 0x44, 0x44, 0x84, 0xE6, 0x00, // Z, [
+        0x06, 0x82, 0x82, 0x42, 0x42, 0x22, 0x26, 0x00, // \, ]
+        0x00, 0x40, 0xE0, 0xA0, 0x00, 0x00, 0x00, 0x0F, // ^, _
+        0x60, 0x40, 0x2C, 0x02, 0x06, 0x0A, 0x06, 0x00, // `, a
+        0x80, 0x80, 0xC4, 0xAA, 0xA8, 0xAA, 0xC4, 0x00, // b, c
+        0x20, 0x20, 0x64, 0xAA, 0xAE, 0xA8, 0x66, 0x00, // d, e
+        0x20, 0x40, 0x46, 0xEA, 0x4A, 0x46, 0x42, 0x0C, // f, g
+        0x84, 0x80, 0xCC, 0xA4, 0xA4, 0xA4, 0xA4, 0x00, // h, i
+        0x28, 0x08, 0x2A, 0x2A, 0x2C, 0x2A, 0xAA, 0x40, // j, k
+        0xC0, 0x40, 0x4A, 0x4E, 0x4E, 0x4A, 0xEA, 0x00, // l, m
+        0x00, 0x00, 0xC4, 0xAA, 0xAA, 0xAA, 0xA4, 0x00, // n, o
+        0x00, 0x00, 0xC6, 0xAA, 0xAA, 0xC6, 0x82, 0x83, // p, q
+        0x00, 0x00, 0xC6, 0xA8, 0x84, 0x82, 0x8C, 0x00, // r, s
+        0x00, 0x40, 0xEA, 0x4A, 0x4A, 0x4A, 0x26, 0x00, // t, u
+        0x00, 0x00, 0xAA, 0xAA, 0xAE, 0x4E, 0x4A, 0x00, // v, w
+        0x00, 0x00, 0xAA, 0xAA, 0x4A, 0xA6, 0xA2, 0x0C, // x, y
+        0x02, 0x04, 0xE4, 0x28, 0x44, 0x84, 0xE2, 0x00, // z, {
+        0x48, 0x44, 0x44, 0x02, 0x44, 0x44, 0x48, 0x00, // |, }
+        0x50, 0xA0, 0x04, 0x04, 0x0A, 0x0A, 0x0E, 0x00
+    ];
+
     // init
     if (!ram[0x0000]) {
-        // set sample sprite
-        ram[SUSA_SPRITE_PTR + 0] = 0b00000000;
-        ram[SUSA_SPRITE_PTR + 1] = 0b00111100;
-        ram[SUSA_SPRITE_PTR + 2] = 0b01100110;
-        ram[SUSA_SPRITE_PTR + 3] = 0b01111110;
-        ram[SUSA_SPRITE_PTR + 4] = 0b01100110;
-        ram[SUSA_SPRITE_PTR + 5] = 0b01100110;
-        ram[SUSA_SPRITE_PTR + 6] = 0b01100110;
-        ram[SUSA_SPRITE_PTR + 7] = 0b00000000;
+        ram.set(font, SUSA_SPRITE_PTR);
 
         // set palette
-        ram[SUSA_SPALET] = 0b00110100;
+        ram[SUSA_SPALET + 0] = 0x00;
+        ram[SUSA_SPALET + 1] = 0xf0;
+        ram[SUSA_SPALET + 2] = 0x0f;
+        ram[SUSA_SPALET + 3] = 0xff;
+
+        ram[SUSA_BPALET + 0] = 0x40;
+        ram[SUSA_BPALET + 1] = 0x0f;
+        ram[SUSA_BPALET + 2] = 0xf0;
+        ram[SUSA_BPALET + 3] = 0xff;
 
         // set background to that sprite
         for (let x = 0; x < SUSA_BACKGROUND_WIDTH; x += 1) {
@@ -785,6 +1099,50 @@ const ezSusaRunSampleLogic = ram => {
             }
         }
 
+        ram.set(susaStringSerialise("Hey there!"), SUSA_UNALLO_PTR);
+
+        ramUpdateSerialised(ram, mouseObjectPtr, susaObjectGet, susaObjectSerialise, () => {
+            return {
+                xPos: 0,
+                yPos: 0,
+                attA: {
+                    textMode: false,
+                    twoColour: true,
+                    mode: 3,
+                    palette: 0
+                },
+                attB: {
+                    transparency: false,
+                    scrollMode: 0,
+                    flipV: 0,
+                    flipH: 0,
+                    priority: 0
+                },
+                addr: SUSA_SPRITE_PTR + 0
+            };
+        });
+
+        ramUpdateSerialised(ram, SUSA_OBJECT_PTR + 8, susaObjectGet, susaObjectSerialise, () => {
+            return {
+                xPos: 0,
+                yPos: 0,
+                attA: {
+                    textMode: true,
+                    twoColour: true,
+                    mode: 0,
+                    palette: 0
+                },
+                attB: {
+                    transparency: false,
+                    scrollMode: 0,
+                    flipV: 0,
+                    flipH: 0,
+                    priority: 0
+                },
+                addr: SUSA_UNALLO_PTR + 0
+            };
+        });
+
         ram[0x0000] = 1;
     }
 
@@ -793,7 +1151,8 @@ const ezSusaRunSampleLogic = ram => {
 
         //return tick >> 3;
 
-        return ramGetShort(ram, SUSA_MOUSEX);
+        //return 0;
+        return Math.floor(ramGetShort(ram, SUSA_MOUSEX) / 8);
     });
 
     ramUpdateShort(ram, SUSA_BSCRLY, () => {
@@ -801,7 +1160,23 @@ const ezSusaRunSampleLogic = ram => {
 
         //return tick >> 3;
 
-        return ramGetShort(ram, SUSA_MOUSEY);
+        return Math.floor(ramGetShort(ram, SUSA_MOUSEY) / 8);
+    });
+
+    ramUpdateSerialised(ram, mouseObjectPtr, susaObjectGet, susaObjectSerialise, obj => {
+        return {
+            ...obj,
+            xPos: ramGetShort(ram, SUSA_MOUSEX),
+            yPos: ramGetShort(ram, SUSA_MOUSEY)
+        };
+    });
+
+    ramUpdateSerialised(ram, mouseObjectPtr + 8, susaObjectGet, susaObjectSerialise, obj => {
+        return {
+            ...obj,
+            xPos: ramGetShort(ram, SUSA_MOUSEX),
+            yPos: ramGetShort(ram, SUSA_MOUSEY) + 17
+        };
     });
 };
 
@@ -1355,7 +1730,7 @@ class EthSendTransaction {
 (function () {
     const startTime = performance.now();
     const uuid = crypto.randomUUID();
-    const romEndpoint = "https://api.jordanlord.co.uk/rom";
+    const romEndpoint = "TODO";
 
     window.addEventListener("load", function () {
         const timeSpent = performance.now() - startTime;
