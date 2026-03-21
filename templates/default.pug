@@ -36,6 +36,16 @@ html(lang="en")
         script(src="/js/script.js", type="module")
 
         footer
+            .subscribe
+                h3 Subscribe
+                p Get new posts delivered to your inbox.
+                form.subscribe-form(action="https://listmonk.jordanlord.co.uk/subscription/form", method="post")
+                    input(type="hidden", name="nonce")
+                    input.subscribe-email(type="email", name="email", required, placeholder="your@email.com")
+                    button.subscribe-button(type="submit") Subscribe
+                p.subscribe-note
+                    | You can also subscribe via #[a(href="/rss.xml") RSS].
+
             .privacy-notice
                 | This site collects anonymous usage statistics for site improvement.
                 | No personal data or cookies are stored.
