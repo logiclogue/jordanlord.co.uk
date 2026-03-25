@@ -1,0 +1,10 @@
+extends base.pug
+
+block content
+    p(style=`margin:0 0 16px 0; font-size:16px; line-height:1.7; color:${theme.foreground};`) Hi{{ if .Subscriber.FirstName }} {{ .Subscriber.FirstName }}{{ else }} there{{ end }},
+    p(style=`margin:0 0 16px 0; font-size:16px; line-height:1.7; color:${theme.foreground};`) Thanks for subscribing. One more click confirms that you want updates from #{sitename}.
+    p(style=`margin:0 0 16px 0; font-size:16px; line-height:1.7; color:${theme.foreground};`) Expect occasional notes on software engineering, growth experiments and whatever else is worth sharing.
+    p(style=`margin:0 0 16px 0; font-size:14px; line-height:1.7; color:${theme.muted};`)
+        | If the button does not work, copy and paste this link into your browser:
+        br
+        a(href="{{ OptinURL }}", style=`color:${theme.accent}; text-decoration:none; word-break:break-all;`) {{ OptinURL }}

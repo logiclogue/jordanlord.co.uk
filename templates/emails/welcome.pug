@@ -1,0 +1,17 @@
+extends base.pug
+
+block content
+    p(style=`margin:0 0 16px 0; font-size:16px; line-height:1.7; color:${theme.foreground};`) Hi {{ if .Subscriber.FirstName }}{{ .Subscriber.FirstName }}{{ else }}there{{ end }},
+    p(style=`margin:0 0 16px 0; font-size:16px; line-height:1.7; color:${theme.foreground};`) You are in. Thanks for joining the list.
+    p(style=`margin:0 0 16px 0; font-size:16px; line-height:1.7; color:${theme.foreground};`) I use this list for new posts, new tools, and the occasional short note when there is something genuinely worth sending.
+    table(role="presentation", cellpadding="0", cellspacing="0", border="0", width="100%", style=`margin:0 0 16px 0; width:100%; border-collapse:collapse; background-color:${theme.background}; border:1px solid ${theme.border};`)
+        tr
+            td(style=`padding:16px; font-size:14px; line-height:1.7; color:${theme.foreground};`)
+                strong(style=`color:${theme.heading};`) What to expect
+                br
+                | - Build notes and engineering write-ups.
+                br
+                | - Retro computer projects and experiments.
+                br
+                | - Occasional links to new things on the site.
+    p(style=`margin:0 0 16px 0; font-size:16px; line-height:1.7; color:${theme.foreground};`) A good place to start is the projects archive if you want the broadest picture of what I make.

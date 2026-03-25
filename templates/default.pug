@@ -37,12 +37,8 @@ html(lang="en")
 
         footer
             .subscribe
-                h3 Subscribe
-                p Get new posts delivered to your inbox.
-                form.subscribe-form(action="https://listmonk.jordanlord.co.uk/subscription/form", method="post")
-                    input(type="hidden", name="nonce")
-                    input.subscribe-email(type="email", name="email", required, placeholder="your@email.com")
-                    button.subscribe-button(type="submit") Subscribe
+                p
+                    a(href="https://listmonk.jordanlord.co.uk/subscription/form") Subscribe to the Mailing List
                 p.subscribe-note
                     | You can also subscribe via #[a(href="/rss.xml") RSS].
 

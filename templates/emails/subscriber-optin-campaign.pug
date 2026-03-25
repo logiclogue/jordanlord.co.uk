@@ -1,0 +1,12 @@
+p(style=`margin:0 0 16px 0; font-size:16px; line-height:1.7; color:${theme.foreground};`) Hi{{ if .Subscriber.FirstName }} {{ .Subscriber.FirstName }}{{ else }} there{{ end }},
+p(style=`margin:0 0 16px 0; font-size:16px; line-height:1.7; color:${theme.foreground};`) Thanks for subscribing. One more click confirms that you want updates from #{sitename}.
+p(style=`margin:0 0 16px 0; font-size:16px; line-height:1.7; color:${theme.foreground};`) Expect occasional notes on software engineering, growth experiments and whatever else is worth sharing.
+p(style=`margin:0 0 16px 0; font-size:16px; line-height:1.7; color:${theme.foreground};`) You have been added to the following lists:
+ul(style=`margin:0 0 16px 20px; padding:0; color:${theme.foreground};`)
+    | {{ range $i, $l := .Lists }}
+    li(style="margin:0 0 8px 0;")
+        | {{ if eq .Type "public" }}{{ .Name }}{{ else }}Private list{{ end }}
+    | {{ end }}
+p(style=`margin:0 0 16px 0; font-size:16px; line-height:1.7; color:${theme.foreground};`)
+    != `<a class="button" {{ .OptinURLAttr }} style="display:inline-block; padding:14px 20px; background-color:${theme.accent}; border:1px solid ${theme.accent}; color:${theme.background}; text-decoration:none; font-size:16px; line-height:1.2; font-weight:bold;">Confirm subscription</a>`
+p(style=`margin:0; font-size:13px; line-height:1.7; color:${theme.muted};`) If this was not you, you can safely ignore this message.
