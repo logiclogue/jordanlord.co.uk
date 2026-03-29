@@ -38,6 +38,37 @@
     margin-bottom: 0;
 }
 
+.page-panel__body table:not(.list) {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2 + $u;
+    background-color: $bg-colour;
+}
+
+.page-panel__body table:not(.list) th,
+.page-panel__body table:not(.list) td {
+    padding: 0.8 + $u 1 + $u;
+    border: 1px solid $selection-bg-colour;
+}
+
+.page-panel__body table:not(.list) th {
+    color: $heading-colour;
+    background-color: rgba($selection-bg-colour, 0.45);
+    font-weight: bold;
+}
+
+.page-panel__body table:not(.list) tr:nth-child(even) td {
+    background-color: rgba($selection-bg-colour, 0.2);
+}
+
+.page-panel__body table:not(.list) th:first-child,
+.page-panel__body table:not(.list) td:first-child,
+.page-panel__body table:not(.list) th:last-child,
+.page-panel__body table:not(.list) td:last-child {
+    padding-left: 1 + $u;
+    padding-right: 1 + $u;
+}
+
 @media (max-width: $width-phablet) {
     .page-panel {
         padding: 1.2 + $u;
