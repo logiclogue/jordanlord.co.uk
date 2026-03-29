@@ -2,6 +2,9 @@ extends default.pug
 include includes/list.pug
 
 block content
-    h1= title
+    section.page-panel
+        .page-panel__header
+            h1.page-panel__title= title
 
-    +list(projects)
+        .page-panel__body
+            +list(projects)

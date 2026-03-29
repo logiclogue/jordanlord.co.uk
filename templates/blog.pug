@@ -3,9 +3,13 @@ extends default.pug
 include includes/fancyDate.pug
 
 block content
-    h1= title
+    article.page-panel
+        .page-panel__header
+            h1.page-panel__title= title
 
-    p
-        +fancyDate(publishDate)
+            if publishDate
+                p.page-panel__date
+                    +fancyDate(publishDate)
 
-    != contents
+        .page-panel__body
+            != contents

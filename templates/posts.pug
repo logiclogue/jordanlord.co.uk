@@ -3,13 +3,16 @@ include includes/list.pug
 include includes/shortDate.pug
 
 block content
-    h1= title
+    section.page-panel
+        .page-panel__header
+            h1.page-panel__title= title
 
-    table.list
-        each post, i in blog
-            tr
-                td
-                    +shortDate(post.publishDate) + ' '
+        .page-panel__body
+            table.list
+                each post, i in blog
+                    tr
+                        td
+                            +shortDate(post.publishDate) + ' '
 
-                td
-                    a(href='/' + post.path)= post.title
+                        td
+                            a(href='/' + post.path)= post.title

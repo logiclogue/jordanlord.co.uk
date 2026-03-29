@@ -1,36 +1,40 @@
 extends default.pug
 
 block content
-    h1= title
+    article.page-panel
+        .page-panel__header
+            h1.page-panel__title= title
 
-    p
-        +fancyDate(publishDate)
+            if publishDate
+                p.page-panel__date
+                    +fancyDate(publishDate)
 
-    .project-links.margin-bottom
-        .row
-            if web
-                .four.columns
-                    a(href=web) Web
+        .page-panel__body
+            .project-links.margin-bottom
+                .row
+                    if web
+                        .four.columns
+                            a(href=web) Web
 
-            if github
-                .four.columns
-                    a(href='https://github.com/' + github) GitHub
+                    if github
+                        .four.columns
+                            a(href='https://github.com/' + github) GitHub
 
-            if gitlab
-                .four.columns
-                    a(href='https://gitlab.com/' + gitlab) GitLab
+                    if gitlab
+                        .four.columns
+                            a(href='https://gitlab.com/' + gitlab) GitLab
 
-            if youtube
-                .four.columns
-                    a(href='https://youtu.be/' + youtube) YouTube
+                    if youtube
+                        .four.columns
+                            a(href='https://youtu.be/' + youtube) YouTube
 
-            if playstore
-                .four.columns
-                    a(href='https://play.google.com/store/apps/details?id='
-                        + playstore) Play Store
+                    if playstore
+                        .four.columns
+                            a(href='https://play.google.com/store/apps/details?id='
+                                + playstore) Play Store
 
-            if npm
-                .four.columns
-                a(href='https://npmjs.com/package/' + npm) NPM
+                    if npm
+                        .four.columns
+                            a(href='https://npmjs.com/package/' + npm) NPM
 
-    != contents
+            != contents

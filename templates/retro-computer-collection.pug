@@ -1,9 +1,12 @@
 extends default.pug
 
 block content
-    h1= title
+    section.page-panel
+        .page-panel__header
+            h1.page-panel__title= title
 
-    table.list
-        each computer, i in retro_computers
-            tr
-                td= computer.title
+        .page-panel__body
+            table.list
+                each computer, i in retro_computers
+                    tr
+                        td= computer.title
