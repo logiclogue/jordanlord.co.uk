@@ -1224,7 +1224,7 @@ const ezSusaRunSampleLogic = ram => {
 }());
 
 (function () {
-    window.onload = function() {
+    function initZXImages() {
         const {
             convertCanvasToZXScreen,
             drawZXScreenDataToCanvas
@@ -1233,11 +1233,21 @@ const ezSusaRunSampleLogic = ram => {
         const zxCanvases = document.querySelectorAll(".logiclogue-zx-image");
 
         zxCanvases.forEach((canvas, index) => {
+            if (canvas.dataset.logiclogueZxInitialised === "1") {
+                return;
+            }
+
+            canvas.dataset.logiclogueZxInitialised = "1";
+
             const img = new Image();
+            let hasStarted = false;
 
-            img.src = canvas.getAttribute("src");
+            function startRender() {
+                if (hasStarted) {
+                    return;
+                }
 
-            img.onload = function() {
+                hasStarted = true;
                 const ctx = canvas.getContext("2d");
 
                 // Resize and draw image onto the canvas
@@ -1268,14 +1278,29 @@ const ezSusaRunSampleLogic = ram => {
                 }
 
                 // Start the interval
-                let intervalId = setInterval(reintroduceBytes, 100);
-            };
+                if (canvas.logiclogueZxIntervalId) {
+                    clearInterval(canvas.logiclogueZxIntervalId);
+                }
+
+                canvas.logiclogueZxIntervalId = setInterval(reintroduceBytes, 100);
+            }
+
+            img.onload = startRender;
+
+            img.src = canvas.getAttribute("src");
 
             if (img.complete) {
-                img.onload();
+                startRender();
             }
         });
-    };
+
+    }
+
+    if (document.readyState === "complete") {
+        initZXImages();
+    } else {
+        window.addEventListener("load", initZXImages, { once: true });
+    }
 }());
 
 ///// 3D ENGINE
