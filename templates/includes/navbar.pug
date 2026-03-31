@@ -1,9 +1,10 @@
 .navbar
     .ten.columns.offset-by-one
-        a#a-title= sitename
+        a#a-title(href='/')= sitename
         ul
             for item in navbar
-                if item.path === rootPath(path)
-                    li.active: a(href=`/${item.path}`)= item.title
-                else
-                    li: a(href=`/${item.path}`)= item.title
+                if item.path !== ''
+                    if item.path === rootPath(path)
+                        li.active: a(href=`/${item.path}`)= item.title
+                    else
+                        li: a(href=`/${item.path}`)= item.title

@@ -40,6 +40,36 @@
         float: left;
     }
 
+    @media (min-width: ($width-tablet + 1px)) {
+        height: auto;
+        text-align: center;
+
+        .ten.columns.offset-by-one {
+            float: none;
+            width: 100%;
+            margin-left: 0;
+        }
+
+        #a-title {
+            float: none;
+            display: block;
+            font-size: 3.6rem;
+            line-height: 1.2;
+            padding: 2.4rem 0 1.2rem;
+        }
+
+        ul {
+            display: flex;
+            justify-content: center;
+            flex-direction: row-reverse;
+        }
+
+        li {
+            float: none;
+            display: inline-block;
+        }
+    }
+
     @media (max-width: $width-tablet) {
         height: auto;
         overflow: auto;
