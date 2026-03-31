@@ -1,6 +1,7 @@
 ---
 title: Useful UNIX Commands
 publishDate: 2019-10-07
+draft: true
 ---
 
 ## Restore date of an image from EXIF
