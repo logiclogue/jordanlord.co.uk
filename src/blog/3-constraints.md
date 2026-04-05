@@ -3,116 +3,87 @@ title: The 3 Constraints I Use Before I Build Anything
 draft: true
 ---
 
-These are the 3 constraints I use to decide what to build. This is a small
-manifesto to help organise my thoughts for the coming year. I'm a believer in
-constraints as an enabler for creativity. Constraints help us collapse the
-search space, and figure out innovative solutions to problems.
+These are the 3 constraints I use before I start building anything. I'm a
+believer in constraints as an enabler for creativity. Constraints help us
+collapse the search space, and figure out innovative solutions to problems.
 
-Who is this article for? It's for founders, hackers (in the traditional sense),
-or anyone looking to start something new. It's also for those who have already
-started but may be stuck in the weeds.
+- brief explanation of a constraint?
 
-## Can it be explained in a one pager?
+## One page or it doesn't get built
 
-Can your idea or project be totally and completely explained in one page of
-precise writing? And if it can, write one. Use it as the north star for your
-project. The idea is this can be used as a memo for investors, contributors,
-team members, friends, or family. It's a manifesto of sorts. Often when building
-projects, there are contention points, it's difficult to know what battles to
-pick. If it's not in the one pager, then it's either not worth fighting over, or
-the one pager aught to be amended to include the thing. Not only is a one pager
-useful for collaboration, it's useful for organising your own thoughts. If you
-can't fill one page, don't fill the gaps with fluff, it means you're not ready
-to ship. First research, plan, prototype, then try the one pager again. Iterate.
-If it requires more than one page, then it's too complex, don't build it.
+Write a one pager for all of your ideas. Your one pager captures the north star
+for your new project idea. It's non-negotiable, formidable, ambitious, and lean.
+Once your one pager is written, it can be applied for all different types of
+communication. Share it as a memo for investors, contributors, team members,
+friends, or family. Often when building projects, there are contention points,
+it's difficult to know what battles to pick. If it's not in the one pager, then
+it's either not worth fighting over, or the one pager ought to be amended to
+include the thing. Not only is a one pager useful for communication, it's useful
+for organising your own thoughts. If you can't fill one page, don't fill the
+gaps with fluff, it means you're not ready to build. First research, plan,
+prototype, then try writing the one pager again. Iterate. If it requires more
+than one page, then it's too complex, don't build it.
 
-This limits complexity and ambiguity.
+This constraint limits complexity and ambiguity.
 
-## Does it have a unique technical edge?
+## The core tech must be separable from the product
 
-Does your project have some core unique technical edge that can be applied to
-other projects?
+The core tech is a method, skill, or tool that is central to your product but
+can be applied to future products. You can think of it as reusable IP. The core
+tech must be aligned with your thesis or vision about the future. Why?
+Separating the core tech forces you to think beyond the product that you're
+building today. Products pivot in direction all the time. Interest in products
+from the developers come and go. Some products are naturally not intellectually
+stimulating, and that's okay, but core tech keeps it interesting. All considered
+developing core tech fundamentally de-risks ourselves, keeping our work relevant
+for a lifetime. Git is a tool that was developed to better help Linux kernel
+development. Since its release, git is the world's most popular version control
+system. But the product must be the main focus? Yes, however, you're constantly
+learning and improving your methods and skills as an entrepreneur. Core tech
+de-risks those things. Developing core tech and productising it, de-risks your
+endeavours today.
 
-This constraint goes to the core of what you're building, it's asking a few
-questions.
+- TODO improve from feedback
 
-This doesn't have to be "tech" per se, it could be a unique method or recipe.
+This constraint limits you to ideas that have real leverage and originality.
 
-It's reusable IP.
+## Build in public
 
-It's asking, are you developing a technology that can be applied to something
-else moving forwards?
+Building in public can mean a few different things. It can mean building open
+source software. It can mean regular blog posts. It can mean sharing your
+progress at a meetup.
 
-- On the surface, your product might seem some fairly standard consumer focused
-thing, but you could be developing some deep tech that helps accelerate and
-support that in some way.
+It's important because it forces you to be consistent with your ideas, it forces
+you to be okay with the idea of failure. It opens you up to criticism, it forces
+you to have to defend your ideas. If you don't built in public, you won't build
+an audience that you can later engage the product with. You won't get feedback
+if you're not building in public.
 
-- working on somethings that's not just the product
+Furthermore, it forces you to develop an idea where the moat is in execution,
+trust, network effects, or speed of execution. You will lose if you keep your
+idea secret. People keep ideas secret because they fear it will be "stolen" or
+committing will lead to embarrassment. You only win by moving much faster than
+the competition.
 
-A technology that is deeply aligned with your core thesis and vision.
+Being part of a startup accelerator is an example of building in public. You
+have to present regularly to fellow founders or investors, every day you're
+opening yourself to criticism, you must defend your ideas. More often than not,
+that feedback you get will help you develop your idea far further than you
+otherwise would.
 
-This helps you pivot into something else when it's time to move on. It keeps
-your mind fresh.
+There is no reason not to build in public, the effects are unfounded.
 
-This can evolve over time, your product or business is likely to pivot in focus
-and your unique technical edge may no longer be relevant.
-
-This limits you to ideas that have real leverage and originality.
-
-## Can it generate revenue while maintaining a transparent core?
-
-I've always been a great benefiter of open source software and grateful for what
-it has provided for me. I'm a strong believer that open source was inevitable,
-and is essential for where computing and technology are at today. Open source
-provides a way for that unique technical edge to be used beyond the company. It
-provides a way for external feedback, collaboration, and free QA.
-
-This is asking whether your idea is still valuable if the market knows your
-product inside out. Your business or idea should be moving much faster than the
-competition. The moat is trust, network effects, and distribution, not the
-source code.
-
-Open source is also a way of building in public. It's a method of gaining
-attention and meeting new people.
-
-The edge that you get from this is similar to the memo. I think it's
-fundamentally harder to build in public and have all of your work be
-scrutinised. But through public scrutiny and having things out in public, it
-forces you to think and approach problems in a certain way.
-
-This doesn't necessarily mean it has to be open source, it could mean to build
-in public. Share your recipe online. Share the manufacturing process as an
-insight into the business for the customers.
-
-This constraint isn't about just building in public, it must be able to generate
-revenue as well. If your product isn't setup to generate revenue from day 1,
-don't build it.
-
-This limits you to ideas that are economically viable and principled.
-
-## Concrete Example
-
-It's quite easy to show a concrete business idea here. However, let's go with a
-non-product non-coding example.
-
-At Footium, we switched our focus from product to growth over the last six
-months. To achieve this, I sought to implement a growth hacking mindset. Sean
-Ellis wrote an excellent book called 'Hacking Growth', which outlines his
-process and principles for running a growth hacking progress. To implement this
-process at Footium, I wrote a one pager which outlined the process clearly. The
-one pager acted as the original pitch to the team, alongside it continuing to
-help with maintaining alignment.
-
-The unique technical edge that I'm going for when it comes to the growth process
-is building an agentic pipeline that rapidly accelerates our data insights. This
-agent must be easily accessible and queriable by all in the team. The agent must
-challenge our deepest assumptions with data, to rapidly move us in the right
-direction. This will be measured in its decision success rate.
-
-When it comes to building in public, that's exactly what these blog posts are
-going to be about.
+This constrains you to ideas that don't rely on secrecy.
 
 ## Closing Rule
 
 When it comes to building, if it fails 2/3 of these constraints, then don't
 build it.
+
+---
+
+1. what it is
+2. what it forces, why it matters
+3. example or analogy
+4. nuance or objection
+5. one liner closing
