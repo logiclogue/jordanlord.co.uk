@@ -7,8 +7,6 @@ These are the 3 constraints I use before I start building anything. I'm a
 believer in constraints as an enabler for creativity. Constraints help us
 collapse the search space, and figure out innovative solutions to problems.
 
-- TODO - brief explanation of a constraint?
-
 ## One page or it doesn't get built
 
 Write a one pager for all of your ideas. Your one pager captures your north
@@ -24,36 +22,53 @@ one page, don't fill the gaps with fluff, it means you're not ready to build.
 First research, plan, prototype, then write the one pager again. Iterate. If it
 requires more than one page, it's too complex, don't build it.
 
-This constraint limits complexity and ambiguity.
+*This constraint limits complexity and ambiguity.*
 
 ## The core tech must be separable from the product
 
-Develop a core piece of tech that accelerates development of your product but is
-not the product. The core tech is a method, skill, or tool that can be applied
-to future products. You can think of it as reusable IP. It's your long term
-commitment. Therefore, it must be aligned with your thesis or vision about the
-future. Why? Separating the core tech forces you to think beyond the product
-that you're building today. Products pivot in direction all the time. Interest
-in products from the developers come and go. Some products are naturally not
-intellectually stimulating, and that's okay, but core tech keeps it interesting.
-All considered developing core tech fundamentally de-risks ourselves, keeping
-our work relevant for a lifetime. Git is a tool that was developed to better
-help Linux kernel development. Since its release, git is the world's most
-popular version control system. But the product must be the main focus? Yes,
-however, you're constantly learning and improving your methods and skills as an
-entrepreneur. Core tech de-risks those things. Developing core tech and
-productising it, de-risks your endeavours today.
+Develop a core piece of technology that supports your project and is not the
+product itself. The core tech is a method, skill, tool, or even product that
+supports what you're doing today but must survive without it. It's a type of
+reusable IP. Why? Separating the core tech forces you to think beyond the
+product that you're building. Products pivot in direction all the time, while
+your core tech is constant and compounding. Compounding efforts have non-linear
+gains over longer time horizons. Linus Torvalds developed git to improve the
+Linux kernel development workflow. HashiCorp has HCL (HashiCorp Configuration
+Language). Google has Kubernetes. Your core tech is your long term commitment.
+Therefore, it must be independent of your project's direction. However, it must
+be aligned with you or your company's long term vision. If your idea doesn't
+enable core tech, then it isn't high enough leverage.
 
-- TODO improve from feedback
+*This constraint limits you to ideas that have real leverage and originality.*
 
-This constraint limits you to ideas that have real leverage and originality.
+## One defining constraint must shape the product
+
+Define your own constraint that is front and centre to your product. That means
+the user sees and interacts with it all the time. It is obvious and it is what
+gives your product identity. A good constraint gives your product a *feel*, it
+permeates through all parts of the user experience. Minecraft is built entirely
+from blocks. IKEA is flat-pack, self-assembly furniture. The constraint that you
+choose limits scope by reducing your decision space, enabling you to concentrate
+on the problems that really make the difference. If you don't choose a
+constraint, or choose a bad constraint, you will build a bloated product that
+will try to do everything. The design of your product will "fall out" of a
+well-designed constraint. Like in your product, your constraint must be front
+and centre in your one pager.
+
+*This constraint limits feature creep and forces identity.*
 
 ## Closing Rule
 
-When it comes to building, if it fails 2/3 of these constraints, then don't
-build it.
+When it comes to deciding what to build, if it fails any of these constraints,
+then don't build it.
 
 ---
+
+1. what it is
+2. what it forces, why it matters
+3. example or analogy
+4. nuance or objection
+5. one liner closing
 
 ## Build in public
 
@@ -83,9 +98,3 @@ How you build in public must be clearly defined and non-negotiable. You lose if
 you keep your idea secret.
 
 This constrains you to ideas that don't rely on secrecy.
-
-1. what it is
-2. what it forces, why it matters
-3. example or analogy
-4. nuance or objection
-5. one liner closing
