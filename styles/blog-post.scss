@@ -69,6 +69,11 @@
     padding-right: 1 + $u;
 }
 
+.page-panel__footer {
+    margin-top: 2 + $u;
+    text-align: center;
+}
+
 @media (max-width: $width-phablet) {
     .page-panel {
         padding: 1.2 + $u;

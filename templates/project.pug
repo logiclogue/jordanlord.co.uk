@@ -38,3 +38,7 @@ block content
                             a(href='https://npmjs.com/package/' + npm) NPM
 
             != contents
+
+        .page-panel__footer
+            a.share-link(href="#" onclick="event.preventDefault();navigator.clipboard.writeText(window.location.href).then(function(){var a=document.querySelector('.share-link');a.textContent='Link copied!';setTimeout(function(){a.textContent='Share'},2000)})")
+                | Share
