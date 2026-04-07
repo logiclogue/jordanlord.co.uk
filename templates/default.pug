@@ -36,11 +36,12 @@ html(lang="en")
         script(src="/js/script.js", type="module")
 
         footer
-            .subscribe
-                p
-                    a(href="https://listmonk.jordanlord.co.uk/subscription/form") Subscribe to the Mailing List
-                p.subscribe-note
-                    | You can also subscribe via #[a(href="/rss.xml") RSS].
+            block subscribe
+                .subscribe
+                    p
+                        a(href="/subscribe") Subscribe to the Mailing List
+                    p.subscribe-note
+                        | You can also subscribe via #[a(href="/rss.xml") RSS].
 
             .privacy-notice
                 | This site collects anonymous usage statistics for site improvement.

@@ -1,0 +1,50 @@
+extends default.pug
+
+block subscribe
+
+block content
+    article.page-panel
+        .page-panel__header
+            h1.page-panel__title Subscribe
+
+        .page-panel__body
+            p New posts, essays, and occasional updates.
+
+            form#subscribe-form(method="post" action="https://listmonk.jordanlord.co.uk/subscription/form" onsubmit="return handleSubscribe(event)")
+                input(type="hidden" name="nonce" value="")
+                input(type="hidden" name="l" value="91e68ac7-aad8-4905-ae8c-683b776a9b8a")
+
+                label(for="email") Email
+                input#email(name="email" type="email" required placeholder="you@example.com")
+
+                label(for="name") Name (optional)
+                input#name(name="name" type="text" placeholder="Your name")
+
+                p
+                    a#subscribe-button(href="#" onclick="document.getElementById('subscribe-form').submit(); return false;") Subscribe
+
+                p#subscribe-message
+
+    script.
+        function handleSubscribe(e) {
+            var form = document.getElementById('subscribe-form');
+            var data = new FormData(form);
+            var btn = document.getElementById('subscribe-button');
+            var msg = document.getElementById('subscribe-message');
+
+            e.preventDefault();
+
+            fetch('https://listmonk.jordanlord.co.uk/subscription/form', {
+                method: 'POST',
+                body: data,
+                mode: 'no-cors'
+            }).then(function() {
+                btn.textContent = 'Subscribed!';
+                msg.textContent = 'Check your email to confirm.';
+                form.reset();
+            }).catch(function() {
+                msg.textContent = 'Something went wrong. Please try again.';
+            });
+
+            return false;
+        }
