@@ -77,6 +77,8 @@
 @media (max-width: $width-phablet) {
     .page-panel {
         padding: 1.2 + $u;
+        margin-left: -20px;
+        margin-right: -20px;
     }
 
     .page-panel__header {
