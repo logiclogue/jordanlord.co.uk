@@ -1,0 +1,36 @@
+input.jl-input,
+textarea.jl-input,
+select.jl-input {
+    display: block;
+    width: 100%;
+    height: 4 + $u;
+    padding: 0.5 + $u 0.8 + $u;
+    margin-top: 0;
+    margin-bottom: 2 + $u;
+    background-color: $bg-colour;
+    border: 2px solid $fg-colour;
+    border-radius: 0;
+    color: $fg-colour;
+    font-family: $font-stack;
+    font-size: $font-size + $u;
+    box-sizing: border-box;
+    appearance: none;
+
+    &::placeholder {
+        color: $dark-fg-colour;
+    }
+
+    &:focus {
+        outline: 3px solid $link-colour;
+        outline-offset: 0;
+        border-color: $fg-colour;
+    }
+}
+
+@media (min-width: $width-tablet) {
+    input.jl-input,
+    textarea.jl-input,
+    select.jl-input {
+        max-width: 32ch;
+    }
+}

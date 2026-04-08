@@ -20,6 +20,7 @@ const config = JSON.parse(readFileSync("./config.json"));
 const draftMode = !!process.env.DRAFT;
 
 config.siteMetadata.year = new Date().getFullYear();
+config.siteMetadata.assetVersion = Date.now();
 
 Metalsmith(".")
     .metadata(config.siteMetadata)

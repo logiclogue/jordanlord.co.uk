@@ -3,26 +3,9 @@
 
     label {
         display: block;
-        margin-bottom: 0.4 + $u;
-        color: $dark-fg-colour;
-    }
-
-    input[type="email"],
-    input[type="text"] {
-        display: block;
-        width: 100%;
-        padding: 0.6 + $u;
-        margin-bottom: 1.2 + $u;
-        background-color: $bg-colour;
-        border: 1px solid $selection-bg-colour;
+        margin-bottom: 0.5 + $u;
         color: $fg-colour;
-        font-family: $font-stack;
-        font-size: $font-size + $u;
-        box-sizing: border-box;
-
-        &:focus {
-            outline: none;
-            border-color: $link-colour;
-        }
+        font-weight: bold;
     }
 }
+
