@@ -19,10 +19,7 @@ const theme = {
     fontStack: "'Droid Sans Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace"
 };
 
-const footerHtml = [
-    `<p style="margin:0 0 8px 0;">${config.siteMetadata.sitedescription}</p>`,
-    '<p style="margin:0;">Read <a href="{{ MessageURL }}" style="color:#F92672; text-decoration:none;">this email online</a> or <a href="{{ UnsubscribeURL }}" style="color:#F92672; text-decoration:none;">manage your subscription</a>.</p>'
-].join("");
+const footerHtml = '<p style="margin:0;">Read <a href="{{ MessageURL }}" style="color:#F92672; text-decoration:none;">this email online</a> or <a href="{{ UnsubscribeURL }}" style="color:#F92672; text-decoration:none;">manage your subscription</a>.</p>';
 
 const templates = [
     {
@@ -110,7 +107,8 @@ const listmonkBase = buildListmonkParts("listmonk-slot.pug", {
     subject: `${config.siteMetadata.sitename} mailing list`,
     eyebrow: "mailing list",
     title: "A short note from the mailing list",
-    footerHtml: `<p style="margin:0;">Copyright &#169; ${nowYear} ${config.siteMetadata.sitename}</p>`
+    footerHtml,
+    trackingHtml: "{{ TrackView }}"
 });
 
 const listmonkSubscriberOptIn = renderListmonkContent("subscriber-optin-content.pug", {});
