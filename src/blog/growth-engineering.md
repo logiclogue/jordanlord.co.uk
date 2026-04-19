@@ -1,15 +1,12 @@
 ---
 title: Growth engineering one pager
-publishDate: 2026-04-17
-draft: true
+publishDate: 2026-04-19
 ---
 
-This one pager introduces the growth engineering process that runs as a
-continuous cycle. This was a one pager that I wrote as Footium switched from a
-product focus to a growth hacking focus, after reading *Hacking Growth* by Sean
-Ellis. All citations reference pages in *Hacking Growth*. I've generalised this
-one pager, as to make it shareable with your team if you are thinking about
-switching to growth hacking. Feel free to copy, tweak, and share.
+This one pager is for implementing a growth engineering process in your team.
+Originally I wrote this at Footium after reading *Hacking Growth* by Sean Ellis.
+All citations reference pages in the book. Below is the generalised version so
+you can share, adapt, and use it.
 
 ---
 
