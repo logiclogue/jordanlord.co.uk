@@ -1,111 +1,96 @@
 ---
-title: Footium in the age of AI
+title: Simium wins in the age of AI
 publishDate: 2026-04-17
 draft: true
 ---
 
-BIG DRAFT IGNORE BELOW
+Simium should not build a better football game.
+It should build the system that makes living football worlds possible.
 
-Footium should not aim to become a better crypto football game. It should aim to
-become the full world of football.
+That is the opportunity created by AI.
 
-The football game market is stagnant because every major product compresses
-football into one layer only. *EA Sports FC* gives you the match. *Football
-Manager* gives you the spreadsheet. Web3 football games usually give you the
-asset. None of them give you the whole living system.
+For twenty years, football games have split the category into parts.
 
-Footium can.
+*EA Sports FC* gives you the match.
+*Football Manager* gives you the spreadsheet.
+Web3 games give you the asset.
 
-## The Thesis
+None of them give you football as a persistent world.
 
-Footium will become an AI-native world of football: a persistent simulation where
-clubs, players, matches, identities, media, rivalry, and ownership all come from
-the same world state.
+That is the gap.
 
-This means:
+## Thesis
 
-- You do not just manage a club, you own a place in the football world.
-- Players are not just stats, they are persistent identities that develop over
-  time.
-- Matches are not just results, they are events that generate consequences,
-  stories, and media.
-- The social layer is not bolted on, it is native to the game.
-- Over time, the world becomes more immersive, more believable, and more
-  expressive than annual-release sports games can realistically ship.
+Simium's core technology is a persistent sports world model.
 
-If this works, Footium does not compete as a niche web3 product. It competes to
-be the most complete digital expression of football.
+Everything comes from the same world state:
+
+- clubs
+- players
+- competitions
+- history
+- identity
+- media
+- rivalry
+- ownership
+
+That matters because it creates a different kind of product.
+
+Not a set of football features.
+A football world.
+
+In that structure:
+
+- **Simium** is the company
+- **Footium** is the world
+- **FFL** is the first competitive game inside it
+
+That is a better abstraction than treating one game as the whole company.
 
 ## Why now
 
-AI capability is compounding quickly. METR found that the length of tasks
-frontier AI agents can complete has been doubling at roughly every 7 months, and
-Epoch AI separately estimates global AI compute capacity has also been doubling
-on a similar timescale.[^1][^2]
+AI is collapsing the cost of world-building.
 
-That matters because the cost of building football worlds is collapsing.
+METR found that the length of tasks frontier AI agents can complete has been doubling on roughly a 7-month cycle.[^1] Epoch AI separately estimated that global AI compute capacity was also doubling on a similar timescale.[^2]
 
-What previously required large teams, fixed pipelines, and years of asset
-production can now increasingly be generated, refined, and personalised through
-AI:
+If that compounding continues, football products will not just get cheaper to make. They will become broader, more reactive, and more alive.
 
-- commentary
-- match reports
-- player identities
-- club visuals
-- interviews
-- social content
-- highlight packages
-- eventually match presentation itself
+Commentary, reports, interviews, visuals, highlights, social content, match presentation, and eventually richer simulation itself all become easier to generate from the same underlying world state.
 
-The bottleneck is no longer whether this world can be built. The bottleneck is
-who builds the best one first.
+The bottleneck shifts.
 
-## Core tech
+It is no longer: can this world be built?
+It becomes: who builds the best world first?
 
-The core technology is a **persistent sports world model**.
+## Constraint
 
-This is not the product itself. It is the underlying system that makes the
-product possible.
+The constraint should be simple:
 
-It should unify:
+**everything must come from the world state.**
 
-- simulation of clubs, players, and competitions
-- generation of persistent player and club identity
-- generation of media from world state
-- progression over long time horizons
-- expansion to other sports later
-
-If Footium pivots, this core technology should survive. If Footium succeeds, this
-core technology is the compounding asset underneath it.
-
-## Defining constraint
-
-**Everything must come from the world state.**
-
-No disconnected game modes. No cosmetic layer that has nothing to do with the
-simulation. No content for content's sake.
-
-If a player face exists, it comes from that player.
+If a player has a face, it comes from that player.
 If commentary exists, it comes from that match.
 If a rivalry exists, it comes from repeated competition.
 If media exists, it comes from the world.
 
-This constraint gives Footium its identity. The product should always feel like
-you are interacting with a football world, not a collection of football features.
+This is what stops the product becoming fluff.
+It keeps simulation, identity, and output tied together.
 
-## End state
+## Prediction
 
-Footium begins as a football management game with ownership. It ends as a world.
+The winning sports product of the AI era will not be the one with the best menu system or the largest asset pipeline.
 
-In that world, AI does not replace the point of the game. AI expands the surface
-area of football until the game becomes more social, more immersive, and more
-alive than watching menus, annual database updates, or isolated match engines.
+It will be the one with the most coherent world model.
 
-The companies that win in the AI era will not be the ones with the most features.
-They will be the ones that build the most living worlds.
+The near-term prediction is simple: football products built on annual content production pipelines will look increasingly brittle.
+Products built on persistent world state will improve continuously.
 
-That is the opportunity for Footium.
+That is why this matters.
+
+Simium is not just building a game.
+It is building the system from which better sports worlds can keep emerging.
+
+Footium is the first one.
 
 [^1]: METR, ["Measuring AI Ability to Complete Long Tasks"](https://www.metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/).
 [^2]: Epoch AI, ["Global AI computing capacity is doubling every 7 months"](https://epochai.org/data-insights/ai-chip-production).
