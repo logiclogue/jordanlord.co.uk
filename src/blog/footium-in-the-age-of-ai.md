@@ -4,10 +4,7 @@ publishDate: 2026-04-17
 draft: true
 ---
 
-Simium should not build a better football game.
-It should build the system that makes living football worlds possible.
-
-That is the opportunity created by AI.
+Simium is building the digital living worlds of sport.
 
 For twenty years, football games have split the category into parts.
 
@@ -15,13 +12,13 @@ For twenty years, football games have split the category into parts.
 *Football Manager* gives you the spreadsheet.
 Web3 games give you the asset.
 
-None of them give you football as a persistent world.
+None of them give you sport as a persistent world.
 
 That is the gap.
 
 ## Thesis
 
-Simium's core technology is a persistent sports world model.
+Simium's core technology is a persistent world model.
 
 Everything comes from the same world state:
 
@@ -36,16 +33,13 @@ Everything comes from the same world state:
 
 That matters because it creates a different kind of product.
 
-Not a set of football features.
-A football world.
-
 In that structure:
 
 - **Simium** is the company
 - **Footium** is the world
 - **FFL** is the first competitive game inside it
 
-That is a better abstraction than treating one game as the whole company.
+A lot of companies are now building pieces of the world-model stack: explorable AI worlds, persistent 3D environments, generated characters, simulation tooling, even playable real-time worlds. But many of them are still focused more on visual and spatial generation than on deeply simulated, state-first worlds. The more interesting opportunity is the opposite: a vertical, opinionated, coherent world built top-down, where every output is derived from an underlying state. Not a generated surface, but a simulated system. That means identity, rivalry, media, progression, and gameplay all come from the same source of truth. Many teams are building world-model technology. Far fewer are building coherent, persistent worlds with real stakes. Fewer still are doing it in sport.
 
 ## Why now
 
@@ -64,9 +58,9 @@ It becomes: who builds the best world first?
 
 ## Constraint
 
-The constraint should be simple:
+The constraint is simple:
 
-**everything must come from the world state.**
+**everything comes from the world state.**
 
 If a player has a face, it comes from that player.
 If commentary exists, it comes from that match.
@@ -83,7 +77,7 @@ The winning sports product of the AI era will not be the one with the best menu 
 It will be the one with the most coherent world model.
 
 The near-term prediction is simple: football products built on annual content production pipelines will look increasingly brittle.
-Products built on persistent world state will improve continuously.
+Products built on persistent world state will compound continuously.
 
 That is why this matters.
 
