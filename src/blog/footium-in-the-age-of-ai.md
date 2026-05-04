@@ -1,90 +1,125 @@
 ---
-title: Simium wins in the age of AI
+title: Content is cheap, history is scarce
 publishDate: 2026-04-17
 draft: true
 ---
 
-Simium is building the digital living worlds of sport.
-
-For twenty years, football games have split the category into parts.
-
-*EA Sports FC* gives you the match.
-*Football Manager* gives you the spreadsheet.
-Web3 games give you the asset.
-
-None of them give you sport as a persistent world.
-
-That is the gap.
+---
 
 ## Thesis
 
-Simium's core technology is a persistent world model.
+Simium is a *deep sim* company that builds the most consistent, persistent, and
+immersive digital worlds by engineering the tools that generates and makes them
+consistent. Every story, interaction, and event comes from the same canonical
+state. Every user interaction has consequence.
 
-Everything comes from the same world state:
+*It's all smoke and mirrors.*
 
-- clubs
-- players
-- competitions
-- history
-- identity
-- media
-- rivalry
-- ownership
+The market is now funding companies that are building pieces of the world-model
+stack: playable real-time worlds, persistent 3D environments, generated
+characters, simulation tooling. Worlds by companies like World Labs, Odyssey,
+Decart, DeepMind Genie. AI Games from Rosebud AI, ego, Latitude. Or they focus
+on characters and NPC memory, Inworld, Convai, MemoryLake.
 
-That matters because it creates a different kind of product.
+*The new Moore's Law.*
 
-In that structure:
+METR found that the length of tasks frontier AI agents can complete has been
+doubling on roughly a 7-month cycle.[^1] Epoch AI separately estimated that
+global AI compute capacity was also doubling on a similar timescale.[^2] Today
+that length of task that AI agents can complete is measured in hours. As that
+trend continues, an AI agent will be able to one-shot build Fifa (EA FC) by
+2037. But to change the gaming industry, it doesn't have to build the full game
+autonomously. Once agents can reliably complete multi-day engineering tasks, the
+bottleneck will shift. We're only over 12 months away from that reality.
 
-- **Simium** is the company
-- **Footium** is the world
-- **FFL** is the first competitive game inside it
+*In a market where content is cheap, history becomes scarce.*
 
-A lot of companies are now building pieces of the world-model stack: explorable AI worlds, persistent 3D environments, generated characters, simulation tooling, even playable real-time worlds. But many of them are still focused more on visual and spatial generation than on deeply simulated, state-first worlds. The more interesting opportunity is the opposite: a vertical, opinionated, coherent world built top-down, where every output is derived from an underlying state. Not a generated surface, but a simulated system. That means identity, rivalry, media, progression, and gameplay all come from the same source of truth. Many teams are building world-model technology. Far fewer are building coherent, persistent worlds with real stakes. Fewer still are doing it in sport.
+As agents make content, characters, spatial worlds, and games cheap, then almost
+nothing creative we enjoy today will have value. Anybody can generate their own
+game and make their own content. As the space of products we know today becomes
+a free and open sandbox, the only domain remaining that is scarce will be those
+that persist and have Lindy value. Generated content has no Lindy value. Worlds
+with real history, lore, consequence, and ownership will be the island of Lindy
+value. Eve Online and World of Warcraft, are some of the longest running games
+because of their Lindy value. We need to go further if we are to survive the
+next wave.
 
-## Why now
+*AAA will be left behind.*
 
-AI is collapsing the cost of world-building.
+In a market where the consumer bar is already so high, as AI makes labour cheap,
+the bar will be raised beyond AAA. When you can craft your own surreal Football
+Manager to your own story, who still plays the original game? If AAA aren't
+investing into the current wave of technology, then they will fall below the
+bar. Just as we saw with the games companies of the 80s who failed to make the
+leap from 2D to 3D, the next wave of companies must stay ahead and stay above
+the bar.
 
-METR found that the length of tasks frontier AI agents can complete has been doubling on roughly a 7-month cycle.[^1] Epoch AI separately estimated that global AI compute capacity was also doubling on a similar timescale.[^2]
+## Footium
 
-If that compounding continues, football products will not just get cheaper to make. They will become broader, more reactive, and more alive.
+Most funded efforts in AI games are still focused on the surface: generating
+visual worlds, playable prototypes, characters, dialogue, or NPC memory. Those
+are useful pieces of the stack, but they do not by themselves create a world or
+game that matters.
 
-Commentary, reports, interviews, visuals, highlights, social content, match presentation, and eventually richer simulation itself all become easier to generate from the same underlying world state.
+The more interesting opportunity is the opposite: a vertical, opinionated,
+coherent world built top-down, where every output is derived from an underlying
+state. Where there are real stakes and real consequence. Few are doing this at
+all, fewer are doing it in sport.
 
-The bottleneck shifts.
+Our wedge is Footium, our first digital world. It is the world of football where
+every club, player, match, and rivalry is unique and generated by the story,
+where every user action has consequence. The FFL is the first competitive game
+within the Footium world.
 
-It is no longer: can this world be built?
-It becomes: who builds the best world first?
+Football is the right wedge because it's already the world's most powerful story
+engine. It is the world's most watched sport. Its scale is a product of its
+structure, its state. Fans live and die by their football club. Clubs carry
+identity and stories across generations. Rivalries turn history and geography
+into emotion and spectacles. Unknown players and clubs can become legends
+through a cup run or one title race.
 
-## Constraint
+In the next age, it's a race to build the best world.
 
-The constraint is simple:
+## Canonic
 
-**everything comes from the world state.**
+Canonic is our radically simple open source LLM harness that we use for all of
+our worlds. Canonic generates canon. Canon is the authoritative record of the
+world.
 
-If a player has a face, it comes from that player.
-If commentary exists, it comes from that match.
+- World generation
+- Maintain canon: canonical state, causality, consistency
+- Generate content for the world (news articles, video high lights)
+- Create user interactions (interviews, playable moments)
+- Ensure facts remain persistent
+- Update state based on user actions and events
+- Enable user stories to become canon
+
+## Grounded in Canon
+
+Our core constraint is **nothing is generated unless it is grounded in canon**.
+
+If a match report exists, it comes from the match.
+If a transfer rumour exists, it comes from bids, contracts, form, and club needs.
 If a rivalry exists, it comes from repeated competition.
-If media exists, it comes from the world.
+If a player has a reputation, it comes from their career.
+If a club has an identity, it comes from ownership, results, stadium, academy, and history.
 
-This is what stops the product becoming fluff.
-It keeps simulation, identity, and output tied together.
+The pipeline is:
 
-## Prediction
+**state -> text -> imagery**
 
-The winning sports product of the AI era will not be the one with the best menu system or the largest asset pipeline.
+The decision rules follow from that:
 
-It will be the one with the most coherent world model.
-
-The near-term prediction is simple: football products built on annual content production pipelines will look increasingly brittle.
-Products built on persistent world state will compound continuously.
-
-That is why this matters.
-
-Simium is not just building a game.
-It is building the system from which better sports worlds can keep emerging.
-
-Footium is the first one.
+- State before surface
+- Consequence before content
+- Systems before features
+- Text before imagery
+- Narrative before notifications
+- Tech before the world
+- World before game
+- Persistence before novelty
+- Deep worlds over shallow gameplay
+- Realism over fluff
 
 [^1]: METR, ["Measuring AI Ability to Complete Long Tasks"](https://www.metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/).
 [^2]: Epoch AI, ["Global AI computing capacity is doubling every 7 months"](https://epochai.org/data-insights/ai-chip-production).
