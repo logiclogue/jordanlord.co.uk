@@ -1,125 +1,70 @@
 ---
-title: Content is cheap, history is scarce
-publishDate: 2026-04-17
+title: AI-generated games need persistent canon
+publishDate: 2026-05-17
 draft: true
 ---
 
----
+Games are systems of consequence. In Tetris, every block that is misplaced
+shapes how the game plays out. In Eve Online, a betrayal can shape an economy or
+years of player history. Generative AI makes content cheap, however, content
+alone isn't consequence. If I sell my club captain and argue with the board,
+supporters should still be talking about it next season. Morale has to drop. The
+board should trust me less. AI-generated games need persistent canon: an
+authoritative record of the world, it is by definition consistent. It dictates
+what exists, what has happened and what can happen.
 
-## Thesis
+*The dream.*
 
-Simium is a *deep sim* company that builds the most consistent, persistent, and
-immersive digital worlds by engineering the tools that generates and makes them
-consistent. Every story, interaction, and event comes from the same canonical
-state. Every user interaction has consequence.
+Consequence is important because games let people live out dreams. Minecraft
+lets you craft your own world and Football Manager lets you manage your
+favourite club.
 
-*It's all smoke and mirrors.*
+As AI makes content cheap, the surface area of dreams that gaming enables will
+expand. Imagine DeepMind's Genie in the future, we will be able to experience
+fully immersive spatial worlds and interact with NPCs almost as if they were
+real people.
 
-The market is now funding companies that are building pieces of the world-model
-stack: playable real-time worlds, persistent 3D environments, generated
-characters, simulation tooling. Worlds by companies like World Labs, Odyssey,
-Decart, DeepMind Genie. AI Games from Rosebud AI, ego, Latitude. Or they focus
-on characters and NPC memory, Inworld, Convai, MemoryLake.
+Frontier labs are measuring their world model consistency in the order of
+minutes. Games need worlds that are consistent between sessions, seasons, years.
 
-*The new Moore's Law.*
+*The failure.*
 
-METR found that the length of tasks frontier AI agents can complete has been
-doubling on roughly a 7-month cycle.[^1] Epoch AI separately estimated that
-global AI compute capacity was also doubling on a similar timescale.[^2] Today
-that length of task that AI agents can complete is measured in hours. As that
-trend continues, an AI agent will be able to one-shot build Fifa (EA FC) by
-2037. But to change the gaming industry, it doesn't have to build the full game
-autonomously. Once agents can reliably complete multi-day engineering tasks, the
-bottleneck will shift. We're only over 12 months away from that reality.
+With Footium we have built a few generative AI features. An assistant manager
+who helps you get up to speed with the game. Match reports. Player interviews.
+Promotional preview images for your upcoming match. Without carefully hand
+tested guardrails, generated content drifts
+LLMs are inherently stochastic, and thus over time generated content drifts,
+errors compound, leading to hallucinations and world state contradictions.
 
-*In a market where content is cheap, history becomes scarce.*
+*The constraint.*
 
-As agents make content, characters, spatial worlds, and games cheap, then almost
-nothing creative we enjoy today will have value. Anybody can generate their own
-game and make their own content. As the space of products we know today becomes
-a free and open sandbox, the only domain remaining that is scarce will be those
-that persist and have Lindy value. Generated content has no Lindy value. Worlds
-with real history, lore, consequence, and ownership will be the island of Lindy
-value. Eve Online and World of Warcraft, are some of the longest running games
-because of their Lindy value. We need to go further if we are to survive the
-next wave.
+If we don't decide on a constraint, the search space is too large. Canon is the
+state first record of the world. The guiding constraint is that everything must
+be generated from canon. Thus every user interaction or generated content must
+update canon. Otherwise there is no consistency. That means everything that is
+generated must also update canon.
 
-*AAA will be left behind.*
+*The architecture.*
 
-In a market where the consumer bar is already so high, as AI makes labour cheap,
-the bar will be raised beyond AAA. When you can craft your own surreal Football
-Manager to your own story, who still plays the original game? If AAA aren't
-investing into the current wave of technology, then they will fall below the
-bar. Just as we saw with the games companies of the 80s who failed to make the
-leap from 2D to 3D, the next wave of companies must stay ahead and stay above
-the bar.
+To build consistent persistent digital worlds, I'm building Canonic following
+the core constraint. Canonic is AI tooling and infrastructure which acts as the
+authoritative record of the world. It simultaneously acts as a harness around AI
+models, while being the infrastructure on which these worlds live.
 
-## Footium
+*The test.*
 
-Most funded efforts in AI games are still focused on the surface: generating
-visual worlds, playable prototypes, characters, dialogue, or NPC memory. Those
-are useful pieces of the stack, but they do not by themselves create a world or
-game that matters.
+- Footium is a good test
+- We tried putting generative AI into our world and the hard part wasn't
+    generation it was consistency and persistence
+- TODO - maybe this goes further up?
+**TODO - cite how many user actions happen per day in the game**
 
-The more interesting opportunity is the opposite: a vertical, opinionated,
-coherent world built top-down, where every output is derived from an underlying
-state. Where there are real stakes and real consequence. Few are doing this at
-all, fewer are doing it in sport.
+I've been building Footium as the wedge. Where World of Warcraft is the digital
+world of fictional fantasy and Eve Online is the digital world of space opera,
+Footium is the digital world of football. Why? Because football is the world's
+greatest story engine. Fans live and die by their football clubs. Stories and
+traditions passed through generations. Footium has been live since late 2024,
+with ~1000 daily active players, 2000 monthly active players, and $4m+ of
+transfer volume.
 
-Our wedge is Footium, our first digital world. It is the world of football where
-every club, player, match, and rivalry is unique and generated by the story,
-where every user action has consequence. The FFL is the first competitive game
-within the Footium world.
-
-Football is the right wedge because it's already the world's most powerful story
-engine. It is the world's most watched sport. Its scale is a product of its
-structure, its state. Fans live and die by their football club. Clubs carry
-identity and stories across generations. Rivalries turn history and geography
-into emotion and spectacles. Unknown players and clubs can become legends
-through a cup run or one title race.
-
-In the next age, it's a race to build the best world.
-
-## Canonic
-
-Canonic is our radically simple open source LLM harness that we use for all of
-our worlds. Canonic generates canon. Canon is the authoritative record of the
-world.
-
-- World generation
-- Maintain canon: canonical state, causality, consistency
-- Generate content for the world (news articles, video high lights)
-- Create user interactions (interviews, playable moments)
-- Ensure facts remain persistent
-- Update state based on user actions and events
-- Enable user stories to become canon
-
-## Grounded in Canon
-
-Our core constraint is **nothing is generated unless it is grounded in canon**.
-
-If a match report exists, it comes from the match.
-If a transfer rumour exists, it comes from bids, contracts, form, and club needs.
-If a rivalry exists, it comes from repeated competition.
-If a player has a reputation, it comes from their career.
-If a club has an identity, it comes from ownership, results, stadium, academy, and history.
-
-The pipeline is:
-
-**state -> text -> imagery**
-
-The decision rules follow from that:
-
-- State before surface
-- Consequence before content
-- Systems before features
-- Text before imagery
-- Narrative before notifications
-- Tech before the world
-- World before game
-- Persistence before novelty
-- Deep worlds over shallow gameplay
-- Realism over fluff
-
-[^1]: METR, ["Measuring AI Ability to Complete Long Tasks"](https://www.metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/).
-[^2]: Epoch AI, ["Global AI computing capacity is doubling every 7 months"](https://epochai.org/data-insights/ai-chip-production).
+*The bigger claim.*
