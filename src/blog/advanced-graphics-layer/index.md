@@ -29,9 +29,9 @@ $3000-$3fff     $1000   Sprite table B
 $4000-$4fff     $1000   Sprite table C
 $5000-$5fff     $1000   Sprite table D
 $6000-$6fff     $1000   Object memory
-$7000-$7fff     $1000   Background memory
-$8000-$8fff     $1000   Window memory
-$9000-$ffff     $7000   Unallocated
+$7000-$8fff     $2000   Background memory
+$9000-$afff     $2000   Window memory
+$b000-$ffff     $5000   Unallocated
 
 TODO - mouse selection
 TODO - collision detection
@@ -173,7 +173,7 @@ the second bit represents the latter.
 
 - Background memory
 
-The background memory is 4096 bytes in size. It is a 64x64 grid of sprites. It
+The background memory is 8192 bytes in size. It is a 64x64 grid of sprites. It
 wraps around defined by the background scroll registers.
 
 ```
@@ -188,10 +188,28 @@ ATTR    1   7654 3210               Attribute register (TODO - 2 bytes, for text
             +-------- Flip sprite vertically
 ```
 
+## Image backgrounds
+
+Host images can be imported into this layout rather than bypassing it. The image
+importer resizes an image to the display, divides it into 8x8 tiles, quantises it
+to SUSA's 2-bit-per-channel colour space, builds eight shared four-colour
+background palettes, and writes the result into the sprite tables and background
+map. Duplicate tiles share sprite memory. The first 512 bytes of sprite memory
+are reserved for the packed 4x8 font; imported four-colour tiles therefore begin
+at tile index 32.
+
 - Window memory
 
 Window memory is the exact same structure as the background memory. It sits on
 top of all sprites and is rendered last.
+
+- Text
+
+Text uses ordinary object entries with the text-mode bit set. `ADDR` points to a
+Pascal string whose first byte is its length and whose remaining bytes are ASCII
+characters. In 4x8 mode two glyphs share each 8x8, one-bit sprite in the font.
+This keeps strings and their position, palette, transparency and priority fully
+memory mapped.
 
 - Palettes
 

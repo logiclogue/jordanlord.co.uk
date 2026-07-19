@@ -2,7 +2,16 @@ extends default.pug
 
 block content
     .twelve
-        canvas.u-full-width.logiclogue-zx-image(width='256', height='192', src='/res/jordan.png', style={ 'image-rendering': 'pixelated' })
+        canvas.u-full-width.logiclogue-ez-susa-screen(
+            width='256',
+            height='192',
+            data-screen-width='256',
+            data-screen-height='192',
+            data-susa-background='/res/jordan.png',
+            data-susa-text=mission,
+            aria-label=mission,
+            style={ 'image-rendering': 'pixelated' }
+        )= mission
     
     .row.margin-bottom
         .home-icons
@@ -17,5 +26,3 @@ block content
 
             .three.columns
                 +icon('https://twitter.com/', twitter, 'twitter')
-
-    != contents

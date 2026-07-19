@@ -489,7 +489,7 @@ function getRAM(ramId) {
         return ram[ramId];
     }
 
-    ram[ramId] = new Uint8ClampedArray(0xffff);
+    ram[ramId] = new Uint8ClampedArray(0x10000);
 
     return ram[ramId];
 }
@@ -612,6 +612,7 @@ const SUSA_BACKGROUND_HEIGHT = 64;
 
 const SUSA_CTRL_PTR = 0x1000;
 const SUSA_STATUS_PTR = 0x1001;
+const SUSA_OSCRLX = 0x1002;
 const SUSA_OSCRLY = 0x1004;
 const SUSA_BSCRLX = 0x1006;
 const SUSA_BSCRLY = 0x1008;
@@ -631,8 +632,8 @@ const SUSA_BPALET = 0x1040;
 const SUSA_SPRITE_PTR = 0x2000;
 const SUSA_OBJECT_PTR = 0x6000;
 const SUSA_BACKGR_PTR = 0x7000;
-const SUSA_WINDOW_PTR = 0x8000;
-const SUSA_UNALLO_PTR = 0x9000;
+const SUSA_WINDOW_PTR = 0x9000;
+const SUSA_UNALLO_PTR = 0xb000;
 
 const susaObjectGet = (ram, ptr) => {
     const subarray = ramGetArray(ram, ptr, 8);
@@ -741,6 +742,10 @@ const ezSusaGenerateImageData = (ctx, ram) => {
             const isVerticalFlip = ((attr & 0b10000000) >> 7) ? true : false;
             const xPos = ((x * 8) + xBackgroundScroll + 8) % (SUSA_BACKGROUND_WIDTH * 8) - 8;
             const yPos = ((y * 8) + yBackgroundScroll + 8) % (SUSA_BACKGROUND_HEIGHT * 8) - 8;
+
+            if (xPos <= -8 || xPos >= screenWidth || yPos <= -8 || yPos >= screenHeight) {
+                continue;
+            }
 
             ezSusaDrawSprite({
                 ram,
@@ -1002,10 +1007,7 @@ const ezSusaDrawText = ({
     }
 };
 
-const ezSusaRunSampleLogic = ram => {
-    const mouseObjectPtr = SUSA_OBJECT_PTR;
-
-    const font = [
+const SUSA_FONT_4X8 = [
         0x06, 0x09, 0x0F, 0x09, 0x09, 0x0F, 0x06, 0x00,
         0x60, 0xFA, 0x9E, 0xFE, 0xFE, 0x94, 0x64, 0x00,
         0x44, 0x44, 0xEA, 0xEA, 0xE4, 0x44, 0x4E, 0x00,
@@ -1070,11 +1072,14 @@ const ezSusaRunSampleLogic = ram => {
         0x02, 0x04, 0xE4, 0x28, 0x44, 0x84, 0xE2, 0x00, // z, {
         0x48, 0x44, 0x44, 0x02, 0x44, 0x44, 0x48, 0x00, // |, }
         0x50, 0xA0, 0x04, 0x04, 0x0A, 0x0A, 0x0E, 0x00
-    ];
+];
+
+const ezSusaRunSampleLogic = ram => {
+    const mouseObjectPtr = SUSA_OBJECT_PTR;
 
     // init
     if (!ram[0x0000]) {
-        ram.set(font, SUSA_SPRITE_PTR);
+        ram.set(SUSA_FONT_4X8, SUSA_SPRITE_PTR);
 
         // set palette
         ram[SUSA_SPALET + 0] = 0x00;
@@ -1180,24 +1185,373 @@ const ezSusaRunSampleLogic = ram => {
     });
 };
 
-// logiclogue-ez-susa-screen - for more advanced graphics, named after some
-// place to do with heptagons
+const susaColourDistance = (a, b) => {
+    const ar = (a >> 4) & 0x03;
+    const ag = (a >> 2) & 0x03;
+    const ab = a & 0x03;
+    const br = (b >> 4) & 0x03;
+    const bg = (b >> 2) & 0x03;
+    const bb = b & 0x03;
+
+    return (3 * Math.pow(ar - br, 2)) +
+        (4 * Math.pow(ag - bg, 2)) +
+        (2 * Math.pow(ab - bb, 2));
+};
+
+const susaPaletteError = (histogram, palette) => {
+    let error = 0;
+
+    for (let colour = 0; colour < 64; colour += 1) {
+        if (!histogram[colour]) {
+            continue;
+        }
+
+        const distance = palette.reduce((best, candidate) => {
+            return Math.min(best, susaColourDistance(colour, candidate));
+        }, Infinity);
+
+        error += histogram[colour] * distance;
+    }
+
+    return error;
+};
+
+// Select four colours greedily from SUSA's 2-bit-per-channel, 64-colour space.
+const susaChoosePalette = histogram => {
+    const palette = [];
+    const nearestDistances = new Array(64).fill(Infinity);
+
+    for (let slot = 0; slot < 4; slot += 1) {
+        let bestColour = 0;
+        let bestError = Infinity;
+
+        for (let candidate = 0; candidate < 64; candidate += 1) {
+            if (palette.includes(candidate)) {
+                continue;
+            }
+
+            let error = 0;
+
+            for (let colour = 0; colour < 64; colour += 1) {
+                if (!histogram[colour]) {
+                    continue;
+                }
+
+                error += histogram[colour] * Math.min(
+                    nearestDistances[colour],
+                    susaColourDistance(colour, candidate)
+                );
+            }
+
+            if (error < bestError) {
+                bestColour = candidate;
+                bestError = error;
+            }
+        }
+
+        palette.push(bestColour);
+
+        for (let colour = 0; colour < 64; colour += 1) {
+            nearestDistances[colour] = Math.min(
+                nearestDistances[colour],
+                susaColourDistance(colour, bestColour)
+            );
+        }
+    }
+
+    return palette;
+};
+
+const susaBuildBackgroundPalettes = tiles => {
+    const globalHistogram = new Uint32Array(64);
+
+    tiles.forEach(tile => {
+        tile.histogram.forEach((count, colour) => {
+            globalHistogram[colour] += count;
+        });
+    });
+
+    const palettes = [susaChoosePalette(globalHistogram)];
+
+    // Seed each additional palette from the tile represented worst so far.
+    while (palettes.length < 8) {
+        let worstTile = tiles[0];
+        let worstError = -1;
+
+        tiles.forEach(tile => {
+            const error = Math.min(...palettes.map(palette => {
+                return susaPaletteError(tile.histogram, palette);
+            }));
+
+            if (error > worstError) {
+                worstError = error;
+                worstTile = tile;
+            }
+        });
+
+        palettes.push(susaChoosePalette(worstTile.histogram));
+    }
+
+    // Refine the shared palette bank against the groups of tiles using it.
+    for (let iteration = 0; iteration < 4; iteration += 1) {
+        const groups = palettes.map(() => new Uint32Array(64));
+
+        tiles.forEach(tile => {
+            const errors = palettes.map(palette => {
+                return susaPaletteError(tile.histogram, palette);
+            });
+            const paletteIndex = errors.indexOf(Math.min(...errors));
+
+            tile.histogram.forEach((count, colour) => {
+                groups[paletteIndex][colour] += count;
+            });
+        });
+
+        groups.forEach((histogram, paletteIndex) => {
+            if (histogram.some(count => count > 0)) {
+                palettes[paletteIndex] = susaChoosePalette(histogram);
+            }
+        });
+    }
+
+    return palettes;
+};
+
+const susaLoadImage = src => new Promise((resolve, reject) => {
+    const image = new Image();
+
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(new Error(`Unable to load SUSA background: ${src}`));
+    image.src = src;
+});
+
+const susaWriteImageToBackground = async (ram, src, screenWidth, screenHeight) => {
+    const image = await susaLoadImage(src);
+    const sourceCanvas = document.createElement("canvas");
+    const sourceContext = sourceCanvas.getContext("2d", { willReadFrequently: true });
+    const tileColumns = Math.ceil(screenWidth / 8);
+    const tileRows = Math.ceil(screenHeight / 8);
+
+    sourceCanvas.width = screenWidth;
+    sourceCanvas.height = screenHeight;
+    sourceContext.drawImage(image, 0, 0, screenWidth, screenHeight);
+
+    const pixels = sourceContext.getImageData(0, 0, screenWidth, screenHeight).data;
+    const tiles = [];
+
+    for (let tileY = 0; tileY < tileRows; tileY += 1) {
+        for (let tileX = 0; tileX < tileColumns; tileX += 1) {
+            const colours = new Uint8Array(64);
+            const histogram = new Uint16Array(64);
+
+            for (let y = 0; y < 8; y += 1) {
+                for (let x = 0; x < 8; x += 1) {
+                    const pixelX = Math.min((tileX * 8) + x, screenWidth - 1);
+                    const pixelY = Math.min((tileY * 8) + y, screenHeight - 1);
+                    const pixelIndex = (pixelX + (pixelY * screenWidth)) * 4;
+                    const red = Math.round(pixels[pixelIndex] / 85);
+                    const green = Math.round(pixels[pixelIndex + 1] / 85);
+                    const blue = Math.round(pixels[pixelIndex + 2] / 85);
+                    const colour = (red << 4) | (green << 2) | blue;
+                    const tilePixel = x + (y * 8);
+
+                    colours[tilePixel] = colour;
+                    histogram[colour] += 1;
+                }
+            }
+
+            tiles.push({ tileX, tileY, colours, histogram });
+        }
+    }
+
+    const palettes = susaBuildBackgroundPalettes(tiles);
+
+    palettes.forEach((palette, paletteIndex) => {
+        palette.forEach((colour, colourIndex) => {
+            ram[SUSA_BPALET + (paletteIndex * 4) + colourIndex] = colour;
+        });
+    });
+
+    // Four-colour tiles use 16 bytes. The first 32 tile slots overlap the
+    // packed two-colour font, so image tiles begin after its 512 bytes.
+    const firstImageTile = SUSA_FONT_4X8.length / 16;
+    const tileIndexes = new Map();
+    let nextTile = firstImageTile;
+
+    ram.fill(0, SUSA_BACKGR_PTR, SUSA_WINDOW_PTR);
+
+    tiles.forEach(tile => {
+        const errors = palettes.map(palette => {
+            return susaPaletteError(tile.histogram, palette);
+        });
+        const paletteIndex = errors.indexOf(Math.min(...errors));
+        const palette = palettes[paletteIndex];
+        const bytes = new Uint8Array(16);
+
+        for (let y = 0; y < 8; y += 1) {
+            let lowPlane = 0;
+            let highPlane = 0;
+
+            for (let x = 0; x < 8; x += 1) {
+                const colour = tile.colours[x + (y * 8)];
+                const distances = palette.map(candidate => {
+                    return susaColourDistance(colour, candidate);
+                });
+                const colourIndex = distances.indexOf(Math.min(...distances));
+                const shift = 7 - x;
+
+                lowPlane |= (colourIndex & 1) << shift;
+                highPlane |= ((colourIndex >> 1) & 1) << shift;
+            }
+
+            bytes[y] = lowPlane;
+            bytes[y + 8] = highPlane;
+        }
+
+        const key = Array.from(bytes).join(",");
+        let tileIndex = tileIndexes.get(key);
+
+        if (tileIndex === undefined) {
+            tileIndex = nextTile;
+            nextTile += 1;
+
+            if (tileIndex >= 1024) {
+                throw new Error("SUSA sprite memory is full");
+            }
+
+            ram.set(bytes, SUSA_SPRITE_PTR + (tileIndex * 16));
+            tileIndexes.set(key, tileIndex);
+        }
+
+        const mapIndex = tile.tileX + (tile.tileY * SUSA_BACKGROUND_WIDTH);
+        const mapPtr = SUSA_BACKGR_PTR + (mapIndex * 2);
+
+        ram[mapPtr] = tileIndex & 0xff;
+        ram[mapPtr + 1] = ((tileIndex >> 8) & 0x03) | (paletteIndex << 2);
+    });
+};
+
+const susaWrapText = (text, maxCharacters) => {
+    const lines = [];
+    let line = "";
+
+    text.trim().split(/\s+/).forEach(word => {
+        while (word.length > maxCharacters) {
+            if (line) {
+                lines.push(line);
+                line = "";
+            }
+
+            lines.push(word.slice(0, maxCharacters));
+            word = word.slice(maxCharacters);
+        }
+
+        const candidate = line ? `${line} ${word}` : word;
+
+        if (candidate.length > maxCharacters) {
+            lines.push(line);
+            line = word;
+        } else {
+            line = candidate;
+        }
+    });
+
+    if (line) {
+        lines.push(line);
+    }
+
+    return lines;
+};
+
+const susaWriteTextObjects = (ram, text, screenWidth, screenHeight) => {
+    const horizontalMargin = 8;
+    const maxCharacters = Math.floor((screenWidth - (horizontalMargin * 2)) / 4);
+    const lines = susaWrapText(text, maxCharacters);
+    const lineHeight = 9;
+    const startY = screenHeight - (lines.length * lineHeight) - 7;
+    let stringPtr = SUSA_UNALLO_PTR;
+
+    ram.fill(0, SUSA_OBJECT_PTR, SUSA_BACKGR_PTR);
+    ram.set(SUSA_FONT_4X8, SUSA_SPRITE_PTR);
+
+    // Palette zero is opaque black with bright cyan text.
+    ram[SUSA_SPALET] = 0x00;
+    ram[SUSA_SPALET + 1] = 0x0f;
+    ram[SUSA_SPALET + 2] = 0x00;
+    ram[SUSA_SPALET + 3] = 0x0f;
+
+    lines.forEach((line, index) => {
+        // Padding makes each object an opaque, full-width text strip.
+        const serialised = susaStringSerialise(line.padEnd(maxCharacters, " "));
+        const objectPtr = SUSA_OBJECT_PTR + (index * 8);
+
+        ram.set(serialised, stringPtr);
+        ram.set(susaObjectSerialise({
+            xPos: horizontalMargin,
+            yPos: startY + (index * lineHeight),
+            attA: {
+                textMode: true,
+                twoColour: true,
+                mode: 0,
+                palette: 0
+            },
+            attB: {
+                transparency: false,
+                scrollMode: 3,
+                flipV: false,
+                flipH: false,
+                priority: 3
+            },
+            addr: stringPtr
+        }), objectPtr);
+
+        stringPtr += serialised.length;
+    });
+};
+
+const susaInitialiseScene = async (ram, canvas, screenWidth, screenHeight) => {
+    const background = canvas.dataset.susaBackground;
+    const text = canvas.dataset.susaText;
+
+    ram.fill(0);
+    ramSetShort(ram, SUSA_SWIDTH, screenWidth);
+    ramSetShort(ram, SUSA_SHIGHT, screenHeight);
+    ram[SUSA_STATUS_PTR] = 1;
+
+    if (background) {
+        await susaWriteImageToBackground(ram, background, screenWidth, screenHeight);
+    }
+
+    if (text) {
+        susaWriteTextObjects(ram, text, screenWidth, screenHeight);
+    }
+
+    ram[SUSA_STATUS_PTR] = 2;
+};
+
+// logiclogue-ez-susa-screen - the memory-mapped SUSA graphics layer
 (function () {
     const canvases = document.querySelectorAll(".logiclogue-ez-susa-screen");
 
-    canvases.forEach((canvas, index) => {
+    canvases.forEach(canvas => {
         const ram = getRAM(canvas.dataset.ramId || "default");
-        const screenWidth = canvas.dataset.screenWidth || 256;
-        const screenHeight = canvas.dataset.screenHeight || 192;
+        const screenWidth = parseInt(canvas.dataset.screenWidth || "256");
+        const screenHeight = parseInt(canvas.dataset.screenHeight || "192");
+        const hasScene = canvas.dataset.susaBackground || canvas.dataset.susaText;
+        const ctx = canvas.getContext("2d");
 
         ramSetShort(ram, SUSA_SWIDTH, screenWidth);
         ramSetShort(ram, SUSA_SHIGHT, screenHeight);
 
-        const ctx = canvas.getContext("2d");
+        if (hasScene) {
+            susaInitialiseScene(ram, canvas, screenWidth, screenHeight).catch(error => {
+                ram[SUSA_STATUS_PTR] = 0xff;
+                console.error(error);
+            });
+        }
 
         canvas.addEventListener("mousemove", e => {
             const rect = canvas.getBoundingClientRect();
-
             const x = Math.floor(((e.clientX - rect.left) / rect.width) * screenWidth);
             const y = Math.floor(((e.clientY - rect.top) / rect.height) * screenHeight);
 
@@ -1205,17 +1559,17 @@ const ezSusaRunSampleLogic = ram => {
             ramSetShort(ram, SUSA_MOUSEY, y);
         });
 
-        function animate() {
-            ramUpdateShort(ram, SUSA_TICKKK, tick => {
-                return tick + 1;
-            });
+        function animate(timestamp) {
+            ramUpdateShort(ram, SUSA_TICKKK, tick => tick + 1);
+            ramSetShort(ram, SUSA_MILLIS, Math.floor(timestamp) & 0xffff);
 
-            ezSusaRunSampleLogic(ram);
+            if (!hasScene) {
+                ezSusaRunSampleLogic(ram);
+            }
 
             const imageData = ezSusaGenerateImageData(ctx, ram);
 
             ctx.putImageData(imageData, 0, 0);
-
             requestAnimationFrame(animate);
         }
 
