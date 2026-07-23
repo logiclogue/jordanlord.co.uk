@@ -1,5 +1,5 @@
 ---
-web: /passgen
+web: https://passgen.jordanlord.co.uk
 platform: JS
 publishDate: 2015-01-01
 title: PassGen

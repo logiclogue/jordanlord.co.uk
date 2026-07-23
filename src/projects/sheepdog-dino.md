@@ -1,5 +1,5 @@
 ---
-web: /sheepdog_dino
+web: https://sheepdog.jordanlord.co.uk
 platform: JS
 youtube: BUAqmV4U6dQ
 github: logiclogue/Sheepdog_Dino

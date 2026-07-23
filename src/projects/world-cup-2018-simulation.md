@@ -1,5 +1,5 @@
 ---
-web: /world-cup-2018-simulation
+web: https://worldcup.jordanlord.co.uk
 platform: JS
 github: logiclogue/world-cup-2018-simulation
 readFromGithub: true

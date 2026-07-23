@@ -1,5 +1,5 @@
 ---
-web: /binary_clock
+web: https://binaryclock.jordanlord.co.uk
 platform: JS/<i class="fa fa-android" aria-hidden="true"></i>
 github: logiclogue/true-binary-clock-web
 readFromGithub: true
@@ -9,10 +9,10 @@ updateDate: 2016-08-07
 title: True Binary Clock
 ---
 
-<iframe src="http://jordanlord.co.uk/binary_clock" frameBorder="0" style="width: 100%;"></iframe>
+<iframe src="https://binaryclock.jordanlord.co.uk" frameBorder="0" style="width: 100%;"></iframe>
 
 True Binary Clock is a
-[web app](http://jordanlord.co.uk/binary_clock)
+[web app](https://binaryclock.jordanlord.co.uk)
 and native
 [Android app](https://play.google.com/store/apps/details?id=com.jordanlorddevelopments.binaryclock).
 I first programmed it in JavaScript and then ported it to Java for the Android

@@ -1,5 +1,5 @@
 ---
-web: /particle-simulator
+web: https://gravity.jordanlord.co.uk
 platform: JS
 github: logiclogue/particle-simulator
 readFromGithub: true

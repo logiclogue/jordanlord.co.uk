@@ -1,5 +1,5 @@
 ---
-web: /tomatah
+web: https://tomatah.jordanlord.co.uk
 platform: JS
 publishDate: 2015-06-20
 title: TomatAH
